@@ -18,6 +18,15 @@ fun main(args: Array<String>) {
         Shot("03-player", Screen.Player("north"), 844, 390),
         Shot("04-streams", Screen.Player("north", streamsOpen = true), 844, 390),
         Shot("05-card-movie", Screen.Card("flight"), 390, 1400),
+        Shot("06-catalog", Screen.Main(ru.zona.cinema.ui.Tab.Catalog), 390, 844),
+        Shot("07-filters", Screen.Main(ru.zona.cinema.ui.Tab.Catalog, filtersOpen = true), 390, 844),
+        Shot("08-search", Screen.Main(ru.zona.cinema.ui.Tab.Search), 390, 844),
+        Shot("09-my", Screen.Main(ru.zona.cinema.ui.Tab.My), 390, 844),
+        Shot("10-profile", Screen.Main(ru.zona.cinema.ui.Tab.Profile), 390, 844),
+        Shot("11-downloads", Screen.Downloads, 390, 844),
+        Shot("12-login", Screen.Login, 390, 844),
+        Shot("13-offline", Screen.Offline, 390, 844),
+        Shot("14-trailers", Screen.Trailers("harbor"), 390, 844),
     )
     for ((name, screen, w, h) in shots) {
         ImageComposeScene(w * 2, h * 2, Density(2f)) { ZonaApp(initial = screen) }.use { scene ->

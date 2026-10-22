@@ -53,7 +53,6 @@ import ru.zona.cinema.theme.ZonaColors
 import ru.zona.cinema.theme.ZonaShapes
 import ru.zona.cinema.ui.Artwork
 import ru.zona.cinema.ui.Dot
-import ru.zona.cinema.ui.FloatingNavBar
 import ru.zona.cinema.ui.GlassButton
 import ru.zona.cinema.ui.Poster
 import ru.zona.cinema.ui.PrimaryButton
@@ -96,7 +95,7 @@ fun HomeScreen(nav: Navigator) {
                             )
                             RoundIconButton(ZIcons.Cast, "Транслировать на ТВ", {}, glass = false, iconSize = 22.dp)
                             Box(
-                                Modifier.size(44.dp).clip(CircleShape).clickable(role = Role.Button) {}.semantics { contentDescription = "Профиль" },
+                                Modifier.size(44.dp).clip(CircleShape).clickable(role = Role.Button) { nav.tab(Tab.Profile) }.semantics { contentDescription = "Профиль" },
                                 contentAlignment = Alignment.Center,
                             ) {
                                 Box(Modifier.size(30.dp).clip(CircleShape).background(Color(0xFF0077CC)), contentAlignment = Alignment.Center) {
@@ -105,7 +104,7 @@ fun HomeScreen(nav: Navigator) {
                             }
                         }
                         LazyRow(contentPadding = rowPadding, horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 4.dp)) {
-                            items(listOf("Фильмы", "Сериалы", "ТВ-каналы", "Спорт")) { ZChip(it, onClick = {}, glass = true) }
+                            items(listOf("Фильмы", "Сериалы", "ТВ-каналы", "Спорт")) { ZChip(it, onClick = { nav.tab(Tab.Catalog) }, glass = true) }
                         }
                     }
                     RoundIconButton(
@@ -151,7 +150,7 @@ fun HomeScreen(nav: Navigator) {
 
             item(key = "continue") {
                 Column(Modifier.padding(top = 12.dp)) {
-                    SectionHeader("Продолжить просмотр", action = "Все")
+                    SectionHeader("Продолжить просмотр", action = "Все", onAction = { nav.tab(Tab.My) })
                     LazyRow(contentPadding = rowPadding, horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 4.dp)) {
                         items(Demo.continueWatching) { p ->
                             ProgressStill(
@@ -166,12 +165,12 @@ fun HomeScreen(nav: Navigator) {
 
             item(key = "clips") {
                 Column(Modifier.padding(top = 22.dp)) {
-                    SectionHeader("Трейлеры и сцены", action = "Смотреть ленту")
+                    SectionHeader("Трейлеры и сцены", action = "Смотреть ленту", onAction = { nav.open(Screen.Trailers()) })
                     LazyRow(contentPadding = rowPadding, horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 4.dp)) {
                         items(Demo.clips) { c ->
                             Box(
                                 Modifier.width(128.dp).height(228.dp).clip(RoundedCornerShape(14.dp))
-                                    .clickable(role = Role.Button) { nav.open(Screen.Card(c.title.id)) },
+                                    .clickable(role = Role.Button) { nav.open(Screen.Trailers(c.title.id)) },
                             ) {
                                 Artwork(c.title.art.poster, Modifier.fillMaxSize(), alignX = c.alignX)
                                 Box(Modifier.fillMaxSize().background(Brush.verticalGradient(.5f to Color.Transparent, 1f to Color(0xE607090B))))
@@ -223,7 +222,7 @@ fun HomeScreen(nav: Navigator) {
 
             item(key = "fresh") {
                 Column(Modifier.padding(top = 22.dp)) {
-                    SectionHeader("Новинки фильмов", action = "Все")
+                    SectionHeader("Новинки фильмов", action = "Все", onAction = { nav.tab(Tab.Catalog) })
                     LazyRow(contentPadding = rowPadding, horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 4.dp)) {
                         items(Demo.freshMovies) { t ->
                             Column(Modifier.width(112.dp)) {
@@ -236,6 +235,5 @@ fun HomeScreen(nav: Navigator) {
             }
         }
 
-        FloatingNavBar(Tab.Home, onSelect = {}, modifier = Modifier.align(Alignment.BottomCenter))
     }
 }
