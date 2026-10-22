@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Zona — Android TV</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Oswald:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.glass{background:rgba(40,40,44,.45);-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);border:1px solid rgba(255,255,255,.16)}
+.t{height:30px;padding:0 14px;border-radius:999px;display:flex;align-items:center;font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}
+</style>
+</helmet>
+<div style="width:960px;height:540px;position:relative;overflow:hidden;background:#000000;color:#FFFFFF;font-family:Inter,system-ui,sans-serif">
+  <img src="/_blob/4565d249b8fa7d42dc30b4e6ca5eab5f" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.45) 45%,rgba(0,0,0,0) 75%)"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:240px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.9))"></div>
+
+  <div style="position:absolute;top:18px;left:0;right:0;display:flex;justify-content:center">
+    <div class="glass" style="display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px">
+      <span class="t" style="padding:0 10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></span>
+      <span class="t" style="background:#FFFFFF;color:#050505">Для вас</span>
+      <span class="t">Фильмы</span><span class="t">Сериалы</span><span class="t">Клипы</span><span class="t">ТВ</span><span class="t">Спорт</span><span class="t">Моё</span>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:48px;top:96px;width:420px;display:flex;flex-direction:column;gap:10px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.18em;color:rgba(255,255,255,.85)">НОВЫЙ ФИЛЬМ</div>
+    <div style="font-family:Oswald,sans-serif;font-weight:600;font-size:64px;line-height:.95;letter-spacing:.06em;text-transform:uppercase">Вершина</div>
+    <div style="display:flex;gap:8px;align-items:center;font-size:13px;color:rgba(255,255,255,.8)"><span style="height:18px;padding:0 5px;border-radius:4px;border:1px solid rgba(255,255,255,.5);font-size:10px;font-weight:700;display:flex;align-items:center">4K</span><span style="height:18px;padding:0 5px;border-radius:4px;border:1px solid rgba(255,255,255,.5);font-size:10px;font-weight:700;display:flex;align-items:center">HDR</span>2025 · Приключения · 2 ч 8 мин · 12+ · <b style="color:#FFFFFF">КП 7.9</b></div>
+    <div style="font-size:14px;line-height:1.5;color:rgba(255,255,255,.8)">Альпинистка возвращается на гору, где десять лет назад потеряла команду, чтобы закончить восхождение.</div>
+    <div style="display:flex;gap:10px;margin-top:6px">
+      <span style="height:44px;padding:0 22px;border-radius:12px;background:#FFFFFF;color:#050505;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;transform:scale(1.06);transform-origin:left center;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 3px rgba(255,255,255,.35)"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="currentColor"></path></svg>Смотреть</span>
+      <span class="glass" style="height:44px;padding:0 18px;border-radius:12px;font-weight:600;font-size:15px;display:flex;align-items:center;margin-left:8px">Трейлер</span>
+      <span class="glass" style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></span>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:48px;right:0;bottom:24px">
+    <div style="font-size:15px;font-weight:700;margin-bottom:10px">Продолжить просмотр</div>
+    <div style="display:flex;gap:14px">
+      <sc-for list="{{row}}" as="r" hint-placeholder-count="5">
+        <div style="flex:0 0 188px;height:106px;border-radius:12px;overflow:hidden;position:relative;opacity:{{r.o}}">
+          <img src="{{r.img}}" alt="{{r.t}}" style="width:100%;height:100%;object-fit:cover">
+          <span style="position:absolute;left:10px;bottom:10px;font-size:12px;font-weight:700">{{r.t}}</span>
+          <span style="position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.25)"><span style="display:block;height:100%;width:{{r.p}};background:#1A9BFF"></span></span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":960,"height":540}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      row: [
+        { t: 'Северный ветер', p: '64%', o: '1', img: '/_blob/17902fdfe69285af9beb66b6907c54f7' },
+        { t: 'Тихая гавань', p: '30%', o: '.85', img: '/_blob/6ec0e5f604e0e4ff9faa2bee40a3acd9' },
+        { t: 'Неон', p: '80%', o: '.85', img: '/_blob/607361c11c164b63ebebd889f6360b26' },
+        { t: 'Последний рейс', p: '12%', o: '.85', img: '/_blob/d9381057e3052c22b737f42c56cb76c5' },
+        { t: 'Пески', p: '50%', o: '.85', img: '/_blob/6e63d1c2d82b3791754ebbb76f38d002' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

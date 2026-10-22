@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Zona — поиск</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#FFFFFF}
+.glass{background:rgba(44,44,48,.52);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border:1px solid rgba(255,255,255,.14)}
+.h2{margin:0 0 12px;font-size:19px;font-weight:700;letter-spacing:-.01em;padding:0 20px}
+.tb{flex:1;height:52px;border-radius:999px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;font-weight:600;color:rgba(255,255,255,.75);text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#050505;color:#FFFFFF;font-family:Inter,system-ui,sans-serif">
+  <div style="padding:44px 20px 0">
+    <h1 style="margin:0 0 14px;font-size:32px;font-weight:800;letter-spacing:-.02em">Поиск</h1>
+    <label style="height:48px;border-radius:14px;background:#1C1C1F;display:flex;align-items:center;gap:10px;padding:0 6px 0 14px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+      <input type="search" placeholder="Фильмы, сериалы, люди" aria-label="Поиск" style="flex:1;min-width:0;background:none;border:0;outline:0;color:#FFFFFF;font:500 16px Inter,sans-serif">
+      <button type="button" aria-label="Голосовой поиск" style="width:40px;height:40px;border:0;background:none;color:rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center;padding:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></button>
+    </label>
+  </div>
+
+  <div style="padding-top:24px">
+    <div class="h2">Топ-10 в Zona сегодня</div>
+    <div style="display:flex;gap:4px;padding:0 12px">
+      <sc-for list="{{top}}" as="t" hint-placeholder-count="3">
+        <a href="card.dc.html" style="flex:0 0 150px;height:170px;position:relative;text-decoration:none">
+          <span style="position:absolute;left:0;bottom:-18px;font-weight:900;font-size:150px;line-height:1;letter-spacing:-.06em;color:#050505;-webkit-text-stroke:2px rgba(255,255,255,.55)">{{t.n}}</span>
+          <img src="{{t.img}}" alt="{{t.t}}" style="position:absolute;right:6px;top:0;width:110px;height:165px;object-fit:cover;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.6)">
+        </a>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="padding-top:26px">
+    <div class="h2">Жанры и подборки</div>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 20px">
+      <sc-for list="{{genres}}" as="g" hint-placeholder-count="4">
+        <a href="#" style="height:92px;border-radius:14px;overflow:hidden;position:relative;text-decoration:none;color:#FFFFFF">
+          <img src="{{g.img}}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <span style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.7),rgba(0,0,0,0))"></span>
+          <span style="position:absolute;left:12px;bottom:10px;font-size:16px;font-weight:700">{{g.t}}</span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+
+  <nav class="glass" style="position:absolute;left:18px;right:18px;bottom:22px;height:62px;border-radius:999px;display:flex;align-items:center;padding:0 5px;box-sizing:border-box;box-shadow:0 10px 30px rgba(0,0,0,.5)">
+    <a class="tb" href="Main.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Главная</a>
+    <a class="tb" href="clips.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"></rect><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"></path></svg>Клипы</a>
+    <a class="tb" href="search.dc.html" style="background:rgba(255,255,255,.14);color:#FFFFFF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>Поиск</a>
+    <a class="tb" href="my.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h12V21l-6-4-6 4z"></path></svg>Моё</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      top: [
+        { n: '1', t: 'Северный ветер', img: '/_blob/c7f7c2d4c2977263f45d7d374e7a504a' },
+        { n: '2', t: 'Неон', img: '/_blob/583f341395ab3f318fc9d25234ef6d9b' },
+        { n: '3', t: 'Пески', img: '/_blob/9324f1cb52c962b9e68585fcc0a2733c' }
+      ],
+      genres: [
+        { t: 'Драмы', img: '/_blob/6ec0e5f604e0e4ff9faa2bee40a3acd9' },
+        { t: 'Фантастика', img: '/_blob/d77bdc0145088469e5e1a06b8164d6ff' },
+        { t: 'Приключения', img: '/_blob/4565d249b8fa7d42dc30b4e6ca5eab5f' },
+        { t: 'Триллеры', img: '/_blob/607361c11c164b63ebebd889f6360b26' },
+        { t: 'Природа', img: '/_blob/03d00c9bb948c300a819fb062bf0c095' },
+        { t: 'Вестерны', img: '/_blob/6e63d1c2d82b3791754ebbb76f38d002' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
