@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Система Zona: было и стало</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.ch{font-weight:900;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#A3AFBC;margin:0 0 4px}
+.sw{display:flex;align-items:center;gap:12px;height:44px}
+.chip{width:44px;height:44px;border-radius:10px;flex:0 0 44px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.sw b{display:block;font-weight:500;font-size:14px}
+.sw small{display:block;font-size:12px;color:#A3AFBC;margin-top:2px}
+.tag{margin-left:auto;font-size:11px;font-weight:700;padding:0 8px;height:22px;border-radius:11px;display:flex;align-items:center;white-space:nowrap}
+.keep{background:#262F36;color:#A3AFBC}
+.fix{background:rgba(0,148,246,.16);color:#2FA8FF}
+.ty{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid #2C353E;padding-bottom:10px}
+.ty span:last-child{font-size:12px;color:#A3AFBC;font-weight:400;white-space:nowrap}
+.cmp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:center}
+.lab{font-size:11px;font-weight:700;color:#A3AFBC;letter-spacing:.06em;text-transform:uppercase}
+</style>
+</helmet>
+<div style="width:1300px;height:900px;box-sizing:border-box;padding:48px;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif;display:flex;flex-direction:column;gap:36px">
+  <div style="display:flex;align-items:center;gap:16px">
+    <svg width="40" height="41" viewBox="0 0 248 256" aria-hidden="true"><path d="M0,25.61C0,48.29 74.4,76.64 74.4,89.62C74.4,105.8 0,210.32 0,229.76C0,246.15 9.54,256 38.14,256H219.37C238.44,256 248,239.6 248,229.76C248,203.51 185.99,165.28 185.99,149.09C185.99,132.88 248,45.53 248,26.11C248,9.91 235.27,0.15 213.01,0.15C203.46,0.15 62.32,0 49.59,0C49.3,0 48.99,0 48.68,0C35.2,0 0,0.29 0,25.61Z" fill="#0094F6"></path></svg>
+    <div>
+      <div style="font-weight:900;font-size:32px;line-height:36px">Zona — та же система, доведённая до порядка</div>
+      <div style="font-size:15px;color:#A3AFBC;margin-top:6px">Цвета, шрифт и структура оригинала сохранены. Поправлено то, что мешало читать и нажимать.</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;flex:1">
+    <div class="col">
+      <h2 class="ch">Цвет</h2>
+      <div class="sw"><span class="chip" style="background:#1E252B"></span><span><b>Фон</b><small>#1E252B</small></span><span class="tag keep">как было</span></div>
+      <div class="sw"><span class="chip" style="background:#2C353E"></span><span><b>Поверхность</b><small>#2C353E · карточки, поля</small></span><span class="tag keep">как было</span></div>
+      <div class="sw"><span class="chip" style="background:#3A4652"></span><span><b>Возвышение</b><small>#3A4652 · чипы, нажатие</small></span><span class="tag keep">как было</span></div>
+      <div class="sw"><span class="chip" style="background:#0094F6"></span><span><b>Синий Zona</b><small>#0094F6 · лого, прогресс, фокус</small></span><span class="tag keep">как было</span></div>
+      <div class="sw"><span class="chip" style="background:#FFB400"></span><span><b>Рейтинг, премиум</b><small>#FFB400</small></span><span class="tag keep">как было</span></div>
+      <div class="sw"><span class="chip" style="background:#171E23"></span><span><b>Нижнее меню</b><small>#3A4652 → #171E23 (из TV)</small></span><span class="tag fix">тише</span></div>
+      <div class="sw"><span class="chip" style="background:#0077CC"></span><span><b>Заливка кнопки</b><small>белый на #0094F6 3,2:1 → 4,7:1</small></span><span class="tag fix">контраст</span></div>
+      <div class="sw"><span class="chip" style="background:#2FA8FF"></span><span><b>Текст-ссылка</b><small>на #2C353E 3,9:1 → 4,8:1</small></span><span class="tag fix">контраст</span></div>
+      <div class="sw"><span class="chip" style="background:#A3AFBC"></span><span><b>Вторичный текст</b><small>#909DAB 3,5:1 → #A3AFBC 5,6:1</small></span><span class="tag fix">контраст</span></div>
+    </div>
+
+    <div class="col">
+      <h2 class="ch">Шрифт · Roboto</h2>
+      <div class="ty"><span style="font-weight:900;font-size:24px">Заголовок экрана</span><span>900 · 24 (было 20)</span></div>
+      <div class="ty"><span style="font-weight:900;font-size:18px">Заголовок ряда</span><span>900 · 18</span></div>
+      <div class="ty"><span style="font-weight:700;font-size:16px">Кнопка, название</span><span>700 · 16</span></div>
+      <div class="ty"><span style="font-weight:400;font-size:15px">Основной текст и списки</span><span>400 · 15 / 22</span></div>
+      <div class="ty"><span style="font-weight:400;font-size:13px;color:#A3AFBC">2025 · драма · 50 мин</span><span>400 · 13</span></div>
+      <div class="ty"><span style="font-weight:500;font-size:11px">Подпись вкладки</span><span>500 · 11</span></div>
+
+      <h2 class="ch" style="margin-top:20px">Сетка</h2>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+        <div style="background:#262F36;border-radius:12px;padding:14px"><div style="font-weight:900;font-size:22px">16</div><div style="font-size:12px;color:#A3AFBC;margin-top:2px">поля экрана, шаг 8</div></div>
+        <div style="background:#262F36;border-radius:12px;padding:14px"><div style="font-weight:900;font-size:22px">44</div><div style="font-size:12px;color:#A3AFBC;margin-top:2px">мин. зона нажатия</div></div>
+        <div style="background:#262F36;border-radius:12px;padding:14px;display:flex;align-items:center;gap:8px"><span style="width:28px;height:40px;border-radius:8px;background:#3A4652"></span><span style="font-size:12px;color:#A3AFBC">8 — постеры</span></div>
+        <div style="background:#262F36;border-radius:12px;padding:14px;display:flex;align-items:center;gap:8px"><span style="width:40px;height:28px;border-radius:12px;background:#3A4652"></span><span style="font-size:12px;color:#A3AFBC">12 — карточки, кнопки</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <h2 class="ch">Компоненты</h2>
+      <div class="cmp"><span class="lab">было</span><span class="lab">стало</span></div>
+      <div class="cmp">
+        <span style="height:48px;border-radius:8px;background:#0094F6;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px">Смотреть</span>
+        <span style="height:48px;border-radius:12px;background:#0077CC;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="#FFFFFF"></path></svg>Смотреть</span>
+      </div>
+      <div class="cmp">
+        <span style="height:36px;padding:0 12px;border-radius:8px;background:#2C353E;display:flex;align-items:center;gap:8px;font-size:14px;justify-self:start">Фильтры</span>
+        <span style="height:36px;padding:0 12px;border-radius:18px;background:rgba(0,148,246,.16);box-shadow:inset 0 0 0 1px #0094F6;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;justify-self:start">Драма<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></span>
+      </div>
+      <div class="cmp" style="align-items:start">
+        <span style="display:flex;flex-direction:column;gap:4px;width:96px">
+          <span style="height:136px;border-radius:8px;background:#3A4652"></span>
+          <span style="font-size:12px;color:#BBC2C7">Постер 1</span>
+        </span>
+        <span style="display:flex;flex-direction:column;width:96px">
+          <span style="height:136px;border-radius:8px;overflow:hidden;position:relative;display:block">
+            <img src="/_blob/ab0fa927f5153ca172c77ce3a8a4399b" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+            <span style="position:absolute;left:6px;top:6px;height:20px;padding:0 6px;border-radius:6px;background:rgba(23,30,35,.88);color:#FFB400;font-weight:700;font-size:12px;display:flex;align-items:center">8.4</span>
+          </span>
+          <span style="font-size:13px;font-weight:500;margin-top:6px">Северный ветер</span>
+          <span style="font-size:12px;color:#A3AFBC;margin-top:2px">2025 · драма</span>
+        </span>
+      </div>
+      <div class="cmp">
+        <span style="height:56px;border-radius:8px;background:#3A4652;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;color:#0094F6"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg>Главная</span>
+        <span style="height:56px;border-radius:8px;background:#171E23;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:700;color:#FFFFFF"><span style="width:56px;height:28px;border-radius:14px;background:rgba(0,148,246,.18);display:flex;align-items:center;justify-content:center;color:#0094F6"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg></span>Главная</span>
+      </div>
+      <div class="cmp">
+        <span style="font-weight:900;font-size:16px">Популярные фильмы</span>
+        <span style="display:flex;align-items:center;justify-content:space-between;gap:6px"><span style="font-weight:900;font-size:16px;white-space:nowrap">Популярные</span><span style="display:flex;align-items:center;gap:2px;color:#2FA8FF;font-size:14px;font-weight:500">Все<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></span></span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1300,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

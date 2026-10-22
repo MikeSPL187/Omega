@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Качество и озвучка — доработка</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.lb{margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#A3AFBC}
+.opt{display:flex;align-items:center;gap:12px;min-height:52px;padding:0 12px;border-radius:12px;border:0;background:none;color:#FFFFFF;font-family:inherit;text-align:left;width:100%;box-sizing:border-box}
+.badge{height:20px;padding:0 6px;border-radius:4px;background:#2C353E;color:#BBC2C7;font-size:11px;font-weight:700;display:inline-flex;align-items:center;margin-left:6px;vertical-align:1px}
+</style>
+</helmet>
+<div style="width:844px;height:390px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <header style="height:60px;display:flex;align-items:center;gap:8px;padding:0 28px 0 18px">
+    <a href="player-ref.dc.html" aria-label="Закрыть" style="width:44px;height:44px;border-radius:22px;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+    <h1 style="flex:1;margin:0;font-weight:900;font-size:20px">Качество и озвучка</h1>
+    <span style="font-size:13px;color:#A3AFBC">Северный ветер · 2 сезон, 5 серия</span>
+  </header>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;padding:4px 28px 0">
+    <section>
+      <h2 class="lb">1 · Озвучка</h2>
+      <div role="radiogroup" aria-label="Озвучка" style="display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{voices}}" as="v" hint-placeholder-count="4">
+          <button type="button" class="opt" role="radio" aria-checked="{{v.sel}}" style="background:{{v.bg}}">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="{{v.rc}}" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="{{v.dot}}" fill="{{v.rc}}" stroke="none"></circle></svg>
+            <span style="flex:1;min-width:0">
+              <span style="display:block;font-size:15px;font-weight:500">{{v.n}}<sc-if value="{{v.sub}}" hint-placeholder-val="{{false}}"><span class="badge">СУБ</span></sc-if></span>
+              <span style="display:block;font-size:12px;color:#A3AFBC;margin-top:2px">{{v.m}}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;height:306px">
+      <h2 class="lb">2 · Качество для LostFilm</h2>
+      <div role="radiogroup" aria-label="Качество" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+        <button type="button" role="radio" aria-checked="true" style="height:72px;border:0;border-radius:12px;background:rgba(0,148,246,.16);box-shadow:inset 0 0 0 2px #0094F6;color:#FFFFFF;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font-weight:900;font-size:20px">1080p</span><span style="font-size:12px;color:#BBC2C7">FullHD</span></button>
+        <button type="button" role="radio" aria-checked="false" style="height:72px;border:0;border-radius:12px;background:#2C353E;color:#FFFFFF;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font-weight:900;font-size:20px">720p</span><span style="font-size:12px;color:#BBC2C7">HD</span></button>
+        <button type="button" role="radio" aria-checked="false" disabled style="height:72px;border:0;border-radius:12px;background:#232B31;color:#5E6B78;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font-weight:900;font-size:20px">480p</span><span style="font-size:12px">нет</span></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13px;color:#A3AFBC">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12.5a7 7 0 0 1 14 0M8.5 16a3.5 3.5 0 0 1 7 0"></path><circle cx="12" cy="19" r="1" fill="currentColor"></circle></svg>
+        Источник 1 · отвечает быстро
+      </div>
+      <span style="flex:1"></span>
+      <a href="player-ref.dc.html" style="height:52px;border-radius:12px;background:#0077CC;color:#FFFFFF;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:16px"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="#FFFFFF"></path></svg>Смотреть · LostFilm · 1080p</a>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const d = [
+      ['LostFilm', '1080p, 720p · Источник 1', false],
+      ['HDrezka Studio', '1080p, 720p · Источник 2', true],
+      ['Кубик в Кубе', '1080p · Источник 3', false],
+      ['Оригинал', '480p · Источник 3', true]
+    ];
+    return {
+      voices: d.map((x, i) => ({
+        n: x[0], m: x[1], sub: x[2], sel: i === 0 ? 'true' : 'false',
+        bg: i === 0 ? '#262F36' : 'transparent',
+        rc: i === 0 ? '#0094F6' : '#A3AFBC', dot: i === 0 ? 5 : 0
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

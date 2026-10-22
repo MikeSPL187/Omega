@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Профиль — доработка</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.grp{margin:0 16px 12px;border-radius:12px;background:#262F36;overflow:hidden;list-style:none;padding:0}
+.m{height:52px;display:flex;align-items:center;gap:14px;padding:0 12px 0 14px;font-size:15px;color:#FFFFFF;text-decoration:none}
+.m + .m{box-shadow:inset 0 1px 0 #2C353E}
+.m svg:first-child{flex:0 0 22px}
+.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#A3AFBC;text-decoration:none;height:56px;justify-content:center}
+.nav span{width:56px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <header style="height:56px;margin-top:24px;display:flex;align-items:center;padding:0 16px">
+    <h1 style="margin:0;font-weight:900;font-size:24px">Профиль</h1>
+  </header>
+
+  <a href="profile-ref.dc.html" style="display:flex;align-items:center;gap:14px;padding:4px 16px 16px;color:#FFFFFF;text-decoration:none">
+    <span style="width:56px;height:56px;border-radius:28px;background:#2C5E86;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px">U</span>
+    <span style="flex:1;min-width:0"><span style="display:block;font-weight:700;font-size:16px">user@mail.ru</span><span style="display:block;font-size:13px;color:#A3AFBC;margin-top:3px">Профиль Zona · бесплатный</span></span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+  </a>
+
+  <div style="margin:0 16px 16px;padding:16px;border-radius:12px;background:#2C353E;box-shadow:inset 0 0 0 1px rgba(255,180,0,.28)">
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <span style="width:40px;height:40px;border-radius:20px;background:rgba(255,180,0,.14);display:flex;align-items:center;justify-content:center;flex:0 0 40px"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FFB400" aria-hidden="true"><path d="M3 8l4.5 3.5L12 5l4.5 6.5L21 8l-2 10H5z"></path></svg></span>
+      <div>
+        <div style="font-weight:900;font-size:16px;line-height:20px">Новые возможности с премиум профилем</div>
+        <div style="font-size:13px;color:#BBC2C7;margin-top:4px">Смотрите фильмы и сериалы без рекламы!</div>
+      </div>
+    </div>
+    <a href="profile-ref.dc.html" style="margin-top:14px;height:44px;border-radius:12px;background:#FFB400;color:#1E252B;text-decoration:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">Посмотреть тарифы</a>
+  </div>
+
+  <ul class="grp">
+    <li><a class="m" href="profile-ref.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg><span style="flex:1">Загрузки</span><span style="min-width:22px;height:22px;padding:0 6px;box-sizing:border-box;border-radius:11px;background:#3A4652;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">3</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a></li>
+    <li><a class="m" href="profile-ref.dc.html" style="box-shadow:inset 0 1px 0 #2C353E"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><span style="flex:1">Управление профилем</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a></li>
+  </ul>
+  <ul class="grp">
+    <li><a class="m" href="profile-ref.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg><span style="flex:1">Настройки</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a></li>
+    <li><a class="m" href="profile-ref.dc.html" style="box-shadow:inset 0 1px 0 #2C353E"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><path d="M10 9.5v5l4.5-2.5z" fill="#A3AFBC"></path></svg><span style="flex:1">Настройки плеера</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a></li>
+  </ul>
+  <ul class="grp">
+    <li><a class="m" href="profile-ref.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg><span style="flex:1">Сообщить о проблеме</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a></li>
+    <li><a class="m" href="profile-ref.dc.html" style="box-shadow:inset 0 1px 0 #2C353E"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg><span style="flex:1">Рекомендовать Zona</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a></li>
+  </ul>
+  <div style="text-align:center;font-size:12px;color:#A3AFBC;margin-top:4px">Zona 3.0.75</div>
+
+  <nav style="position:absolute;left:0;right:0;bottom:0;height:72px;background:#171E23;border-top:1px solid #262F36;display:flex;align-items:center;padding:0 4px 8px;box-sizing:border-box">
+    <a class="nav" href="home-ref.dc.html"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg></span>Главная</a>
+    <a class="nav" href="catalog-ref.dc.html"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg></span>Каталог</a>
+    <a class="nav" href="my-ref.dc.html"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></span>Моё</a>
+    <a class="nav" href="search-ref.dc.html"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></span>Поиск</a>
+    <a class="nav" href="profile-ref.dc.html" aria-current="page" style="color:#FFFFFF;font-weight:700"><span style="background:rgba(0,148,246,.18);color:#0094F6"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6z"></path></svg></span>Профиль</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

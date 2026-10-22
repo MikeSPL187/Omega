@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Поиск — доработка</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+input::placeholder{color:#A3AFBC;opacity:1}
+.sec{display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 16px;height:44px}
+.sec h2{margin:0;font-weight:900;font-size:18px}
+.lnk{height:44px;padding:0 8px;border:0;background:none;color:#2FA8FF;font-family:inherit;font-size:14px;font-weight:500}
+.q{height:48px;display:flex;align-items:center;gap:12px;padding:0 4px 0 16px;font-size:15px}
+.x{width:44px;height:44px;border:0;padding:0;background:none;color:#A3AFBC;display:flex;align-items:center;justify-content:center;border-radius:22px}
+.g{height:36px;padding:0 14px;border:0;border-radius:18px;background:#2C353E;color:#FFFFFF;font-family:inherit;font-size:14px;font-weight:500}
+.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#A3AFBC;text-decoration:none;height:56px;justify-content:center}
+.nav span{width:56px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <header style="height:56px;margin-top:24px;display:flex;align-items:center;padding:0 16px">
+    <h1 style="margin:0;font-weight:900;font-size:24px">Поиск</h1>
+  </header>
+  <div style="padding:0 16px">
+    <label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Поиск</label>
+    <div style="height:48px;border-radius:12px;background:#2C353E;display:flex;align-items:center;gap:10px;padding:0 2px 0 14px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+      <input id="q" type="search" placeholder="Фильмы, сериалы, актёры" style="flex:1;min-width:0;height:44px;border:0;background:none;color:#FFFFFF;font-family:inherit;font-size:15px;outline:none;padding:0">
+      <button type="button" class="x" aria-label="Голосовой поиск" style="color:#FFFFFF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></button>
+    </div>
+  </div>
+
+  <div class="sec" style="margin-top:12px"><h2>Недавние запросы</h2><button type="button" class="lnk">Очистить</button></div>
+  <ul style="list-style:none;margin:0;padding:0">
+    <sc-for list="{{q}}" as="x" hint-placeholder-count="4">
+      <li class="q"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A3AFBC" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6M3.5 4v4h4M12 8v4l3 2"></path></svg><span style="flex:1">{{x.t}}</span><button type="button" class="x" aria-label="{{x.a}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></li>
+    </sc-for>
+  </ul>
+
+  <div class="sec" style="margin-top:8px"><h2>Жанры</h2></div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;padding:4px 16px 0">
+    <button type="button" class="g">Драма</button><button type="button" class="g">Комедия</button><button type="button" class="g">Триллер</button><button type="button" class="g">Фантастика</button><button type="button" class="g">Детектив</button><button type="button" class="g">Мультфильмы</button><button type="button" class="g">Документальные</button>
+  </div>
+
+  <div class="sec" style="margin-top:12px"><h2>Недавно открывали</h2></div>
+  <div style="display:flex;gap:10px;padding:4px 16px 0">
+    <sc-for list="{{recent}}" as="r" hint-placeholder-count="3">
+      <a href="card-ref.dc.html" style="flex:0 0 104px;color:#FFFFFF;text-decoration:none">
+        <span style="display:block;height:150px;border-radius:8px;overflow:hidden"><img src="{{r.img}}" alt="" style="width:100%;height:100%;object-fit:cover"></span>
+        <span style="display:block;font-size:13px;font-weight:500;margin-top:6px">{{r.t}}</span>
+        <span style="display:block;font-size:12px;color:#A3AFBC;margin-top:2px">{{r.m}}</span>
+      </a>
+    </sc-for>
+  </div>
+
+  <nav style="position:absolute;left:0;right:0;bottom:0;height:72px;background:#171E23;border-top:1px solid #262F36;display:flex;align-items:center;padding:0 4px 8px;box-sizing:border-box">
+    <a class="nav" href="home-ref.dc.html"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg></span>Главная</a>
+    <a class="nav" href="catalog-ref.dc.html"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg></span>Каталог</a>
+    <a class="nav" href="my-ref.dc.html"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></span>Моё</a>
+    <a class="nav" href="search-ref.dc.html" aria-current="page" style="color:#FFFFFF;font-weight:700"><span style="background:rgba(0,148,246,.18);color:#0094F6"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></span>Поиск</a>
+    <a class="nav" href="profile-ref.dc.html"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>Профиль</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      q: ['северный ветер', 'маяк', 'комедии 2024', 'тихая гавань'].map((t) => ({ t, a: 'Удалить запрос «' + t + '»' })),
+      recent: [
+        { t: 'Тихая гавань', m: '2025 · сериал', img: '/_blob/4d9f7f68fd44a5a2a237537ffb969278' },
+        { t: 'Ночной рейс', m: '2024 · фильм', img: '/_blob/67f52c9eaeae8a887ef936cc3ccf83d3' },
+        { t: 'Неон', m: '2024 · фильм', img: '/_blob/7130276d427e5ea7bb6c6528b53b526c' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

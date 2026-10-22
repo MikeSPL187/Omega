@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Качество и озвучка — оригинал</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width:844px;height:390px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <div style="height:56px;display:flex;align-items:center;gap:16px;padding:0 16px">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+    <div style="font-weight:900;font-size:20px">Качество и озвучка</div>
+  </div>
+  <div style="padding:0 16px 8px;font-size:13px;color:#909DAB">Найдено потоков: 14</div>
+  <div style="display:flex;flex-direction:column">
+    <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+      <div style="height:48px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid #262F36">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{r.rc}}" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="{{r.dot}}" fill="{{r.rc}}"></circle></svg>
+        <div style="flex:1;font-size:15px">{{r.q}} · {{r.t}}</div>
+        <div style="font-size:12px;color:#909DAB">{{r.s}}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const d = [['FullHD 1080', 'LostFilm', 'Источник 1'], ['HD 720', 'LostFilm', 'Источник 1'], ['FullHD 1080', 'HDrezka Studio', 'Источник 2'], ['HD 720', 'HDrezka Studio (+суб.)', 'Источник 2'], ['SD 480', 'Оригинал', 'Источник 3'], ['FullHD 1080', 'Кубик в Кубе', 'Источник 3']];
+    return { rows: d.map((x, i) => ({ q: x[0], t: x[1], s: x[2], rc: i === 0 ? '#0094F6' : '#909DAB', dot: i === 0 ? 4 : 0 })) };
+  }
+}
+</script>
+</body>
+</html>
