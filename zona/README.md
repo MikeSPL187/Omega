@@ -121,6 +121,21 @@ Android SDK build-tools (`zipalign`, `apksigner`). Проверено: `apktool 
 - Функция получает `Context` — **вероятно**, в расчёт токена входит подпись/имя
   пакета APK. Не подтверждено, но это главный риск для пересборки (см. ниже).
 
+### Проверка: принимает ли API сторонний клиент (22.10.2026)
+
+Простые GET-запросы с `curl` без `libzona.so`, без заголовка `ld` и без токена `checkTimeNative`:
+
+- Параметры передаются одним query-параметром `params` — JSON модели `*Params`
+  (`ru.zona.content.api.*`). На неверный JSON сервер отвечает 500 и перечисляет обязательные поля.
+- `/getMetadata` (поля `appType, hasLeanbackFeature, hasCamera, hasTouchscreen, isInTouchMode, hasGps`),
+  `/search` (`query`) и `/getVideoSources` (`kinopoiskId, episodeKey`) отвечают **200 с данными**.
+  Подпись для каталога не проверяется.
+- `/getVideoSources` отдаёт не ссылку на видео, а описатели источника
+  (`video_source_type_id`, `download_link_key`). Сам поток клиент получает из сторонних
+  источников (`ru.zona.api.stream.*`). Нужна ли там подпись, не проверялось.
+- Хосты `apirn1`/`apiwn1` часто сбрасывают TLS-соединение (`connection reset`): примерно каждый
+  второй запрос. Клиенту нужны повторы и переключение хостов, как в `ApiHostManager`.
+
 ## Модели данных (`mobi.zona.data.model`)
 
 - `Movie`: `id, coverUrl, year, description, quality, genres, countries, zonaRating,
