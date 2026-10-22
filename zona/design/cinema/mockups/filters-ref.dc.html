@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Фильтры — новые</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;family=Roboto+Condensed:wght@800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.lb{margin:0;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#A7B1BC;display:flex;justify-content:space-between}
+.lb span{letter-spacing:0;text-transform:none;font-weight:500;color:#FFFFFF;font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.c{height:36px;padding:0 14px;border:0;border-radius:18px;background:#1A2026;color:#FFFFFF;font-family:inherit;font-size:14px;font-weight:500}
+.on{background:#FFFFFF;color:#07090B;font-weight:700}
+.seg{display:flex;background:#1A2026;border-radius:20px;padding:3px;margin-top:10px}
+.seg button{flex:1;height:34px;border:0;border-radius:17px;background:none;color:#C9D1DA;font-family:inherit;font-size:14px;font-weight:500}
+.tg{display:flex;align-items:center;justify-content:space-between;height:48px;font-size:15px}
+.sw{width:52px;height:32px;border-radius:16px;position:relative;flex:0 0 52px;border:0;padding:0}
+.sw i{position:absolute;top:4px;width:24px;height:24px;border-radius:12px}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#07090B;color:#F5F7FA;font-family:Roboto,sans-serif">
+  <div aria-hidden="true" style="position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:150px 16px 0;filter:blur(2px);opacity:.5">
+    <img src="/_blob/7130276d427e5ea7bb6c6528b53b526c" alt="" style="width:100%;height:168px;object-fit:cover;border-radius:12px">
+    <img src="/_blob/20f54f4893adfdd6dfa4f30f38516d08" alt="" style="width:100%;height:168px;object-fit:cover;border-radius:12px">
+    <img src="/_blob/4dc64980c6071d6588799dc3581c517e" alt="" style="width:100%;height:168px;object-fit:cover;border-radius:12px">
+  </div>
+  <span style="position:absolute;inset:0;background:rgba(7,9,11,.55)"></span>
+
+  <section role="dialog" aria-label="Фильтры" style="position:absolute;left:0;right:0;top:52px;bottom:0;border-radius:28px 28px 0 0;background:#111519;box-shadow:0 -1px 0 rgba(255,255,255,.08);padding:0 16px;box-sizing:border-box">
+    <div style="width:36px;height:4px;border-radius:2px;background:#3A4652;margin:10px auto 0"></div>
+    <header style="display:flex;align-items:center;height:52px">
+      <h1 style="flex:1;margin:0;font-family:'Roboto Condensed',sans-serif;font-weight:800;font-size:24px">Фильтры</h1>
+      <button type="button" style="height:44px;padding:0 4px;border:0;background:none;color:#3DA9FF;font-family:inherit;font-size:15px;font-weight:500">Сбросить</button>
+    </header>
+
+    <h2 class="lb" style="margin-top:4px">Жанры<span>1 выбран</span></h2>
+    <div class="row">
+      <button type="button" class="c on" aria-pressed="true">Драма</button><button type="button" class="c">Комедия</button><button type="button" class="c">Триллер</button><button type="button" class="c">Фантастика</button><button type="button" class="c">Детектив</button><button type="button" class="c">Боевик</button><button type="button" class="c" style="color:#3DA9FF">Ещё 14</button>
+    </div>
+
+    <h2 class="lb" style="margin-top:20px">Страна</h2>
+    <div class="row">
+      <button type="button" class="c on" aria-pressed="true">Все</button><button type="button" class="c">Россия</button><button type="button" class="c">США</button><button type="button" class="c">Корея</button><button type="button" class="c" style="color:#3DA9FF">Ещё</button>
+    </div>
+
+    <h2 class="lb" style="margin-top:20px">Годы выхода<span>2020 — 2025</span></h2>
+    <div style="position:relative;height:36px;margin-top:4px" role="group" aria-label="Годы выхода">
+      <span style="position:absolute;left:0;right:0;top:16px;height:4px;border-radius:2px;background:#252C34"></span>
+      <span style="position:absolute;left:72%;right:0;top:16px;height:4px;border-radius:2px;background:#0094F6"></span>
+      <span role="slider" aria-label="С года" aria-valuenow="2020" style="position:absolute;left:72%;top:6px;width:24px;height:24px;margin-left:-12px;border-radius:12px;background:#FFFFFF;box-shadow:0 2px 8px rgba(0,0,0,.5)"></span>
+      <span role="slider" aria-label="По год" aria-valuenow="2025" style="position:absolute;left:100%;top:6px;width:24px;height:24px;margin-left:-24px;border-radius:12px;background:#FFFFFF;box-shadow:0 2px 8px rgba(0,0,0,.5)"></span>
+    </div>
+
+    <h2 class="lb" style="margin-top:14px">Рейтинг КП</h2>
+    <div class="seg" role="radiogroup" aria-label="Рейтинг КП"><button type="button" role="radio" aria-checked="false">Любой</button><button type="button" role="radio" aria-checked="false">6+</button><button type="button" role="radio" aria-checked="true" style="background:#FFFFFF;color:#07090B;font-weight:700">7+</button><button type="button" role="radio" aria-checked="false">8+</button></div>
+
+    <h2 class="lb" style="margin-top:18px">Возраст</h2>
+    <div class="seg" role="radiogroup" aria-label="Возраст"><button type="button" role="radio" aria-checked="true" style="background:#FFFFFF;color:#07090B;font-weight:700">Все</button><button type="button" role="radio" aria-checked="false">6+</button><button type="button" role="radio" aria-checked="false">12+</button><button type="button" role="radio" aria-checked="false">16+</button><button type="button" role="radio" aria-checked="false">18+</button></div>
+
+    <div style="margin-top:12px">
+      <div class="tg">Скрывать просмотренное<button type="button" class="sw" role="switch" aria-checked="false" aria-label="Скрывать просмотренное" style="background:#252C34"><i style="left:4px;background:#A7B1BC"></i></button></div>
+      <div class="tg">Только хорошее качество<button type="button" class="sw" role="switch" aria-checked="false" aria-label="Только хорошее качество" style="background:#252C34"><i style="left:4px;background:#A7B1BC"></i></button></div>
+      <div class="tg">Скрывать недоступные<button type="button" class="sw" role="switch" aria-checked="true" aria-label="Скрывать недоступные" style="background:#0094F6"><i style="left:24px;background:#FFFFFF"></i></button></div>
+    </div>
+
+    <a href="catalog-ref.dc.html" style="position:absolute;left:16px;right:16px;bottom:20px;height:54px;border-radius:27px;background:#FFFFFF;color:#07090B;text-decoration:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px">Показать 248 фильмов</a>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

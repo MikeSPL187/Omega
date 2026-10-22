@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Вход — новый</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;family=Roboto+Condensed:wght@800&amp;family=Unbounded:wght@800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.glass{background:rgba(20,25,30,.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.ben{display:flex;align-items:center;gap:12px;font-size:14px;color:#DCE2E8}
+.ben span:first-child{width:32px;height:32px;border-radius:16px;background:rgba(0,148,246,.16);color:#0094F6;display:flex;align-items:center;justify-content:center;flex:0 0 32px}
+.b{height:52px;border-radius:26px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:16px;font-weight:700;text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#07090B;color:#F5F7FA;font-family:Roboto,sans-serif">
+  <div aria-hidden="true" style="position:absolute;left:-60px;right:-60px;top:-40px;height:440px;transform:rotate(-8deg);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;opacity:.75">
+    <sc-for list="{{wall}}" as="w" hint-placeholder-count="12">
+      <img src="{{w.img}}" alt="" style="width:100%;height:190px;object-fit:cover;border-radius:12px;margin-top:{{w.mt}}">
+    </sc-for>
+  </div>
+  <span style="position:absolute;left:0;right:0;top:0;height:470px;background:linear-gradient(180deg,rgba(7,9,11,.35) 0%,rgba(7,9,11,.2) 35%,#07090B 92%)"></span>
+
+  <div style="position:absolute;left:12px;right:12px;top:28px;display:flex;justify-content:space-between">
+    <a href="profile-ref.dc.html" class="glass" aria-label="Назад" style="width:44px;height:44px;border-radius:22px;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <a href="home-ref.dc.html" class="glass" style="height:44px;padding:0 16px;border-radius:22px;color:#FFFFFF;text-decoration:none;display:flex;align-items:center;font-size:14px;font-weight:500">Не сейчас</a>
+  </div>
+
+  <div style="position:absolute;left:20px;right:20px;top:300px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <svg width="30" height="31" viewBox="0 0 248 256" aria-hidden="true"><path d="M0,25.61C0,48.29 74.4,76.64 74.4,89.62C74.4,105.8 0,210.32 0,229.76C0,246.15 9.54,256 38.14,256H219.37C238.44,256 248,239.6 248,229.76C248,203.51 185.99,165.28 185.99,149.09C185.99,132.88 248,45.53 248,26.11C248,9.91 235.27,0.15 213.01,0.15C203.46,0.15 62.32,0 49.59,0C49.3,0 48.99,0 48.68,0C35.2,0 0,0.29 0,25.61Z" fill="#0094F6"></path></svg>
+      <span style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:22px">zona</span>
+    </div>
+    <h1 style="margin:16px 0 0;font-family:'Roboto Condensed',sans-serif;font-weight:800;font-size:30px;line-height:33px">Вход в профиль<br>и регистрация</h1>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:18px">
+      <div class="ben"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-14 5.3M4 12a8 8 0 0 1 14-5.3M18 3v4h-4M6 21v-4h4"></path></svg></span><span>История и прогресс на всех устройствах</span></div>
+      <div class="ben"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></span><span>«Моё» и уведомления о новых сериях</span></div>
+      <div class="ben"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"></rect><path d="M8 21h8"></path></svg></span><span>Вход на телевизоре за секунду</span></div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:20px;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px">
+    <a href="profile-ref.dc.html" class="b" style="background:#FFFFFF;color:#07090B"><span style="width:24px;height:24px;border-radius:12px;background:#FC3F1D;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">Я</span>Войти с Яндекс ID</a>
+    <a href="profile-ref.dc.html" class="b" style="background:#1A2026;color:#FFFFFF"><span style="width:24px;height:24px;border-radius:12px;background:#2AABEE;display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M21.5 3.5 2.8 10.7c-1 .4-1 1.6 0 1.9l4.7 1.5 1.8 5.6c.3.8 1.3 1 1.9.4l2.6-2.5 4.8 3.6c.7.5 1.7.1 1.9-.8L23 4.9c.2-1-.6-1.8-1.5-1.4zM9.6 14.3l8.6-7.6-6.8 9.1-.3 2.6z"></path></svg></span>Войти через Telegram</a>
+    <a href="profile-ref.dc.html" class="b" style="background:none;color:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);font-weight:500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>По почте</a>
+    <p style="margin:6px 0 0;text-align:center;font-size:12px;line-height:17px;color:#A7B1BC">Подойдёт аккаунт Zona для Windows.<br>Нет профиля — создадим при входе.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const ids = ['ab0fa927f5153ca172c77ce3a8a4399b', '7130276d427e5ea7bb6c6528b53b526c', '4d9f7f68fd44a5a2a237537ffb969278', '20f54f4893adfdd6dfa4f30f38516d08', '08fbeb163ebd75a3d9075970c5aa6338', '4dc64980c6071d6588799dc3581c517e', '67f52c9eaeae8a887ef936cc3ccf83d3', 'e84511286d605c558b8298ff510addb1'];
+    const wall = [];
+    for (let i = 0; i < 12; i++) wall.push({ img: '/_blob/' + ids[(i * 3) % 8], mt: (i % 4) % 2 ? '40px' : '0' });
+    return { wall };
+  }
+}
+</script>
+</body>
+</html>
