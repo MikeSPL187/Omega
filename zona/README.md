@@ -133,8 +133,20 @@ Android SDK build-tools (`zipalign`, `apksigner`). Проверено: `apktool 
 - `/getVideoSources` отдаёт не ссылку на видео, а описатели источника
   (`video_source_type_id`, `download_link_key`). Сам поток клиент получает из сторонних
   источников (`ru.zona.api.stream.*`). Нужна ли там подпись, не проверялось.
+- Карточки отдаются по одной: `/getMovieOrSerialById` принимает один `id` (`occupancy`: `Stub`,
+  `Lite`, `Full`); списки (`/getMovieIds`, `/getSerialIds`) возвращают только id и `total`.
+- Фильтр: `{"page":{"offset","limit"},"filter":{"sortBy":"popularity|release_date|rating","genres":"8|6",
+  "countries":"2","yearFrom":2020,"ratingFrom":7}}`. Несколько id — через `|` (это «ИЛИ»);
+  массив JSON сервер не принимает, а `"8,6"` даёт пустой ответ.
+- Картинки (`Ih/u.java`): `https://imgr1.imgzona.video/images/film_240/{id/1000}/{id}.jpg` (постер),
+  `/images/backdrop_1920/{backdropId/1000}/{backdropId}.jpg` (фон), `/images/actor/{id/1000}/{id}.jpg`.
+  Других размеров постера сервер не отдаёт (редирект на 404).
+- Названия жанров и стран клиент берёт из своих строк (`MessageBundle_ru.properties`, `movie.genre.N`,
+  `movie.country.N`), API присылает только id.
 - Хосты `apirn1`/`apiwn1` часто сбрасывают TLS-соединение (`connection reset`): примерно каждый
-  второй запрос. Клиенту нужны повторы и переключение хостов, как в `ApiHostManager`.
+  второй запрос; из контейнера такое соединение висит ~12 с. Сервер поддерживает HTTP/2, и
+  переиспользуемое соединение отвечает за ~0,3 с. Поэтому клиенту нужны короткие таймауты,
+  повторы, выбор «живого» хоста и одно общее соединение (сделано в `app-cinema`, `ZonaApi`).
 
 ## Модели данных (`mobi.zona.data.model`)
 

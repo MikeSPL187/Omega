@@ -6,7 +6,7 @@ import androidx.compose.ui.use
 import org.jetbrains.skia.EncodedImageFormat
 import java.io.File
 
-/** Renders the key screens to PNG at 2x without a display: `./gradlew renderScreens`. */
+/** Renders the key screens to PNG at 2x without a display: `./gradlew renderScreens`. Needs network: most screens show the live Zona catalogue. */
 fun main(args: Array<String>) {
     val out = File(args.firstOrNull() ?: "build/screens").apply { mkdirs() }
     // name, screen, width × height in dp (tall sizes show the whole scroll).
@@ -27,12 +27,15 @@ fun main(args: Array<String>) {
         Shot("12-login", Screen.Login, 390, 844),
         Shot("13-offline", Screen.Offline, 390, 844),
         Shot("14-trailers", Screen.Trailers("harbor"), 390, 844),
+        // Live Zona API: The Matrix (movie) and MobLand (series).
+        Shot("20-api-movie", Screen.Card("301"), 390, 1500),
+        Shot("21-api-series", Screen.Card("5512084"), 390, 1860),
     )
     for ((name, screen, w, h) in shots) {
         ImageComposeScene(w * 2, h * 2, Density(2f)) { ZonaApp(initial = screen) }.use { scene ->
-            // A few frames so fonts, images and enter animations settle.
+            // Frames for ~7 s so fonts, API responses, images and enter animations settle.
             var t = 0L
-            repeat(40) { scene.render(t); t += 50_000_000L; Thread.sleep(15) }
+            repeat(140) { scene.render(t); t += 50_000_000L; Thread.sleep(50) }
             val png = scene.render(t).encodeToData(EncodedImageFormat.PNG) ?: error("encode failed")
             File(out, "$name.png").writeBytes(png.bytes)
             println("rendered $name")

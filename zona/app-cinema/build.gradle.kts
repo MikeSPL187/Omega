@@ -11,6 +11,7 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21")
         classpath("org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.2.21")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:2.2.21")
         classpath("org.jetbrains.compose:compose-gradle-plugin:1.9.3")
         if (withAndroid) classpath("com.android.tools.build:gradle:8.11.1")
     }

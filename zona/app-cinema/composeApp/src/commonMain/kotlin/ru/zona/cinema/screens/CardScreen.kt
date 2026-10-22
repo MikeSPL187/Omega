@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -36,6 +37,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import coil3.compose.AsyncImage
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -49,13 +52,23 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import ru.zona.cinema.Navigator
 import ru.zona.cinema.Screen
+import ru.zona.cinema.data.Catalog
 import ru.zona.cinema.data.Demo
+import ru.zona.cinema.data.History
+import ru.zona.cinema.data.Person
+import ru.zona.cinema.data.Season
 import ru.zona.cinema.data.Episode
 import ru.zona.cinema.data.Title
 import ru.zona.cinema.theme.Zona
 import ru.zona.cinema.theme.ZonaColors
 import ru.zona.cinema.theme.ZonaShapes
 import ru.zona.cinema.ui.Artwork
+import ru.zona.cinema.ui.ErrorBlock
+import ru.zona.cinema.ui.displayName
+import ru.zona.cinema.ui.Load
+import ru.zona.cinema.ui.LoadingBlock
+import ru.zona.cinema.ui.TitleArt
+import ru.zona.cinema.ui.rememberLoad
 import ru.zona.cinema.ui.Poster
 import ru.zona.cinema.ui.PrimaryButton
 import ru.zona.cinema.ui.ProgressLine
@@ -68,15 +81,40 @@ import ru.zona.cinema.ui.glass
 
 private enum class CardTab(val label: String) { Episodes("Серии"), Scenes("Сцены"), About("О сериале"), Similar("Похожие") }
 
+/** Card for [titleId]: shows the cached list entry at once and fills in details from the API. */
 @Composable
-fun CardScreen(title: Title, nav: Navigator) {
+fun CardScreen(titleId: String, nav: Navigator) {
+    val base = Catalog.cached(titleId)
+    val isDemo = base != null && base.posterUrl == null
+    val full = rememberLoad(titleId) { if (isDemo) base!! else Catalog.details(titleId) }
+    val title = full.value ?: base
+    when {
+        title != null -> CardContent(title, isDemo, nav)
+        full.state is Load.Failed -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            ErrorBlock((full.state as Load.Failed).message, full.retry)
+        }
+        else -> LoadingBlock(Modifier.fillMaxSize())
+    }
+    if (title == null) {
+        RoundIconButton(ZIcons.Back, "Назад", { nav.back() }, Modifier.statusBarsPadding().padding(12.dp))
+    }
+}
+
+@Composable
+private fun CardContent(title: Title, isDemo: Boolean, nav: Navigator) {
     var tab by remember { mutableStateOf(if (title.isSeries) CardTab.Episodes else CardTab.About) }
-    var inMy by remember { mutableStateOf(true) }
+    var inMy by remember { mutableStateOf(false) }
     var notify by remember { mutableStateOf(false) }
     var downloading by remember { mutableStateOf(false) }
-    var season by remember { mutableIntStateOf(2) }
     var expanded by remember { mutableStateOf(false) }
-    val progress = Demo.continueWatching.firstOrNull { it.title.id == title.id }
+    val progress = History.items.firstOrNull { it.title.id == title.id } ?: Demo.continueWatching.firstOrNull { it.title.id == title.id }
+    val seasons = if (title.isSeries && !isDemo) rememberLoad(title.id) { Catalog.seasons(title.id) } else null
+    val seasonList = seasons?.value ?: if (isDemo && title.isSeries) listOf(Season(1, Demo.episodes(1)), Season(2, Demo.episodes(2))) else emptyList()
+    // Start on the latest season that already has released episodes.
+    var season by remember(seasonList) {
+        mutableIntStateOf(seasonList.lastOrNull { s -> s.episodes.any { !it.upcoming } }?.number ?: seasonList.firstOrNull()?.number ?: 1)
+    }
+    val firstEpisode = seasonList.firstOrNull()?.let { it.number to (it.episodes.firstOrNull()?.number ?: 1) } ?: (1 to 1)
 
     Box(Modifier.fillMaxSize()) {
         LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 32.dp)) {
@@ -87,7 +125,7 @@ fun CardScreen(title: Title, nav: Navigator) {
                     val resume = progress?.takeIf { it.season > 0 }
                     PrimaryButton(
                         "Смотреть",
-                        { nav.open(Screen.Player(title.id, resume?.season ?: 1, resume?.episode ?: 1)) },
+                        { nav.open(Screen.Player(title.id, resume?.season ?: firstEpisode.first, resume?.episode ?: firstEpisode.second)) },
                         Modifier.fillMaxWidth(),
                         height = 54.dp,
                         trailing = resume?.let { "${it.season} сезон, ${it.episode} серия" },
@@ -119,7 +157,8 @@ fun CardScreen(title: Title, nav: Navigator) {
             }
 
             item(key = "tabs") {
-                val tabs = if (title.isSeries) CardTab.entries else CardTab.entries - CardTab.Episodes
+                // Scenes need trailer streams; the API catalogue has none yet, so only demo titles show them.
+                val tabs = CardTab.entries.filter { (it != CardTab.Episodes || title.isSeries) && (it != CardTab.Scenes || isDemo) }
                 Column(Modifier.padding(top = 14.dp)) {
                     Row(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(22.dp)) {
                         tabs.forEach { t ->
@@ -149,37 +188,41 @@ fun CardScreen(title: Title, nav: Navigator) {
 
             when (tab) {
                 CardTab.Episodes -> {
-                    item(key = "ep-tools") {
-                        Row(Modifier.padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            ZChip("$season сезон", { season = if (season == 2) 1 else 2 }, trailing = ZIcons.ChevronDown)
-                            ZChip("LostFilm", { nav.open(Screen.Player(title.id, streamsOpen = true)) }, leading = ZIcons.Mic, trailing = ZIcons.ChevronDown)
+                    when (val st = seasons?.state) {
+                        Load.Loading -> item(key = "ep-loading") { LoadingBlock(Modifier.fillMaxWidth().height(160.dp)) }
+                        is Load.Failed -> item(key = "ep-error") { ErrorBlock(st.message, seasons.retry, Modifier.fillMaxWidth()) }
+                        else -> {
+                            val current = seasonList.firstOrNull { it.number == season }
+                            item(key = "ep-tools") {
+                                Row(Modifier.padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    if (seasonList.size > 1) {
+                                        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.weight(1f, fill = false)) {
+                                            items(seasonList, key = { "season-${it.number}" }) { sn ->
+                                                ZChip("${sn.number} сезон", { season = sn.number }, selected = sn.number == season)
+                                            }
+                                        }
+                                    }
+                                    ZChip("Озвучка", { nav.open(Screen.Player(title.id, season, current?.episodes?.firstOrNull()?.number ?: 1, streamsOpen = true)) }, leading = ZIcons.Mic, trailing = ZIcons.ChevronDown)
+                                }
+                            }
+                            if (current == null) {
+                                item(key = "ep-empty") { Text("Серий пока нет", style = Zona.meta, modifier = Modifier.padding(16.dp)) }
+                            } else {
+                                items(current.episodes, key = { "ep-$season-${it.number}" }) { e ->
+                                    EpisodeRow(title, e, onPlay = { nav.open(Screen.Player(title.id, season, e.number)) })
+                                }
+                            }
                         }
                     }
-                    val eps = Demo.episodes(season)
-                    val visible = if (season == 2) eps.subList(3, 6) else eps.takeLast(3)
-                    items(visible, key = { "ep-$season-${it.number}" }) { e ->
-                        EpisodeRow(title, e, onPlay = { nav.open(Screen.Player(title.id, season, e.number)) })
-                    }
-                    item(key = "all-eps") {
-                        Row(
-                            Modifier.padding(start = 16.dp, end = 16.dp, top = 6.dp).fillMaxWidth().height(48.dp)
-                                .clip(ZonaShapes.Pill).background(ZonaColors.Surface2).clickable(role = Role.Button) {},
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text("Все ${eps.size} серий", fontSize = 15.sp, fontWeight = FontWeight.Medium)
-                            ZIcon(ZIcons.ChevronRight, size = 16.dp)
-                        }
-                    }
-                    item(key = "scenes-inline") { ScenesRow(nav, Modifier.padding(top = 18.dp)) }
-                    item(key = "cast") { CastRow(Modifier.padding(top = 18.dp)) }
+                    if (isDemo) item(key = "scenes-inline") { ScenesRow(nav, Modifier.padding(top = 18.dp)) }
+                    item(key = "cast") { CastRow(title, Modifier.padding(top = 18.dp)) }
                 }
                 CardTab.Scenes -> item(key = "scenes") { ScenesRow(nav, Modifier.padding(top = 12.dp)) }
                 CardTab.About -> {
                     item(key = "about") { AboutTable(title) }
-                    item(key = "cast-about") { CastRow(Modifier.padding(top = 18.dp)) }
+                    item(key = "cast-about") { CastRow(title, Modifier.padding(top = 18.dp)) }
                 }
-                CardTab.Similar -> item(key = "similar") { SimilarGrid(nav) }
+                CardTab.Similar -> item(key = "similar") { SimilarGrid(title, isDemo, nav) }
             }
         }
 
@@ -198,43 +241,48 @@ fun CardScreen(title: Title, nav: Navigator) {
 @Composable
 private fun Hero(title: Title) {
     Box(Modifier.fillMaxWidth().height(600.dp)) {
-        Artwork(title.art.wide, Modifier.fillMaxSize(), alignX = -.5f)
+        TitleArt(title, wide = true, modifier = Modifier.fillMaxSize(), alignX = if (title.backdropUrl != null) 0f else -.5f)
         Box(
             Modifier.fillMaxSize().background(
                 Brush.verticalGradient(0f to Color(0x9907090B), .2f to Color.Transparent, .4f to Color.Transparent, .76f to Color(0xE607090B), 1f to ZonaColors.Bg)
             )
         )
-        Row(
-            Modifier.padding(start = 16.dp, top = 300.dp).height(28.dp).glass().padding(horizontal = 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Box(Modifier.size(6.dp).clip(CircleShape).background(ZonaColors.Blue))
-            Spacer(Modifier.width(6.dp))
-            Text("Трейлер · 0:48", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+        if (title.posterUrl == null) {
+            Row(
+                Modifier.padding(start = 16.dp, top = 300.dp).height(28.dp).glass().padding(horizontal = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(Modifier.size(6.dp).clip(CircleShape).background(ZonaColors.Blue))
+                Spacer(Modifier.width(6.dp))
+                Text("Трейлер · 0:48", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            }
         }
         Column(
             Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            val (display, size) = displayName(title.name)
             Text(
-                title.name.uppercase().replace(" ", "\n"),
+                display,
                 textAlign = TextAlign.Center,
+                maxLines = 3,
                 style = TextStyle(
                     fontFamily = Zona.fonts.of(title.lettering.face), fontWeight = FontWeight.Bold,
-                    fontSize = 54.sp, lineHeight = 50.sp, letterSpacing = .04.em, color = title.lettering.color,
+                    fontSize = size.sp, lineHeight = (size * .93f).sp, letterSpacing = .04.em, color = title.lettering.color,
                 ),
                 modifier = Modifier.semantics { contentDescription = title.name },
             )
             Text(
-                "${title.original} · ${title.kind} · ${title.year} · ${title.country} · ${title.genres}",
+                listOf(title.original, title.kind, title.year.takeIf { it > 0 }?.toString().orEmpty(), title.country, title.genres)
+                    .filter { it.isNotEmpty() }.joinToString(" · "),
                 modifier = Modifier.padding(top = 12.dp),
                 color = ZonaColors.TextSecondary, fontSize = 13.sp, textAlign = TextAlign.Center,
             )
             Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                RatingPill("КП", title.kp, ZonaColors.Amber)
-                RatingPill("IMDb", title.imdb)
-                RatingPill("Zona", title.zona)
-                RatingPill(null, title.age)
+                if (title.kp.isNotEmpty()) RatingPill("КП", title.kp, ZonaColors.Amber)
+                if (title.imdb.isNotEmpty()) RatingPill("IMDb", title.imdb)
+                if (title.zona.isNotEmpty()) RatingPill("Zona", title.zona)
+                if (title.age.isNotEmpty()) RatingPill(null, title.age)
             }
         }
     }
@@ -284,8 +332,13 @@ private fun EpisodeRow(title: Title, e: Episode, onPlay: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(Modifier.width(144.dp).height(81.dp).clip(RoundedCornerShape(12.dp)).background(ZonaColors.Surface2)) {
-            val art = listOf(title.art, Demo.forest.art, Demo.harbor.art)[e.number % 3]
-            Artwork(art.wide, Modifier.fillMaxSize(), alignX = ((e.number * 37) % 100) / 50f - 1f, alpha = if (e.watched) .5f else 1f)
+            if (title.posterUrl == null) {
+                val art = listOf(title.art, Demo.forest.art, Demo.harbor.art)[e.number % 3]
+                Artwork(art.wide, Modifier.fillMaxSize(), alignX = ((e.number * 37) % 100) / 50f - 1f, alpha = if (e.watched) .5f else 1f)
+            } else {
+                // The API has no per-episode stills; the series backdrop, dimmed for unreleased ones.
+                TitleArt(title, wide = true, modifier = Modifier.fillMaxSize(), alpha = if (e.upcoming) .35f else .8f)
+            }
             if (current) {
                 Box(Modifier.align(Alignment.Center).size(34.dp).glass(CircleShape), contentAlignment = Alignment.Center) { ZIcon(ZIcons.Play, size = 12.dp) }
                 ProgressLine(e.progress ?: 0f, Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(start = 8.dp, end = 8.dp, bottom = 6.dp))
@@ -298,12 +351,16 @@ private fun EpisodeRow(title: Title, e: Episode, onPlay: () -> Unit) {
             }
         }
         Column(Modifier.weight(1f).padding(start = 12.dp)) {
-            Text("${e.number}. Серия ${e.number}", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = if (e.watched) ZonaColors.TextMuted else ZonaColors.Text)
+            Text(
+                "${e.number}. ${e.name.ifEmpty { "Серия ${e.number}" }}",
+                fontSize = 15.sp, fontWeight = FontWeight.Bold, color = if (e.watched) ZonaColors.TextMuted else ZonaColors.Text,
+                maxLines = 2, overflow = TextOverflow.Ellipsis,
+            )
             Text(
                 when {
                     current -> "Вы остановились · ещё 23 мин"
                     e.upcoming -> "Выйдет ${e.date}"
-                    else -> "${e.duration} · ${e.date}"
+                    else -> listOf(e.duration, e.date).filter { it.isNotEmpty() }.joinToString(" · ")
                 },
                 modifier = Modifier.padding(top = 4.dp),
                 fontSize = 12.sp,
@@ -338,7 +395,12 @@ private fun ScenesRow(nav: Navigator, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun CastRow(modifier: Modifier = Modifier) {
+private fun CastRow(title: Title, modifier: Modifier = Modifier) {
+    val cast = title.details?.cast
+    if (cast != null) {
+        if (cast.isNotEmpty()) RealCastRow(cast, modifier)
+        return
+    }
     Column(modifier) {
         SectionHeader("Актёры", action = "Все")
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(14.dp), modifier = Modifier.padding(top = 8.dp)) {
@@ -357,7 +419,40 @@ private fun CastRow(modifier: Modifier = Modifier) {
 }
 
 @Composable
+private fun RealCastRow(cast: List<Person>, modifier: Modifier) {
+    Column(modifier) {
+        SectionHeader("Актёры")
+        LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(14.dp), modifier = Modifier.padding(top = 8.dp)) {
+            items(cast, key = { it.id }) { a ->
+                Column(Modifier.width(74.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Box(Modifier.size(70.dp).clip(CircleShape).background(ZonaColors.Surface2), contentAlignment = Alignment.Center) {
+                        Text(a.name.split(' ').mapNotNull { it.firstOrNull()?.uppercase() }.take(2).joinToString(""), style = Zona.heading.copy(fontSize = 22.sp))
+                        if (a.photoUrl != null) {
+                            AsyncImage(a.photoUrl, contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                        }
+                    }
+                    Text(a.name, Modifier.padding(top = 8.dp), fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.Medium, textAlign = TextAlign.Center, maxLines = 2)
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun AboutTable(title: Title) {
+    val d = title.details
+    if (d != null) {
+        InfoTable(
+            listOf(
+                "Страна" to d.countries,
+                "Жанр" to d.genres,
+                "Режиссёр" to d.directors,
+                "Премьера" to d.premiere.orEmpty(),
+                "Длительность" to d.runtimeMinutes?.let { m -> if (title.isSeries) "$m мин. · серия" else if (m >= 60) "${m / 60} ч ${m % 60} мин" else "$m мин" }.orEmpty(),
+            ).filter { it.second.isNotEmpty() },
+        )
+        return
+    }
     val rows = listOf(
         "Страна" to title.country,
         "Жанр" to title.genres,
@@ -365,12 +460,17 @@ private fun AboutTable(title: Title) {
         "Премьера" to "12 марта ${title.year} в мире",
         "Длительность" to if (title.isSeries) "50 мин. · серия" else "1 ч 52 мин",
     )
+    InfoTable(rows)
+}
+
+@Composable
+private fun InfoTable(rows: List<Pair<String, String>>) {
     Column(Modifier.padding(16.dp).clip(ZonaShapes.Card).background(ZonaColors.Surface1)) {
         rows.forEachIndexed { i, (k, v) ->
             if (i > 0) HorizontalDivider(color = Color(0x0FFFFFFF))
-            Row(Modifier.fillMaxWidth().height(48.dp).padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(k, color = ZonaColors.TextMuted, fontSize = 14.sp, modifier = Modifier.weight(1f))
-                Text(v, fontSize = 14.sp)
+            Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(k, color = ZonaColors.TextMuted, fontSize = 14.sp, modifier = Modifier.width(112.dp))
+                Text(v, fontSize = 14.sp, modifier = Modifier.weight(1f), textAlign = TextAlign.End)
             }
         }
     }
@@ -378,14 +478,28 @@ private fun AboutTable(title: Title) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun SimilarGrid(nav: Navigator) {
+private fun SimilarGrid(title: Title, isDemo: Boolean, nav: Navigator) {
+    val ids = title.details?.relatedIds.orEmpty().take(9)
+    val related = if (isDemo) null else rememberLoad(ids) { Catalog.titles(ids) }
+    val list = if (isDemo) Demo.similar else related?.value
+    if (list == null) {
+        when (val st = related?.state) {
+            is Load.Failed -> ErrorBlock(st.message, related.retry, Modifier.fillMaxWidth())
+            else -> LoadingBlock(Modifier.fillMaxWidth().height(160.dp))
+        }
+        return
+    }
+    if (list.isEmpty()) {
+        Text("Похожих пока нет", style = Zona.meta, modifier = Modifier.padding(16.dp))
+        return
+    }
     FlowRow(
         Modifier.padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
         maxItemsInEachRow = 3,
     ) {
-        Demo.similar.forEach { t ->
+        list.forEach { t ->
             Poster(t, { nav.open(Screen.Card(t.id)) }, Modifier.weight(1f).height(168.dp), lettering = .85f)
         }
     }

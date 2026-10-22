@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,14 +56,16 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import ru.zona.cinema.Navigator
 import ru.zona.cinema.Screen
+import ru.zona.cinema.data.Catalog
 import ru.zona.cinema.data.Demo
+import ru.zona.cinema.data.History
 import ru.zona.cinema.data.Voice
 import ru.zona.cinema.player.VideoSource
 import ru.zona.cinema.player.VideoSurface
 import ru.zona.cinema.player.rememberVideoPlayer
 import ru.zona.cinema.theme.ZonaColors
 import ru.zona.cinema.theme.ZonaShapes
-import ru.zona.cinema.ui.Artwork
+import ru.zona.cinema.ui.TitleArt
 import ru.zona.cinema.ui.PrimaryButton
 import ru.zona.cinema.ui.RoundIconButton
 import ru.zona.cinema.ui.ZIcon
@@ -78,7 +81,7 @@ private const val START_SECONDS = 65
  */
 @Composable
 fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean) -> Unit) {
-    val title = Demo.byId(args.titleId)
+    val title = Catalog.cached(args.titleId) ?: Demo.north
     DisposableEffect(Unit) {
         requestLandscape(true)
         onDispose { requestLandscape(false) }
@@ -101,6 +104,14 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
             play = !(resume && args.streamsOpen),
         )
     }
+    // Remember where the user stopped, for "Продолжить просмотр".
+    val stopAt by rememberUpdatedState(Triple(episode, player.positionMs, player.durationMs))
+    DisposableEffect(Unit) {
+        onDispose {
+            val (ep, pos, dur) = stopAt
+            History.record(title, args.season, ep, (pos / 1000).toInt(), (dur / 1000).toInt())
+        }
+    }
     LaunchedEffect(speed) { player.setPlaybackSpeed(speed) }
     LaunchedEffect(subtitles) { player.setSubtitles(subtitles) }
     LaunchedEffect(quality) { player.setMaxHeight(quality.removeSuffix("p").toIntOrNull()) }
@@ -118,7 +129,7 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
 
     Box(Modifier.fillMaxSize().background(Color.Black)) {
         VideoSurface(player, liftSubtitles = chrome && !streamsOpen, modifier = Modifier.fillMaxSize())
-        if (!player.hasFrame) Artwork(title.art.wide, Modifier.fillMaxSize(), alignX = -.3f)
+        if (!player.hasFrame) TitleArt(title, wide = true, modifier = Modifier.fillMaxSize(), alignX = -.3f)
         // Taps on the picture toggle the controls; buttons drawn above take their own taps.
         Box(Modifier.fillMaxSize().pointerInput(Unit) { detectTapGestures(onTap = { chrome = !chrome }) })
         if (player.buffering && player.error == null) {

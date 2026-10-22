@@ -80,7 +80,7 @@ fun MyScreen(nav: Navigator) {
                 LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 4.dp)) {
                     items(Demo.continueWatching) { p ->
                         ProgressStill(
-                            p.title.art.wide, p.title.name, p.label, p.fraction,
+                            p.title, p.title.name, p.label, p.fraction,
                             onClick = { nav.open(Screen.Player(p.title.id, p.season.coerceAtLeast(1), p.episode.coerceAtLeast(1))) },
                             modifier = Modifier.width(232.dp).height(130.dp),
                         )

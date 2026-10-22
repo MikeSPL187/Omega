@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -42,16 +43,25 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import ru.zona.cinema.Navigator
 import ru.zona.cinema.Screen
-import ru.zona.cinema.data.Demo
+import ru.zona.cinema.data.Catalog
+import ru.zona.cinema.data.History
+import ru.zona.cinema.data.HomeFeed
+import ru.zona.cinema.data.Title
 import ru.zona.cinema.theme.Zona
 import ru.zona.cinema.theme.ZonaColors
 import ru.zona.cinema.theme.ZonaShapes
-import ru.zona.cinema.ui.Artwork
+import ru.zona.cinema.ui.ErrorBlock
+import ru.zona.cinema.ui.displayName
+import ru.zona.cinema.ui.Load
+import ru.zona.cinema.ui.LoadingBlock
+import ru.zona.cinema.ui.TitleArt
+import ru.zona.cinema.ui.rememberLoad
 import ru.zona.cinema.ui.Dot
 import ru.zona.cinema.ui.GlassButton
 import ru.zona.cinema.ui.Poster
@@ -67,7 +77,17 @@ import ru.zona.cinema.ui.glass
 
 @Composable
 fun HomeScreen(nav: Navigator) {
-    val hero = Demo.north
+    val feed = rememberLoad(Unit) { Catalog.home() }
+    when (val state = feed.state) {
+        Load.Loading -> LoadingBlock(Modifier.fillMaxSize())
+        is Load.Failed -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { ErrorBlock(state.message, feed.retry) }
+        is Load.Ready -> HomeContent(state.value, nav)
+    }
+}
+
+@Composable
+private fun HomeContent(feed: HomeFeed, nav: Navigator) {
+    val hero = feed.hero
     var inMy by remember { mutableStateOf(false) }
     val rowPadding = PaddingValues(horizontal = 16.dp)
 
@@ -75,7 +95,7 @@ fun HomeScreen(nav: Navigator) {
         LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 112.dp)) {
             item(key = "hero") {
                 Box(Modifier.fillMaxWidth().height(580.dp)) {
-                    Artwork(hero.art.poster, Modifier.fillMaxSize(), alignY = -.2f)
+                    TitleArt(hero, wide = hero.backdropUrl != null, modifier = Modifier.fillMaxSize(), alignY = -.2f)
                     Box(
                         Modifier.fillMaxSize().background(
                             Brush.verticalGradient(
@@ -107,10 +127,6 @@ fun HomeScreen(nav: Navigator) {
                             items(listOf("Фильмы", "Сериалы", "ТВ-каналы", "Спорт")) { ZChip(it, onClick = { nav.tab(Tab.Catalog) }, glass = true) }
                         }
                     }
-                    RoundIconButton(
-                        ZIcons.VolumeOff, "Включить звук трейлера", {},
-                        Modifier.align(Alignment.TopEnd).offset(x = (-16).dp, y = 330.dp), size = 40.dp, iconSize = 18.dp,
-                    )
                     Column(
                         Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 18.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -118,20 +134,22 @@ fun HomeScreen(nav: Navigator) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Box(Modifier.size(6.dp).clip(CircleShape).background(ZonaColors.Blue))
                             Spacer(Modifier.width(6.dp))
-                            Text("НОВЫЙ СЕЗОН · ТРЕЙЛЕР", fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = .08.em)
+                            Text("ПОПУЛЯРНО СЕЙЧАС", fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = .08.em)
                         }
+                        val (display, size) = displayName(hero.name)
                         Text(
-                            hero.name.uppercase().replace(" ", "\n"),
-                            modifier = Modifier.padding(top = 10.dp),
+                            display,
+                            modifier = Modifier.padding(top = 10.dp).clickable { nav.open(Screen.Card(hero.id)) },
                             textAlign = TextAlign.Center,
+                            maxLines = 3,
                             style = TextStyle(
-                                fontFamily = Zona.fonts.oswald, fontWeight = FontWeight.Bold, fontSize = 54.sp,
-                                lineHeight = 50.sp, letterSpacing = .04.em, color = Color.White,
+                                fontFamily = Zona.fonts.oswald, fontWeight = FontWeight.Bold, fontSize = size.sp,
+                                lineHeight = (size * .93f).sp, letterSpacing = .04.em, color = Color.White,
                             ),
                         )
                         Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Text("КП ${hero.kp}", color = ZonaColors.Amber, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                            Text("  ·  ${hero.meta}", color = ZonaColors.TextSecondary, fontSize = 13.sp)
+                            if (hero.kp.isNotEmpty()) Text("КП ${hero.kp}  ·  ", color = ZonaColors.Amber, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                            Text(hero.meta, color = ZonaColors.TextSecondary, fontSize = 13.sp, maxLines = 1)
                         }
                         Row(Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             PrimaryButton("Смотреть", { nav.open(Screen.Player(hero.id)) }, Modifier.weight(1f))
@@ -140,21 +158,17 @@ fun HomeScreen(nav: Navigator) {
                                 icon = if (inMy) ZIcons.Check else ZIcons.Plus,
                             )
                         }
-                        Row(Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Dot(Color.White, 20.dp)
-                            repeat(5) { Dot(Color(0x59FFFFFF)) }
-                        }
                     }
                 }
             }
 
-            item(key = "continue") {
+            if (History.items.isNotEmpty()) item(key = "continue") {
                 Column(Modifier.padding(top = 12.dp)) {
                     SectionHeader("Продолжить просмотр", action = "Все", onAction = { nav.tab(Tab.My) })
                     LazyRow(contentPadding = rowPadding, horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 4.dp)) {
-                        items(Demo.continueWatching) { p ->
+                        items(History.items, key = { it.title.id }) { p ->
                             ProgressStill(
-                                p.title.art.wide, p.title.name, p.label, p.fraction,
+                                p.title, p.title.name, p.label, p.fraction,
                                 onClick = { nav.open(Screen.Player(p.title.id, p.season, p.episode)) },
                                 modifier = Modifier.width(248.dp).height(140.dp),
                             )
@@ -163,40 +177,11 @@ fun HomeScreen(nav: Navigator) {
                 }
             }
 
-            item(key = "clips") {
-                Column(Modifier.padding(top = 22.dp)) {
-                    SectionHeader("Трейлеры и сцены", action = "Смотреть ленту", onAction = { nav.open(Screen.Trailers()) })
-                    LazyRow(contentPadding = rowPadding, horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 4.dp)) {
-                        items(Demo.clips) { c ->
-                            Box(
-                                Modifier.width(128.dp).height(228.dp).clip(RoundedCornerShape(14.dp))
-                                    .clickable(role = Role.Button) { nav.open(Screen.Trailers(c.title.id)) },
-                            ) {
-                                Artwork(c.title.art.poster, Modifier.fillMaxSize(), alignX = c.alignX)
-                                Box(Modifier.fillMaxSize().background(Brush.verticalGradient(.5f to Color.Transparent, 1f to Color(0xE607090B))))
-                                Row(
-                                    Modifier.padding(8.dp).height(22.dp).glass().padding(horizontal = 8.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    ZIcon(ZIcons.Play, size = 9.dp)
-                                    Spacer(Modifier.width(4.dp))
-                                    Text(c.duration, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                                }
-                                Column(Modifier.align(Alignment.BottomStart).padding(10.dp)) {
-                                    Text(c.kind, fontSize = 11.sp, color = ZonaColors.TextSecondary, fontWeight = FontWeight.Medium)
-                                    Text(c.title.name, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
             item(key = "top") {
                 Column(Modifier.padding(top = 22.dp)) {
-                    SectionHeader("Топ-10 сегодня")
+                    SectionHeader("Топ-10 фильмов")
                     LazyRow(contentPadding = rowPadding, horizontalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(top = 4.dp)) {
-                        itemsIndexed(Demo.top10) { i, t ->
+                        itemsIndexed(feed.top) { i, t ->
                             Row(verticalAlignment = Alignment.Bottom) {
                                 Box {
                                     // Outlined rank numeral, partly tucked behind the poster.
@@ -220,20 +205,31 @@ fun HomeScreen(nav: Navigator) {
                 }
             }
 
-            item(key = "fresh") {
-                Column(Modifier.padding(top = 22.dp)) {
-                    SectionHeader("Новинки фильмов", action = "Все", onAction = { nav.tab(Tab.Catalog) })
-                    LazyRow(contentPadding = rowPadding, horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 4.dp)) {
-                        items(Demo.freshMovies) { t ->
-                            Column(Modifier.width(112.dp)) {
-                                Poster(t, { nav.open(Screen.Card(t.id)) }, Modifier.fillMaxWidth().height(168.dp))
-                                Text("${t.year} · ${t.genres}", style = Zona.meta.copy(fontSize = 12.sp), modifier = Modifier.padding(top = 6.dp), maxLines = 1)
-                            }
-                        }
+            posterRow("series", "Популярные сериалы", feed.series, nav, onAll = { nav.tab(Tab.Catalog) })
+            posterRow("fresh", "Новинки фильмов", feed.fresh, nav, onAll = { nav.tab(Tab.Catalog) })
+            posterRow("movies", "Популярные фильмы", feed.movies, nav, onAll = { nav.tab(Tab.Catalog) })
+        }
+
+    }
+}
+
+private fun LazyListScope.posterRow(key: String, title: String, titles: List<Title>, nav: Navigator, onAll: () -> Unit) {
+    if (titles.isEmpty()) return
+    item(key = key) {
+        Column(Modifier.padding(top = 22.dp)) {
+            SectionHeader(title, action = "Все", onAction = onAll)
+            LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 4.dp)) {
+                items(titles, key = { it.id }) { t ->
+                    Column(Modifier.width(112.dp)) {
+                        Poster(t, { nav.open(Screen.Card(t.id)) }, Modifier.fillMaxWidth().height(168.dp))
+                        Text(
+                            listOf(t.year.takeIf { it > 0 }?.toString(), t.genres.ifEmpty { null }).filterNotNull().joinToString(" · "),
+                            style = Zona.meta.copy(fontSize = 12.sp), modifier = Modifier.padding(top = 6.dp), maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
                     }
                 }
             }
         }
-
     }
 }

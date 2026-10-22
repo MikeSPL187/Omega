@@ -51,10 +51,28 @@ data class Title(
     val imdb: String,
     val zona: String,
     val description: String,
+    /** Images from the Zona API; null for demo titles, which use [art]. */
+    val posterUrl: String? = null,
+    val backdropUrl: String? = null,
+    /** Filled when the full entity has been loaded (card screen). */
+    val details: TitleDetails? = null,
 ) {
     val kind get() = if (isSeries) "Сериал" else "Фильм"
     val meta get() = "$kind · $year · $genres"
 }
+
+/** Card-level data that list responses do not carry. */
+data class TitleDetails(
+    val directors: String,
+    val cast: List<Person>,
+    val runtimeMinutes: Int?,
+    val premiere: String?,
+    val countries: String,
+    val genres: String,
+    val relatedIds: List<String>,
+)
+
+data class Person(val id: String, val name: String, val photoUrl: String?)
 
 data class Progress(val title: Title, val label: String, val fraction: Float, val season: Int = 0, val episode: Int = 0) {
     val remaining get() = label.substringAfterLast(" · ")
@@ -62,7 +80,16 @@ data class Progress(val title: Title, val label: String, val fraction: Float, va
 
 data class Clip(val title: Title, val kind: String, val duration: String, val alignX: Float)
 
-data class Episode(val number: Int, val duration: String, val date: String, val watched: Boolean, val progress: Float?, val upcoming: Boolean)
+data class Episode(
+    val number: Int,
+    val duration: String,
+    val date: String,
+    val watched: Boolean,
+    val progress: Float?,
+    val upcoming: Boolean,
+    val name: String = "",
+    val season: Int = 0,
+)
 
 data class CastMember(val initials: String, val name: String, val role: String, val from: Color, val to: Color)
 
@@ -96,6 +123,7 @@ object Demo {
 
     val all = listOf(north, harbor, flight, dunes, forest, neon, orbit, peaks)
     fun byId(id: String) = all.first { it.id == id }
+    fun byIdOrNull(id: String) = all.firstOrNull { it.id == id }
 
     val continueWatching = listOf(
         Progress(north, "2 сезон · 5 серия · ещё 23 мин", .62f, season = 2, episode = 5),

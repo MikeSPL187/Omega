@@ -102,7 +102,7 @@ fun OfflineScreen(nav: Navigator) {
             LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 12.dp)) {
                 items(offline) { d ->
                     ProgressStill(
-                        d.title.art.wide, d.title.name, d.detail, d.fraction.takeIf { it > 0f },
+                        d.title, d.title.name, d.detail, d.fraction.takeIf { it > 0f },
                         onClick = { nav.open(Screen.Player(d.title.id)) },
                         modifier = Modifier.width(220.dp).height(124.dp), alignX = d.alignX,
                     )

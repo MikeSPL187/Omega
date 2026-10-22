@@ -79,7 +79,7 @@ fun ZonaApp(
                     }
                     if (!s.filtersOpen) FloatingNavBar(s.tab, onSelect = nav::tab, modifier = Modifier.align(Alignment.BottomCenter))
                 }
-                is Screen.Card -> CardScreen(Demo.byId(s.titleId), nav)
+                is Screen.Card -> CardScreen(s.titleId, nav)
                 is Screen.Player -> PlayerScreen(s, nav, requestLandscape)
                 is Screen.Trailers -> TrailerFeedScreen(s.startTitleId, nav)
                 Screen.Downloads -> DownloadsScreen(nav)

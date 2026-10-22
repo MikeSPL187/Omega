@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import ru.zona.cinema.data.Title
@@ -75,6 +76,45 @@ fun Artwork(res: DrawableResource, modifier: Modifier = Modifier, alignX: Float 
         alignment = BiasAlignment(alignX, alignY),
         alpha = alpha,
     )
+}
+
+/**
+ * A title's image: the API poster or backdrop when there is one (loaded with Coil),
+ * otherwise the procedural demo art. [wide] picks the 16:9 backdrop over the poster;
+ * a title without a backdrop shows its poster cropped instead.
+ */
+@Composable
+fun TitleArt(title: Title, wide: Boolean, modifier: Modifier = Modifier, alignX: Float = 0f, alignY: Float = 0f, alpha: Float = 1f) {
+    val url = if (wide) title.backdropUrl ?: title.posterUrl else title.posterUrl
+    if (url == null) {
+        Artwork(if (wide) title.art.wide else title.art.poster, modifier, alignX, alignY, alpha)
+    } else {
+        AsyncImage(
+            model = url,
+            contentDescription = null,
+            modifier = modifier.background(ZonaColors.Surface2),
+            contentScale = ContentScale.Crop,
+            alignment = BiasAlignment(alignX, alignY),
+            alpha = alpha,
+        )
+    }
+}
+
+/**
+ * Display title for hero blocks: a short name stacks a word per line at 54sp as in the
+ * mockups; a long word or name gets a smaller size so no word breaks mid-way.
+ * Returns the text and its font size in sp.
+ */
+fun displayName(name: String): Pair<String, Float> {
+    val words = name.uppercase().split(' ')
+    val longest = words.maxOf { it.length }
+    val size = when {
+        longest <= 9 -> 54f
+        longest <= 12 -> 42f
+        else -> 32f
+    }
+    val stacked = words.size <= 2 && size == 54f
+    return (if (stacked) words.joinToString("\n") else words.joinToString(" ")) to (if (!stacked && words.size > 2) minOf(size, 38f) else size)
 }
 
 @Composable
@@ -238,18 +278,21 @@ fun Poster(
     Box(
         modifier.clip(ZonaShapes.Poster).clickable(role = Role.Button, onClick = onClick).semantics { contentDescription = title.name },
     ) {
-        Artwork(title.art.poster, Modifier.fillMaxSize())
-        Box(Modifier.fillMaxSize().bottomFade(.5f, Color(0xD907090B)))
-        if (showRating) RatingBadge(title.kp, Modifier.align(Alignment.TopStart).padding(6.dp))
+        TitleArt(title, wide = false, modifier = Modifier.fillMaxSize())
+        // Real posters carry their own title; only the procedural demo art needs lettering.
+        if (title.posterUrl == null) Box(Modifier.fillMaxSize().bottomFade(.5f, Color(0xD907090B)))
+        if (showRating && title.kp.isNotEmpty()) RatingBadge(title.kp, Modifier.align(Alignment.TopStart).padding(6.dp))
         badge?.invoke(this)
-        PosterTitle(title, Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(start = 6.dp, end = 6.dp, bottom = 10.dp), lettering)
+        if (title.posterUrl == null) {
+            PosterTitle(title, Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(start = 6.dp, end = 6.dp, bottom = 10.dp), lettering)
+        }
     }
 }
 
 /** A 16:9 still with play affordance, caption and watch progress. */
 @Composable
 fun ProgressStill(
-    image: DrawableResource,
+    art: Title,
     title: String,
     caption: String,
     fraction: Float?,
@@ -258,7 +301,7 @@ fun ProgressStill(
     alignX: Float = 0f,
 ) {
     Box(modifier.clip(RoundedCornerShape(14.dp)).clickable(role = Role.Button, onClick = onClick)) {
-        Artwork(image, Modifier.fillMaxSize(), alignX = alignX)
+        TitleArt(art, wide = true, modifier = Modifier.fillMaxSize(), alignX = alignX)
         Box(Modifier.fillMaxSize().bottomFade(.4f, Color(0xCC07090B)))
         Row(
             Modifier.align(Alignment.BottomStart).padding(start = 12.dp, end = 12.dp, bottom = 16.dp),

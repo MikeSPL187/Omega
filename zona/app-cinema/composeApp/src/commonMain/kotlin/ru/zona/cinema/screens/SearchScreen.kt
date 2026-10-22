@@ -36,16 +36,23 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import androidx.compose.ui.unit.sp
 import ru.zona.cinema.Navigator
 import ru.zona.cinema.Screen
-import ru.zona.cinema.data.Demo
+import ru.zona.cinema.data.Catalog
 import ru.zona.cinema.data.Library
 import ru.zona.cinema.theme.Zona
 import ru.zona.cinema.theme.ZonaColors
 import ru.zona.cinema.theme.ZonaShapes
 import ru.zona.cinema.ui.Artwork
+import ru.zona.cinema.ui.ErrorBlock
+import ru.zona.cinema.ui.Load
+import ru.zona.cinema.ui.LoadingBlock
+import ru.zona.cinema.ui.TitleArt
+import ru.zona.cinema.ui.rememberLoad
 import ru.zona.cinema.ui.RoundIconButton
 import ru.zona.cinema.ui.Tab
 import ru.zona.cinema.ui.ZIcon
@@ -55,10 +62,15 @@ import ru.zona.cinema.ui.ZIcons
 fun SearchScreen(nav: Navigator, initialQuery: String = "") {
     var query by remember { mutableStateOf(initialQuery) }
     var recent by remember { mutableStateOf(Library.recentQueries) }
-    val q = query.trim().lowercase()
-    val results = if (q.isEmpty()) emptyList() else Demo.all.filter {
-        q in it.name.lowercase() || q in it.original.lowercase() || q in it.genres.lowercase()
+    val q = query.trim()
+    // Search as the user types, once they pause for a moment.
+    val search = rememberLoad(q) {
+        if (q.length < 2) emptyList() else {
+            delay(400)
+            Catalog.search(q)
+        }
     }
+    val results = search.value.orEmpty()
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -97,10 +109,18 @@ fun SearchScreen(nav: Navigator, initialQuery: String = "") {
 
         if (q.isNotEmpty()) {
             item(span = { GridItemSpan(2) }) {
-                Text(
-                    if (results.isEmpty()) "Ничего не нашлось по запросу «$query»" else "Найдено: ${results.size}",
-                    style = Zona.meta, modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
-                )
+                when (val st = search.state) {
+                    Load.Loading -> LoadingBlock(Modifier.fillMaxWidth().height(96.dp))
+                    is Load.Failed -> ErrorBlock(st.message, search.retry, Modifier.fillMaxWidth())
+                    is Load.Ready -> Text(
+                        when {
+                            q.length < 2 -> "Введите хотя бы две буквы"
+                            results.isEmpty() -> "Ничего не нашлось по запросу «$q»"
+                            else -> "Найдено: ${results.size}"
+                        },
+                        style = Zona.meta, modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
+                    )
+                }
             }
             items(results, span = { GridItemSpan(2) }) { t ->
                 Row(
@@ -110,13 +130,16 @@ fun SearchScreen(nav: Navigator, initialQuery: String = "") {
                     }.padding(vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Box(Modifier.width(64.dp).height(96.dp).clip(RoundedCornerShape(10.dp))) { Artwork(t.art.poster, Modifier.fillMaxSize()) }
+                    Box(Modifier.width(64.dp).height(96.dp).clip(RoundedCornerShape(10.dp))) { TitleArt(t, wide = false, modifier = Modifier.fillMaxSize()) }
                     Column(Modifier.weight(1f).padding(start = 14.dp)) {
-                        Text(t.name, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                        Text("${t.original} · ${t.year}", style = Zona.meta, modifier = Modifier.padding(top = 3.dp))
+                        Text(t.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                        Text(
+                            listOf(t.original, t.year.takeIf { it > 0 }?.toString().orEmpty()).filter { it.isNotEmpty() }.joinToString(" · "),
+                            style = Zona.meta, modifier = Modifier.padding(top = 3.dp), maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        )
                         Row(Modifier.padding(top = 6.dp)) {
-                            Text("КП ${t.kp}", color = ZonaColors.Amber, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                            Text("  ·  ${t.kind}, ${t.genres}", style = Zona.meta)
+                            if (t.kp.isNotEmpty()) Text("КП ${t.kp}  ·  ", color = ZonaColors.Amber, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                            Text(listOf(t.kind, t.genres).filter { it.isNotEmpty() }.joinToString(", "), style = Zona.meta, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         }
                     }
                 }

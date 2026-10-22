@@ -112,7 +112,7 @@ fun DownloadsScreen(nav: Navigator) {
             item { Header("Можно смотреть офлайн", "${done.size}") }
             items(done, key = { "done-" + it.label }) { d ->
                 ProgressStill(
-                    d.title.art.wide, d.label, d.detail, d.fraction.takeIf { it > 0f },
+                    d.title, d.label, d.detail, d.fraction.takeIf { it > 0f },
                     onClick = { nav.open(Screen.Player(d.title.id)) },
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp).fillMaxWidth().height(170.dp),
                     alignX = d.alignX,

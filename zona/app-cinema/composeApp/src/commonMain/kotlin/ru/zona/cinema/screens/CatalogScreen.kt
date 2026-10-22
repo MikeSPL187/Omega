@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -36,6 +37,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,7 +58,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.zona.cinema.Navigator
 import ru.zona.cinema.Screen
+import ru.zona.cinema.data.Catalog
+import ru.zona.cinema.data.CatalogPage
 import ru.zona.cinema.data.Library
+import ru.zona.cinema.data.api.Filter
+import ru.zona.cinema.ui.ErrorBlock
+import ru.zona.cinema.ui.Load
+import ru.zona.cinema.ui.LoadingBlock
+import ru.zona.cinema.ui.rememberLoad
 import ru.zona.cinema.theme.Zona
 import ru.zona.cinema.theme.ZonaColors
 import ru.zona.cinema.theme.ZonaShapes
@@ -67,14 +78,27 @@ import ru.zona.cinema.ui.ZIcons
 
 private val sections = listOf("Фильмы", "Сериалы", "ТВ", "Спорт")
 private val sorts = listOf("Популярные", "Новые", "По рейтингу")
-private val allGenres = listOf("Драма", "Комедия", "Триллер", "Фантастика", "Детектив", "Боевик", "Приключения")
+private val allGenres = listOf("Драма", "Комедия", "Триллер", "Фантастика", "Детектив", "Боевик", "Приключения", "Мультфильм", "Ужасы", "Мелодрама")
+private const val PAGE = 30
+
+/** "фильм / фильма / фильмов" for [n]. */
+private fun plural(n: Int, forms: List<String>): String {
+    val mod100 = n % 100
+    val mod10 = n % 10
+    return when {
+        mod100 in 11..14 -> forms[2]
+        mod10 == 1 -> forms[0]
+        mod10 in 2..4 -> forms[1]
+        else -> forms[2]
+    }
+}
 
 /** Filter state shared by the catalogue and its filter sheet. */
 class CatalogFilters {
-    var genres by mutableStateOf(setOf("Драма"))
+    var genres by mutableStateOf(emptySet<String>())
     var country by mutableStateOf("Все")
-    var fromYear by mutableStateOf(2020)
-    var rating by mutableStateOf("7+")
+    var fromYear by mutableStateOf(1990)
+    var rating by mutableStateOf("Любой")
     var age by mutableStateOf("Все")
     var hideWatched by mutableStateOf(false)
     var goodQuality by mutableStateOf(false)
@@ -82,6 +106,15 @@ class CatalogFilters {
 
     val count: Int get() = genres.size + (if (fromYear > 1990) 1 else 0) + (if (rating != "Любой") 1 else 0) +
         (if (country != "Все") 1 else 0) + (if (age != "Все") 1 else 0)
+
+    /** The API filter for these choices; age and the toggles have no API field yet. */
+    fun toApi(sort: Int) = Filter(
+        sortBy = listOf("popularity", "release_date", "rating")[sort],
+        genres = genres.mapNotNull { Catalog.genreId(it) }.joinToString("|").ifEmpty { null },
+        countries = Catalog.countryId(country)?.takeIf { country != "Все" },
+        yearFrom = fromYear.takeIf { it > 1990 },
+        ratingFrom = rating.removeSuffix("+").toDoubleOrNull(),
+    )
 
     fun reset() {
         genres = emptySet(); country = "Все"; fromYear = 1990; rating = "Любой"; age = "Все"
@@ -95,11 +128,26 @@ fun CatalogScreen(nav: Navigator, filtersInitiallyOpen: Boolean = false) {
     var sort by remember { mutableStateOf(0) }
     var filtersOpen by remember { mutableStateOf(filtersInitiallyOpen) }
     val filters = remember { CatalogFilters() }
-    val items = if (section == 1) Library.series + Library.catalog.filter { !it.isSeries }.take(4) else Library.catalog
+    val filter = filters.toApi(sort)
+    // Pages grow by 30 as the grid nears its end; cached titles make the re-fetch cheap.
+    var limit by remember(section, filter) { mutableIntStateOf(PAGE) }
+    val page = rememberLoad(section, filter, limit) {
+        if (section > 1) CatalogPage(emptyList(), 0) else Catalog.browse(series = section == 1, filter = filter, limit = limit)
+    }
+    var shown by remember(section, filter) { mutableStateOf<CatalogPage?>(null) }
+    LaunchedEffect(page.state) { page.value?.let { shown = it } }
+    val items = shown?.titles.orEmpty()
+    val grid = rememberLazyGridState()
+    val nearEnd by remember { derivedStateOf { grid.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0 } }
+    LaunchedEffect(nearEnd, shown) {
+        val p = shown ?: return@LaunchedEffect
+        if (nearEnd >= p.titles.size - 6 && p.titles.size < p.total && page.state is Load.Ready) limit += PAGE
+    }
 
     Box(Modifier.fillMaxSize()) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
+            state = grid,
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 112.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -144,15 +192,34 @@ fun CatalogScreen(nav: Navigator, filtersInitiallyOpen: Boolean = false) {
                         items(filters.genres.toList()) { g ->
                             ActiveFilterChip(g) { filters.genres = filters.genres - g }
                         }
-                        if (filters.fromYear > 1990) item { ActiveFilterChip("${filters.fromYear}–2025") { filters.fromYear = 1990 } }
+                        if (filters.country != "Все") item { ActiveFilterChip(filters.country) { filters.country = "Все" } }
+                        if (filters.fromYear > 1990) item { ActiveFilterChip("с ${filters.fromYear}") { filters.fromYear = 1990 } }
                         if (filters.rating != "Любой") item { ActiveFilterChip("КП ${filters.rating}") { filters.rating = "Любой" } }
                     }
                 }
             }
-            items(items) { t ->
+            if (section > 1) {
+                item(span = { GridItemSpan(3) }) {
+                    Text(
+                        "${sections[section]} пока нет: эти разделы работают через другие методы API, их подключим следующими.",
+                        style = Zona.meta, modifier = Modifier.padding(vertical = 24.dp),
+                    )
+                }
+            }
+            items(items, key = { it.id }) { t ->
                 Column {
                     Poster(t, { nav.open(Screen.Card(t.id)) }, Modifier.fillMaxWidth().height(168.dp), lettering = .8f)
-                    Text("${t.year} · ${t.genres}", style = Zona.meta.copy(fontSize = 12.sp), maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 6.dp))
+                    Text(
+                        listOf(t.year.takeIf { it > 0 }?.toString(), t.genres.ifEmpty { null }).filterNotNull().joinToString(" · "),
+                        style = Zona.meta.copy(fontSize = 12.sp), maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 6.dp),
+                    )
+                }
+            }
+            when (val st = page.state) {
+                Load.Loading -> item(span = { GridItemSpan(3) }) { LoadingBlock(Modifier.fillMaxWidth().height(120.dp)) }
+                is Load.Failed -> item(span = { GridItemSpan(3) }) { ErrorBlock(st.message, page.retry, Modifier.fillMaxWidth()) }
+                is Load.Ready -> if (section <= 1 && items.isEmpty()) item(span = { GridItemSpan(3) }) {
+                    Text("Ничего не нашлось. Попробуйте ослабить фильтры.", style = Zona.meta, modifier = Modifier.padding(vertical = 24.dp))
                 }
             }
         }
@@ -169,7 +236,7 @@ fun CatalogScreen(nav: Navigator, filtersInitiallyOpen: Boolean = false) {
             enter = slideInVertically { it },
             exit = slideOutVertically { it },
         ) {
-            FiltersSheet(filters, resultCount = 248, onClose = { filtersOpen = false })
+            FiltersSheet(filters, resultCount = shown?.total, series = section == 1, onClose = { filtersOpen = false })
         }
     }
 }
@@ -189,7 +256,7 @@ private fun ActiveFilterChip(text: String, onRemove: () -> Unit) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FiltersSheet(f: CatalogFilters, resultCount: Int, onClose: () -> Unit) {
+fun FiltersSheet(f: CatalogFilters, resultCount: Int?, series: Boolean, onClose: () -> Unit) {
     Column(
         Modifier.fillMaxWidth().statusBarsPadding().padding(top = 40.dp)
             .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)).background(ZonaColors.Surface1)
@@ -216,7 +283,7 @@ fun FiltersSheet(f: CatalogFilters, resultCount: Int, onClose: () -> Unit) {
             FlowRow(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("Все", "Россия", "США", "Корея").forEach { c -> ZChip(c, { f.country = c }, selected = f.country == c) }
             }
-            FilterLabel("ГОДЫ ВЫХОДА", if (f.fromYear > 1990) "${f.fromYear} — 2025" else "любые", Modifier.padding(top = 20.dp))
+            FilterLabel("ГОДЫ ВЫХОДА", if (f.fromYear > 1990) "с ${f.fromYear}" else "любые", Modifier.padding(top = 20.dp))
             Segmented(listOf("Любые", "2000+", "2010+", "2020+"), when (f.fromYear) { 2000 -> 1; 2010 -> 2; 2020 -> 3; else -> 0 }) {
                 f.fromYear = listOf(1990, 2000, 2010, 2020)[it]
             }
@@ -231,7 +298,9 @@ fun FiltersSheet(f: CatalogFilters, resultCount: Int, onClose: () -> Unit) {
             Toggle("Только хорошее качество", f.goodQuality) { f.goodQuality = it }
             Toggle("Скрывать недоступные", f.hideUnavailable) { f.hideUnavailable = it }
         }
-        PrimaryButton("Показать $resultCount фильмов", onClose, Modifier.fillMaxWidth().padding(vertical = 16.dp), icon = null, height = 54.dp)
+        PrimaryButton(
+            if (resultCount == null) "Показать" else "Показать $resultCount " + plural(resultCount, if (series) listOf("сериал", "сериала", "сериалов") else listOf("фильм", "фильма", "фильмов")),
+            onClose, Modifier.fillMaxWidth().padding(vertical = 16.dp), icon = null, height = 54.dp)
     }
 }
 
