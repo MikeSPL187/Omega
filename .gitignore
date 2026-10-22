@@ -1,0 +1,3 @@
+# Decompiled output and APKs are never committed
+*.apk
+/zona/work/
