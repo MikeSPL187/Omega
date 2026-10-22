@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Каталог — редизайн</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#3AA8FF}a:hover{color:#7CC5FF}
+.seg{flex:1;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#A9B4C2}
+.chip{height:36px;padding:0 12px;border-radius:999px;background:#1A222D;border:1px solid #232D3A;font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;white-space:nowrap;flex:0 0 auto;color:#F2F5F8;text-decoration:none}
+.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:600;color:#8693A3;text-decoration:none}
+.nav i{width:56px;height:30px;border-radius:999px;display:flex;align-items:center;justify-content:center}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#0A0D12;color:#F2F5F8;font-family:Onest,system-ui,sans-serif">
+  <div style="padding:40px 20px 0;display:flex;align-items:center;justify-content:space-between">
+    <h1 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em">Каталог</h1>
+    <span style="font-size:13px;color:#8693A3">12 480 фильмов</span>
+  </div>
+  <div style="margin:14px 20px 0;padding:4px;border-radius:999px;background:#121821;display:flex;gap:2px">
+    <span class="seg" style="background:#232D3A;color:#F2F5F8">Фильмы</span>
+    <span class="seg">Сериалы</span>
+    <span class="seg">ТВ</span>
+    <span class="seg">Спорт</span>
+  </div>
+  <div style="display:flex;gap:8px;padding:12px 20px 4px;overflow:hidden">
+    <a href="filters-new.dc.html" class="chip" style="background:#3AA8FF;border-color:#3AA8FF;color:#04121F;font-weight:700"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>Фильтры · 3</a>
+    <span class="chip">Драма<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8693A3" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></span>
+    <span class="chip">2020–2025<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8693A3" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></span>
+    <span class="chip">от 7.0</span>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px 10px;font-size:13px;color:#8693A3">
+    <span>Найдено 1 248</span>
+    <span style="display:flex;align-items:center;gap:6px;color:#F2F5F8;font-weight:600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"></path></svg>Популярные</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 10px;padding:0 20px">
+    <sc-for list="{{items}}" as="it" hint-placeholder-count="9">
+      <a href="content-new.dc.html" style="display:flex;flex-direction:column;gap:6px;color:#F2F5F8;text-decoration:none">
+        <div style="height:164px;border-radius:12px;background:{{it.c}};position:relative">
+          <span style="position:absolute;top:6px;left:6px;background:#FFB547;color:#1A1200;font-weight:700;font-size:11px;padding:2px 5px;border-radius:5px">{{it.r}}</span>
+        </div>
+        <div style="font-size:13px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{it.t}}</div>
+        <div style="font-size:12px;color:#8693A3;margin-top:-4px">{{it.m}}</div>
+      </a>
+    </sc-for>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:84px;background:rgba(10,13,18,.96);border-top:1px solid #1A222D;display:flex;align-items:flex-start;padding-top:10px;box-sizing:border-box">
+    <a class="nav" href="home-new.dc.html"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg></i>Главная</a>
+    <a class="nav" href="catalog-new.dc.html" style="color:#F2F5F8"><i style="background:rgba(58,168,255,.18);color:#3AA8FF"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="2"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="2"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="2"></rect></svg></i>Каталог</a>
+    <a class="nav" href="search-new.dc.html"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></i>Поиск</a>
+    <a class="nav" href="my-new.dc.html"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h12V21l-6-4-6 4z"></path></svg></i>Моё</a>
+    <a class="nav" href="profile-new.dc.html"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></i>Профиль</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const c = ['#4A3428', '#283B4F', '#3D2B3F', '#2E4036', '#46382C', '#2B3A4A', '#3B2F3C', '#2F3F45', '#3F3A2C'];
+    const t = ['Северный ветер', 'Тихая гавань', 'Последний рейс', 'Маяк', 'Отлив', 'Чужой берег', 'Переправа', 'Шторм', 'Тишина'];
+    const items = t.map((x, i) => ({ t: x, c: c[i], r: (7 + (i * 0.3) % 2).toFixed(1), m: (2025 - (i % 5)) + ' · драма' }));
+    return { items };
+  }
+}
+</script>
+</body>
+</html>

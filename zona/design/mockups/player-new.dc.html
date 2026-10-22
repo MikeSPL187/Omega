@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Плеер — редизайн</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.ib{width:44px;height:44px;border-radius:999px;border:0;background:transparent;color:#F2F5F8;display:flex;align-items:center;justify-content:center;padding:0}
+.q{height:36px;padding:0 12px;border-radius:999px;border:0;background:rgba(242,245,248,.12);color:#F2F5F8;font:600 13px Onest,sans-serif;display:flex;align-items:center;gap:7px;text-decoration:none}
+.q b{color:#A9B4C2;font-weight:500}
+</style>
+</helmet>
+<div style="width:844px;height:390px;position:relative;overflow:hidden;background:#3B4A5A;color:#F2F5F8;font-family:Onest,system-ui,sans-serif">
+  <div style="position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font-size:12px;color:rgba(242,245,248,.45)">[кадр видео]</div>
+  <div style="position:absolute;left:0;right:0;top:0;height:120px;background:linear-gradient(180deg,rgba(5,7,10,.8),rgba(5,7,10,0))"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:170px;background:linear-gradient(0deg,rgba(5,7,10,.88),rgba(5,7,10,0))"></div>
+
+  <div style="position:absolute;top:10px;left:12px;right:12px;display:flex;align-items:center;gap:6px">
+    <a href="content-new.dc.html" class="ib" aria-label="Закрыть плеер"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:700">Северный ветер</div><div style="font-size:13px;color:#A9B4C2">С2 · Е5 · Чужой берег</div></div>
+    <button type="button" class="ib" aria-label="Заблокировать экран"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></button>
+    <button type="button" class="ib" aria-label="Картинка в картинке"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><rect x="12" y="11" width="7" height="6" rx="1" fill="currentColor"></rect></svg></button>
+    <button type="button" class="ib" aria-label="Транслировать на ТВ"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 8V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6M3 12a8 8 0 0 1 8 8M3 16a4 4 0 0 1 4 4"></path></svg></button>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;top:50%;transform:translateY(-58%);display:flex;justify-content:center;gap:56px;align-items:center">
+    <button type="button" class="ib" aria-label="Назад на 10 секунд" style="width:56px;height:56px;position:relative"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"></path></svg><span style="position:absolute;font-size:10px;font-weight:700;top:22px">10</span></button>
+    <button type="button" aria-label="Пауза" style="width:76px;height:76px;border-radius:999px;border:0;background:rgba(242,245,248,.16);color:#F2F5F8;display:flex;align-items:center;justify-content:center;padding:0"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1.2"></rect><rect x="14" y="4" width="4" height="16" rx="1.2"></rect></svg></button>
+    <button type="button" class="ib" aria-label="Вперёд на 10 секунд" style="width:56px;height:56px;position:relative"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-3-6.2M20 4v4h-4"></path></svg><span style="position:absolute;font-size:10px;font-weight:700;top:22px">10</span></button>
+  </div>
+
+  <button type="button" style="position:absolute;right:20px;bottom:112px;height:44px;padding:0 18px;border-radius:999px;border:0;background:#F2F5F8;color:#0A0D12;font:700 14px Onest,sans-serif;display:flex;align-items:center;gap:8px">Пропустить заставку<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 5v14l9-7zM15 5h3v14h-3z"></path></svg></button>
+
+  <div style="position:absolute;left:20px;right:20px;bottom:62px;display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600">
+    <span>31:12</span>
+    <div style="flex:1;height:5px;background:rgba(242,245,248,.25);border-radius:999px;position:relative">
+      <div style="position:absolute;left:3%;width:4%;height:100%;background:rgba(255,181,71,.8)"></div>
+      <div style="position:absolute;right:4%;width:5%;height:100%;background:rgba(255,181,71,.8)"></div>
+      <div style="position:absolute;left:0;width:74%;height:100%;background:rgba(242,245,248,.25);border-radius:999px"></div>
+      <div style="position:absolute;left:0;width:62%;height:100%;background:#3AA8FF;border-radius:999px"></div>
+      <span style="position:absolute;left:62%;top:-6px;width:17px;height:17px;border-radius:999px;background:#F2F5F8;margin-left:-8px;box-shadow:0 0 0 4px rgba(58,168,255,.35)"></span>
+    </div>
+    <span style="color:#A9B4C2">−18:52</span>
+  </div>
+
+  <div style="position:absolute;left:16px;right:16px;bottom:12px;display:flex;align-items:center;gap:8px">
+    <a href="streams-new.dc.html" class="q"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 10v4M8 7v10M12 4v16M16 7v10M20 10v4"></path></svg>Озвучка <b>LostFilm</b></a>
+    <a href="streams-new.dc.html" class="q">Качество <b>1080p</b></a>
+    <button type="button" class="q"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 13h4M13 13h4M7 16h8"></path></svg>Субтитры <b>Выкл</b></button>
+    <button type="button" class="q">1.0×</button>
+    <span style="flex:1"></span>
+    <button type="button" class="q"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"></path></svg>Серии</button>
+    <button type="button" class="q" style="background:rgba(58,168,255,.2)">Следующая<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 5v14l10-7zM16 5h3v14h-3z"></path></svg></button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

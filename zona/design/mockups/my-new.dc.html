@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Моё — редизайн</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#3AA8FF}a:hover{color:#7CC5FF}
+.tab{height:40px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;color:#A9B4C2;background:#121821;white-space:nowrap;flex:0 0 auto}
+.tab b{font-size:12px;color:#8693A3;font-weight:600}
+.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:600;color:#8693A3;text-decoration:none}
+.nav i{width:56px;height:30px;border-radius:999px;display:flex;align-items:center;justify-content:center}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#0A0D12;color:#F2F5F8;font-family:Onest,system-ui,sans-serif">
+  <div style="padding:40px 12px 0 20px;display:flex;align-items:center">
+    <h1 style="flex:1;margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em">Моё</h1>
+    <button type="button" style="height:44px;padding:0 10px;border:0;background:none;color:#3AA8FF;font:600 14px Onest,sans-serif">Выбрать</button>
+  </div>
+  <div style="display:flex;gap:8px;padding:14px 20px 0;overflow:hidden">
+    <span class="tab" style="background:#F2F5F8;color:#0A0D12">Смотрю <b style="color:#3D4756">4</b></span>
+    <span class="tab">Избранное <b>23</b></span>
+    <span class="tab">История</span>
+    <span class="tab">ТВ <b>5</b></span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px;padding:18px 20px 0">
+    <sc-for list="{{items}}" as="it" hint-placeholder-count="4">
+      <a href="content-new.dc.html" style="display:flex;gap:14px;align-items:center;color:#F2F5F8;text-decoration:none;padding:10px;border-radius:16px;background:#121821">
+        <div style="flex:0 0 76px;height:108px;border-radius:10px;background:{{it.c}};position:relative;overflow:hidden">
+          <sc-if value="{{it.isNew}}" hint-placeholder-val="{{false}}"><span style="position:absolute;left:5px;top:5px;background:#3DD68C;color:#04140C;font-size:10px;font-weight:800;padding:2px 5px;border-radius:5px">NEW</span></sc-if>
+        </div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+          <div style="font-size:16px;font-weight:700">{{it.t}}</div>
+          <div style="font-size:13px;color:{{it.mc}};font-weight:600">{{it.m}}</div>
+          <div style="font-size:12px;color:#8693A3">{{it.s}}</div>
+          <div style="height:4px;border-radius:999px;background:#232D3A;overflow:hidden;margin-top:4px"><div style="height:100%;width:{{it.p}};background:#3AA8FF"></div></div>
+        </div>
+        <span aria-hidden="true" style="width:40px;height:40px;border-radius:999px;background:#232D3A;display:flex;align-items:center;justify-content:center;flex:0 0 auto"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="#F2F5F8"></path></svg></span>
+      </a>
+    </sc-for>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:84px;background:rgba(10,13,18,.96);border-top:1px solid #1A222D;display:flex;align-items:flex-start;padding-top:10px;box-sizing:border-box">
+    <a class="nav" href="home-new.dc.html"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg></i>Главная</a>
+    <a class="nav" href="catalog-new.dc.html"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="2"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="2"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="2"></rect></svg></i>Каталог</a>
+    <a class="nav" href="search-new.dc.html"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></i>Поиск</a>
+    <a class="nav" href="my-new.dc.html" style="color:#F2F5F8"><i style="background:rgba(58,168,255,.18);color:#3AA8FF"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.5h12V21l-6-4-6 4z"></path></svg></i>Моё</a>
+    <a class="nav" href="profile-new.dc.html"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></i>Профиль</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      items: [
+        { t: 'Тихая гавань', m: 'Вышла серия 6', mc: '#3DD68C', s: 'Вы на С2 · Е5', p: '64%', c: '#283B4F', isNew: true },
+        { t: 'Северный ветер', m: 'С2 · Е5 · осталось 23 мин', mc: '#A9B4C2', s: '9 из 16 серий', p: '56%', c: '#3B2F45', isNew: false },
+        { t: 'Маяк', m: 'С1 · Е3', mc: '#A9B4C2', s: '2 из 10 серий', p: '20%', c: '#2E4036', isNew: false },
+        { t: 'Отлив', m: 'Новый сезон 14 ноября', mc: '#FFB547', s: 'Сезон 1 просмотрен', p: '100%', c: '#46382C', isNew: false }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Поиск — оригинал</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:#909DAB}
+.q{height:48px;display:flex;align-items:center;gap:12px;padding:0 16px;font-size:15px}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <div style="margin:36px 16px 0;height:48px;border-radius:8px;background:#2C353E;display:flex;align-items:center;gap:10px;padding:0 12px;color:#909DAB;font-size:15px">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+    <span style="flex:1">Поиск</span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>
+  </div>
+  <div style="padding:20px 16px 8px;font-weight:900;font-size:18px">Недавние запросы</div>
+  <sc-for list="{{q}}" as="x" hint-placeholder-count="4">
+    <div class="q"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l3 2"></path></svg><span style="flex:1">{{x}}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+  </sc-for>
+  <div style="padding:20px 16px 8px;font-weight:900;font-size:18px">Недавно открывали</div>
+  <div style="display:flex;gap:8px;padding:0 16px">
+    <div style="flex:0 0 104px;height:150px;border-radius:8px;background:#3A4652"></div>
+    <div style="flex:0 0 104px;height:150px;border-radius:8px;background:#2C353E"></div>
+    <div style="flex:0 0 104px;height:150px;border-radius:8px;background:#546778"></div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:64px;background:#3A4652;display:flex;align-items:center">
+    <div class="nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg>Главная</div>
+    <div class="nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M4 9h16M9 4v16"></path></svg>Каталог</div>
+    <div class="nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Моё</div>
+    <div class="nav" style="color:#0094F6"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>Поиск</div>
+    <div class="nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Профиль</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return { q: ['северный ветер', 'маяк', 'комедии 2024', 'тихая гавань'] }; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Карточка фильма — редизайн</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#3AA8FF}a:hover{color:#7CC5FF}
+.ib{width:44px;height:44px;border-radius:999px;border:0;background:rgba(10,13,18,.5);color:#F2F5F8;display:flex;align-items:center;justify-content:center;padding:0}
+.act{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:500;color:#A9B4C2;background:none;border:0;padding:0;font-family:inherit}
+.act i{width:48px;height:48px;border-radius:16px;background:#1A222D;display:flex;align-items:center;justify-content:center;color:#F2F5F8}
+.chip{display:flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:8px;background:#1A222D;font-size:13px;font-weight:600}
+.chip b{font-size:11px;color:#8693A3;font-weight:600}
+.tab{height:44px;display:flex;align-items:center;font-size:15px;font-weight:600;color:#8693A3;border-bottom:2px solid transparent}
+.ep{display:flex;gap:12px;align-items:center}
+</style>
+</helmet>
+<div style="width:390px;height:1500px;position:relative;overflow:hidden;background:#0A0D12;color:#F2F5F8;font-family:Onest,system-ui,sans-serif">
+  <div style="position:relative;height:430px;overflow:hidden">
+    <div style="position:absolute;inset:0;background:#2A3B4E"></div>
+    <div style="position:absolute;left:-40px;top:60px;width:260px;height:260px;border-radius:50%;background:#34506A"></div>
+    <div style="position:absolute;right:24px;top:150px;font-size:12px;color:rgba(242,245,248,.55)">[кадр из фильма]</div>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:260px;background:linear-gradient(180deg,rgba(10,13,18,0),rgba(10,13,18,.8) 55%,#0A0D12)"></div>
+    <div style="position:absolute;left:0;right:0;top:0;height:110px;background:linear-gradient(180deg,rgba(10,13,18,.65),rgba(10,13,18,0))"></div>
+    <div style="position:absolute;top:36px;left:12px;right:12px;display:flex;gap:4px">
+      <a href="home-new.dc.html" class="ib" aria-label="Назад"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+      <span style="flex:1"></span>
+      <button type="button" class="ib" aria-label="Транслировать на ТВ"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 8V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"></path><path d="M3 12a8 8 0 0 1 8 8M3 16a4 4 0 0 1 4 4"></path></svg></button>
+      <button type="button" class="ib" aria-label="Ещё"><svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="12" cy="19" r="1.8"></circle></svg></button>
+    </div>
+    <div style="position:absolute;left:20px;right:20px;bottom:6px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:34px;line-height:1.05;font-weight:800;letter-spacing:-.02em">Северный ветер</div>
+      <div style="font-size:14px;color:#A9B4C2">North Wind · 2025 · Россия · 18+</div>
+      <div style="font-size:14px;color:#A9B4C2">Драма, триллер · 2 сезона, 16 серий</div>
+    </div>
+  </div>
+
+  <div style="padding:14px 20px 0;display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;gap:8px">
+      <span class="chip"><span style="color:#FFB547">8.4</span><b>КП</b></span>
+      <span class="chip"><span style="color:#FFB547">8.1</span><b>IMDb</b></span>
+      <span class="chip"><span style="color:#3AA8FF">92%</span><b>Zona</b></span>
+      <span class="chip">4K · HDR</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <a href="player-new.dc.html" style="height:56px;border-radius:999px;background:#3AA8FF;color:#04121F;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"></path></svg>
+        <span style="display:flex;flex-direction:column;line-height:1.15"><span style="font-weight:700;font-size:16px">Продолжить</span><span style="font-size:12px;font-weight:600;opacity:.75">Сезон 2 · Серия 5 · осталось 23 мин</span></span>
+      </a>
+      <div style="height:4px;border-radius:999px;background:#1A222D;overflow:hidden;margin:0 24px"><div style="width:64%;height:100%;background:#3AA8FF"></div></div>
+    </div>
+
+    <div style="display:flex">
+      <button type="button" class="act"><i style="color:#3AA8FF"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.5h12V21l-6-4-6 4z"></path></svg></i>В Моё</button>
+      <button type="button" class="act"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"></path></svg></i>Новые серии</button>
+      <button type="button" class="act"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></i>Скачать</button>
+      <button type="button" class="act"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"></path></svg></i>Трейлер</button>
+      <button type="button" class="act"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"></path></svg></i>Поделиться</button>
+    </div>
+
+    <div style="font-size:15px;line-height:1.55;color:#C5CDD7">Короткое описание сюжета — две строки из каталога, которые сразу дают понять, о чём фильм, без перехода на отдельный экран. <a href="#" style="font-weight:600;text-decoration:none">Ещё</a></div>
+
+    <div style="display:flex;gap:24px;border-bottom:1px solid #1A222D">
+      <span class="tab" style="color:#F2F5F8;border-bottom-color:#3AA8FF">Серии</span>
+      <span class="tab">О сериале</span>
+      <span class="tab">Похожие</span>
+    </div>
+
+    <div style="display:flex;gap:8px">
+      <span style="height:36px;padding:0 14px;border-radius:999px;background:#F2F5F8;color:#0A0D12;font-weight:600;font-size:14px;display:flex;align-items:center">Сезон 2</span>
+      <span style="height:36px;padding:0 14px;border-radius:999px;background:#1A222D;font-size:14px;display:flex;align-items:center">Сезон 1</span>
+      <a href="episodes-new.dc.html" style="margin-left:auto;font-size:14px;font-weight:600;text-decoration:none;display:flex;align-items:center">Все серии</a>
+    </div>
+
+    <sc-for list="{{eps}}" as="e" hint-placeholder-count="3">
+      <div class="ep">
+        <div style="flex:0 0 128px;height:72px;border-radius:10px;background:{{e.bg}};position:relative;overflow:hidden">
+          <span style="position:absolute;right:6px;bottom:8px;font-size:11px;font-weight:600;background:rgba(10,13,18,.72);padding:1px 5px;border-radius:4px">{{e.d}}</span>
+          <div style="position:absolute;left:0;bottom:0;height:3px;width:{{e.p}};background:#3AA8FF"></div>
+        </div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+          <div style="font-size:12px;font-weight:600;color:{{e.lc}}">{{e.l}}</div>
+          <div style="font-size:15px;font-weight:600">{{e.t}}</div>
+        </div>
+      </div>
+    </sc-for>
+
+    <div style="font-size:20px;font-weight:700;margin-top:10px">Актёры</div>
+    <div style="display:flex;gap:16px">
+      <sc-for list="{{cast}}" as="c" hint-placeholder-count="4">
+        <div style="flex:0 0 72px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center">
+          <div style="width:68px;height:68px;border-radius:50%;background:{{c.bg}}"></div>
+          <div style="font-size:12px;line-height:1.25;font-weight:600">{{c.n}}</div>
+          <div style="font-size:11px;color:#8693A3;margin-top:-4px">{{c.r}}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:110px 1fr;row-gap:10px;font-size:14px;margin-top:6px">
+      <span style="color:#8693A3">Режиссёр</span><span>Имя Фамилия</span>
+      <span style="color:#8693A3">Премьера</span><span>12 марта 2025</span>
+      <span style="color:#8693A3">Серия</span><span>≈ 50 мин</span>
+    </div>
+    <a href="#" style="font-size:14px;color:#8693A3;text-decoration:none;display:flex;align-items:center;gap:8px;height:44px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg>Сообщить о проблеме</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      eps: [
+        { l: 'Серия 4 · Просмотрено', lc: '#3DD68C', t: 'Переправа', d: '48 мин', p: '100%', bg: '#2C3E50' },
+        { l: 'Серия 5 · Сейчас', lc: '#3AA8FF', t: 'Чужой берег', d: '52 мин', p: '64%', bg: '#3A3247' },
+        { l: 'Серия 6', lc: '#8693A3', t: 'Шторм', d: '50 мин', p: '0%', bg: '#2E4037' }
+      ],
+      cast: [
+        { n: 'Имя Фамилия', r: 'Главная роль', bg: '#3B4756' },
+        { n: 'Имя Фамилия', r: 'Капитан', bg: '#4A3D36' },
+        { n: 'Имя Фамилия', r: 'Штурман', bg: '#36474A' },
+        { n: 'Имя Фамилия', r: 'Врач', bg: '#43384A' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Фильтры — редизайн</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#3AA8FF}a:hover{color:#7CC5FF}
+h3{margin:0 0 10px;font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:baseline}
+h3 span{font-size:13px;font-weight:600;color:#8693A3}
+.c{height:34px;padding:0 12px;border-radius:999px;background:#1A222D;border:1px solid #232D3A;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.on{background:#3AA8FF;border-color:#3AA8FF;color:#04121F;font-weight:700}
+.ex{background:rgba(255,107,122,.1);border-color:rgba(255,107,122,.5);color:#FF9AA5;text-decoration:line-through}
+.trk{position:relative;height:28px}
+.trk b{position:absolute;left:0;right:0;top:12px;height:4px;border-radius:999px;background:#232D3A}
+.trk i{position:absolute;top:12px;height:4px;background:#3AA8FF}
+.trk u{position:absolute;top:4px;width:20px;height:20px;border-radius:999px;background:#F2F5F8;margin-left:-10px;box-shadow:0 0 0 4px rgba(58,168,255,.25)}
+.tg{display:flex;justify-content:space-between;align-items:center;min-height:44px;font-size:15px}
+.sw{width:44px;height:26px;border-radius:999px;background:#232D3A;position:relative;flex:0 0 auto}
+.sw i{position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:999px;background:#8693A3}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#0A0D12;color:#F2F5F8;font-family:Onest,system-ui,sans-serif">
+  <div style="position:absolute;inset:0;background:#0A0D12"></div>
+  <div style="position:absolute;left:20px;top:44px;font-size:28px;font-weight:800;color:#2A3543">Каталог</div>
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,.55)"></div>
+  <div style="position:absolute;left:0;right:0;top:64px;bottom:0;background:#121821;border-radius:24px 24px 0 0;display:flex;flex-direction:column">
+    <div style="width:36px;height:4px;border-radius:999px;background:#2A3543;margin:10px auto 0"></div>
+    <div style="display:flex;align-items:center;padding:8px 8px 4px 20px">
+      <div style="flex:1;font-size:20px;font-weight:800">Фильтры</div>
+      <button type="button" style="height:44px;padding:0 12px;border:0;background:none;color:#3AA8FF;font:600 14px Onest,sans-serif">Сбросить</button>
+    </div>
+    <div style="flex:1;overflow:hidden;padding:6px 20px 0;display:flex;flex-direction:column;gap:22px">
+      <div>
+        <h3>Жанры <span>долгий тап — исключить</span></h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span class="c on">Драма</span><span class="c on">Триллер</span><span class="c">Комедия</span><span class="c">Фантастика</span><span class="c ex">Ужасы</span><span class="c">Детектив</span><span class="c">Мультфильм</span><span class="c">Ещё 18</span>
+        </div>
+      </div>
+      <div>
+        <h3>Год выхода <span>2020 — 2025</span></h3>
+        <div class="trk"><b></b><i style="left:78%;right:0"></i><u style="left:78%"></u><u style="left:100%"></u></div>
+        <div style="display:flex;gap:8px;margin-top:6px"><span class="c on">2020-е</span><span class="c">2010-е</span><span class="c">2000-е</span><span class="c">Классика</span></div>
+      </div>
+      <div>
+        <h3>Рейтинг КиноПоиска <span>от 7.0</span></h3>
+        <div class="trk"><b></b><i style="left:70%;right:0"></i><u style="left:70%"></u></div>
+      </div>
+      <div>
+        <h3>Возраст</h3>
+        <div style="display:flex;gap:6px;padding:4px;border-radius:999px;background:#0A0D12">
+          <span style="flex:1;height:34px;border-radius:999px;background:#232D3A;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600">Все</span>
+          <span style="flex:1;height:34px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#A9B4C2">6+</span>
+          <span style="flex:1;height:34px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#A9B4C2">12+</span>
+          <span style="flex:1;height:34px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#A9B4C2">16+</span>
+          <span style="flex:1;height:34px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#A9B4C2">18+</span>
+        </div>
+      </div>
+      <div>
+        <div class="tg">Скрывать просмотренное<span class="sw"><i></i></span></div>
+        <div class="tg">Только хорошее качество<span class="sw" style="background:#3AA8FF"><i style="left:21px;background:#04121F"></i></span></div>
+      </div>
+    </div>
+    <div style="padding:12px 20px 28px;border-top:1px solid #1A222D;background:#121821">
+      <a href="catalog-new.dc.html" style="height:54px;border-radius:999px;background:#3AA8FF;color:#04121F;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;text-decoration:none">Показать 1 248</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Загрузки — редизайн</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#3AA8FF}a:hover{color:#7CC5FF}
+.ib{width:44px;height:44px;border-radius:999px;border:0;background:transparent;color:#F2F5F8;display:flex;align-items:center;justify-content:center;padding:0;flex:0 0 auto}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8693A3;margin:20px 0 10px}
+.row{display:flex;gap:12px;align-items:center;padding:8px 0}
+.tag{font-size:10px;font-weight:700;padding:1px 5px;border-radius:4px;background:#232D3A;color:#A9B4C2}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#0A0D12;color:#F2F5F8;font-family:Onest,system-ui,sans-serif">
+  <div style="display:flex;align-items:center;gap:4px;padding:32px 8px 0">
+    <a href="profile-new.dc.html" class="ib" aria-label="Назад"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <h1 style="flex:1;margin:0;font-size:22px;font-weight:800">Загрузки</h1>
+    <button type="button" class="ib" aria-label="Настройки загрузок"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg></button>
+  </div>
+  <div style="margin:12px 20px 0;padding:14px 16px;border-radius:16px;background:#121821">
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px"><span style="font-weight:600">Хранилище телефона</span><span style="color:#8693A3">свободно 12,4 из 64 ГБ</span></div>
+    <div style="height:8px;border-radius:999px;background:#232D3A;display:flex;overflow:hidden">
+      <div style="width:62%;background:#4A5768"></div><div style="width:8%;background:#3AA8FF"></div>
+    </div>
+    <div style="display:flex;gap:14px;margin-top:8px;font-size:12px;color:#8693A3">
+      <span style="display:flex;align-items:center;gap:5px"><i style="width:8px;height:8px;border-radius:2px;background:#3AA8FF"></i>Zona · 5,1 ГБ</span>
+      <span style="display:flex;align-items:center;gap:5px"><i style="width:8px;height:8px;border-radius:2px;background:#4A5768"></i>Другое</span>
+    </div>
+  </div>
+  <div style="padding:0 20px">
+    <div class="lbl">Загружается · 2</div>
+    <div class="row">
+      <div style="flex:0 0 56px;height:80px;border-radius:10px;background:#4A3428"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:15px;font-weight:600">Последний рейс</div>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:4px"><span class="tag">1080p</span><span style="font-size:12px;color:#A9B4C2">1,1 из 2,6 ГБ · 4,2 МБ/с · 6 мин</span></div>
+        <div style="height:4px;border-radius:999px;background:#232D3A;margin-top:9px;overflow:hidden"><div style="width:42%;height:100%;background:#3AA8FF"></div></div>
+      </div>
+      <button type="button" class="ib" aria-label="Пауза" style="background:#1A222D"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg></button>
+    </div>
+    <div class="row">
+      <div style="flex:0 0 56px;height:80px;border-radius:10px;background:#3D2B3F"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:15px;font-weight:600">Маяк</div>
+        <div style="font-size:12px;color:#FF9AA5;margin-top:4px;font-weight:600">Ошибка сети · 12%</div>
+      </div>
+      <button type="button" style="height:36px;padding:0 14px;border-radius:999px;border:0;background:#1A222D;color:#F2F5F8;font:600 13px Onest,sans-serif">Повторить</button>
+    </div>
+    <div class="lbl">Скачано</div>
+    <div class="row">
+      <div style="flex:0 0 56px;height:80px;border-radius:10px;background:#3B2F45"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:15px;font-weight:600">Северный ветер</div>
+        <div style="font-size:12px;color:#A9B4C2;margin-top:4px">Сезон 2 · 3 серии · 3,4 ГБ</div>
+        <div style="display:flex;gap:6px;margin-top:6px"><span class="tag">1080p</span><span class="tag" style="color:#3DD68C">2 не просмотрено</span></div>
+      </div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8693A3" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+    </div>
+    <div class="row">
+      <div style="flex:0 0 56px;height:80px;border-radius:10px;background:#2E4036"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:15px;font-weight:600">Тихая гавань</div>
+        <div style="font-size:12px;color:#A9B4C2;margin-top:4px">Фильм · 1,7 ГБ</div>
+        <div style="display:flex;gap:6px;margin-top:6px"><span class="tag">720p</span></div>
+      </div>
+      <button type="button" class="ib" aria-label="Удалить"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8693A3" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 7h14M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg></button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

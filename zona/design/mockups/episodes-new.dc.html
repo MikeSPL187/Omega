@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Сезоны и серии — редизайн</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#3AA8FF}a:hover{color:#7CC5FF}
+.ib{width:44px;height:44px;border-radius:999px;border:0;background:transparent;color:#F2F5F8;display:flex;align-items:center;justify-content:center;padding:0}
+.s{height:40px;padding:0 14px;border-radius:999px;background:#1A222D;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap;flex:0 0 auto}
+.s b{font-weight:500;color:#8693A3;font-size:12px}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#0A0D12;color:#F2F5F8;font-family:Onest,system-ui,sans-serif">
+  <div style="display:flex;align-items:center;gap:4px;padding:32px 8px 0">
+    <a href="content-new.dc.html" class="ib" aria-label="Назад"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:18px;font-weight:700">Северный ветер</div>
+      <div style="font-size:13px;color:#8693A3">16 серий · просмотрено 9</div>
+    </div>
+    <button type="button" class="ib" aria-label="Действия с сезоном"><svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="12" cy="19" r="1.8"></circle></svg></button>
+  </div>
+  <div style="display:flex;gap:8px;padding:14px 20px 6px;overflow:hidden">
+    <span class="s">Сезон 1 <b>8/8</b><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3DD68C" stroke-width="2.4" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
+    <span class="s" style="background:#F2F5F8;color:#0A0D12">Сезон 2 <b style="color:#3D4756">1/8</b></span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:6px;padding:10px 12px 0">
+    <sc-for list="{{eps}}" as="e" hint-placeholder-count="7">
+      <div style="display:flex;gap:12px;align-items:center;padding:8px;border-radius:14px;background:{{e.rowbg}};border:1px solid {{e.rowline}}">
+        <div style="flex:0 0 120px;height:68px;border-radius:10px;background:{{e.bg}};position:relative;overflow:hidden">
+          <span style="position:absolute;right:6px;bottom:8px;font-size:11px;font-weight:600;background:rgba(10,13,18,.72);padding:1px 5px;border-radius:4px">{{e.d}}</span>
+          <div style="position:absolute;left:0;bottom:0;height:3px;width:{{e.p}};background:#3AA8FF"></div>
+        </div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+          <div style="font-size:12px;font-weight:600;color:{{e.lc}}">{{e.l}}</div>
+          <div style="font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{e.t}}</div>
+          <div style="font-size:12px;color:#8693A3">{{e.date}}</div>
+        </div>
+        <button type="button" aria-label="Скачать серию" style="width:44px;height:44px;border:0;background:transparent;color:#8693A3;display:flex;align-items:center;justify-content:center;padding:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></button>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const names = ['Возвращение', 'Чужой берег', 'Шторм', 'Маяк', 'Тишина', 'Отлив', 'Северный ветер', 'Последний рейс'];
+    const bgs = ['#2C3E50', '#3A3247', '#2E4037', '#46382C', '#2B3A4A', '#3B2F3C', '#2F3F45', '#3F3A2C'];
+    const eps = names.slice(0, 7).map((t, i) => {
+      const n = i + 1;
+      const now = n === 2;
+      const done = n < 2;
+      return {
+        t, d: (46 + (i % 3) * 3) + ' мин',
+        l: done ? 'Серия ' + n + ' · Просмотрено' : now ? 'Серия ' + n + ' · Сейчас' : 'Серия ' + n,
+        lc: done ? '#3DD68C' : now ? '#3AA8FF' : '#8693A3',
+        p: done ? '100%' : now ? '64%' : '0%',
+        date: (10 + i * 7) + ' апреля 2025',
+        bg: bgs[i],
+        rowbg: now ? '#121C28' : 'transparent',
+        rowline: now ? '#1F3B57' : 'transparent'
+      };
+    });
+    return { eps };
+  }
+}
+</script>
+</body>
+</html>

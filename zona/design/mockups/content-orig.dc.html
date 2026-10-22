@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Карточка фильма — оригинал</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.row{display:flex;gap:8px;font-size:14px;line-height:20px}
+.row span:first-child{color:#909DAB;flex:0 0 110px}
+.act{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#909DAB}
+.act i{width:40px;height:40px;border-radius:8px;background:#2C353E;display:flex;align-items:center;justify-content:center;color:#FFFFFF}
+.h{font-weight:900;font-size:18px;line-height:24px;margin:0 0 10px}
+</style>
+</helmet>
+<div style="width:390px;height:1500px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <div style="height:56px;display:flex;align-items:center;gap:16px;padding:0 16px;margin-top:24px">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    <div style="font-weight:700;font-size:16px">Северный ветер</div>
+  </div>
+  <div style="margin:0 16px;height:200px;border-radius:12px;background:#2C353E;display:flex;align-items:center;justify-content:center;color:#909DAB;font-size:12px">[обложка]</div>
+  <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+    <div style="font-weight:900;font-size:28px;line-height:32px">Северный ветер</div>
+    <div style="font-size:14px;color:#909DAB">North Wind</div>
+    <div style="display:flex;gap:12px;font-size:14px;align-items:center">
+      <span style="color:#FFB400;font-weight:700">КП 8.4</span><span style="color:#FFB400;font-weight:700">IMDb 8.1</span><span style="color:#909DAB">2025</span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <div style="flex:1;height:48px;border-radius:8px;background:#0094F6;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px">Смотреть</div>
+      <div style="flex:1;height:48px;border-radius:8px;background:#2C353E;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:16px">Трейлер</div>
+    </div>
+    <div style="display:flex;padding:4px 0">
+      <div class="act"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"></path></svg></i>Избранное</div>
+      <div class="act"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"></path></svg></i>Уведомления</div>
+      <div class="act"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></i>Скачать</div>
+      <div class="act"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="6" cy="12" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="18" cy="18" r="2"></circle><path d="M8 11l8-4M8 13l8 4"></path></svg></i>Поделиться</div>
+      <div class="act"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg></i>Проблема</div>
+    </div>
+    <div style="height:48px;border-radius:8px;background:#2C353E;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:16px">Сезоны и серии<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></div>
+    <div class="row"><span>Страна</span><span>Россия</span></div>
+    <div class="row"><span>Жанр</span><span>драма, триллер</span></div>
+    <div class="row"><span>Режиссёр</span><span>Имя Фамилия</span></div>
+    <div class="row"><span>Премьера</span><span>12 марта 2025 в мире</span></div>
+    <div class="row"><span>Длительность</span><span>50 мин.</span></div>
+    <div>
+      <div class="h" style="margin-top:8px">Описание</div>
+      <div style="font-size:14px;line-height:20px;color:#BBC2C7">Описание сюжета — три-четыре строки текста из каталога, обрезанные по высоте. Пользователь видит начало и кнопку, чтобы раскрыть остальное…</div>
+      <div style="font-size:14px;color:#0094F6;margin-top:6px">Читать полностью</div>
+    </div>
+    <div>
+      <div class="h" style="margin-top:8px">Актёры</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:14px">
+        <div>Актёр Первый</div><div>Актёр Второй</div><div>Актёр Третий</div><div style="color:#0094F6">ещё</div>
+      </div>
+    </div>
+    <div>
+      <div class="h" style="margin-top:8px">Рекомендуем посмотреть</div>
+      <div style="display:flex;gap:8px">
+        <div style="flex:0 0 104px;height:150px;border-radius:8px;background:#3A4652"></div>
+        <div style="flex:0 0 104px;height:150px;border-radius:8px;background:#2C353E"></div>
+        <div style="flex:0 0 104px;height:150px;border-radius:8px;background:#546778"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

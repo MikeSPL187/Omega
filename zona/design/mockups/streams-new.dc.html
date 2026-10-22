@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Качество и озвучка — редизайн</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8693A3}
+.tag{font-size:10px;font-weight:700;padding:1px 5px;border-radius:4px;background:#232D3A;color:#A9B4C2}
+</style>
+</helmet>
+<div style="width:844px;height:390px;position:relative;overflow:hidden;background:#3B4A5A;color:#F2F5F8;font-family:Onest,system-ui,sans-serif">
+  <div style="position:absolute;left:150px;top:44%;transform:translate(-50%,-50%);font-size:12px;color:rgba(242,245,248,.45)">[видео продолжает играть]</div>
+  <div style="position:absolute;inset:0;background:rgba(5,7,10,.35)"></div>
+  <div style="position:absolute;top:0;right:0;bottom:0;width:540px;background:rgba(14,19,26,.97);border-left:1px solid #1A222D;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;padding:12px 8px 6px 20px">
+      <div style="flex:1;font-size:18px;font-weight:700">Озвучка и качество</div>
+      <a href="player-new.dc.html" aria-label="Закрыть" style="width:44px;height:44px;border-radius:999px;color:#F2F5F8;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+    </div>
+    <div style="flex:1;display:grid;grid-template-columns:300px 1fr;gap:20px;padding:4px 20px 16px;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:4px;min-height:0">
+        <div class="lbl" style="margin-bottom:6px">Озвучка · 6</div>
+        <sc-for list="{{voices}}" as="v" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:10px;min-height:44px;padding:4px 10px;border-radius:12px;background:{{v.bg}}">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600;color:{{v.c}}">{{v.n}}</div>
+              <div style="display:flex;gap:5px;margin-top:3px"><span class="tag">{{v.q}}</span><sc-if value="{{v.sub}}" hint-placeholder-val="{{false}}"><span class="tag">СУБ</span></sc-if><span style="font-size:11px;color:#8693A3">{{v.src}}</span></div>
+            </div>
+            <sc-if value="{{v.on}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3AA8FF" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="lbl" style="margin-bottom:6px">Качество</div>
+        <sc-for list="{{qs}}" as="q" hint-placeholder-count="5">
+          <div style="height:40px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:{{q.bg}};color:{{q.c}};font-size:14px;font-weight:600;border:1px solid {{q.line}}">{{q.n}}<span style="font-size:11px;font-weight:600;color:{{q.sc}}">{{q.s}}</span></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const v = [['LostFilm', '1080p', false, 'Источник 1'], ['HDrezka Studio', '1080p', true, 'Источник 2'], ['Кубик в Кубе', '1080p', false, 'Источник 3'], ['Дубляж', '720p', false, 'Источник 1'], ['Оригинал', '4K', true, 'Источник 2']];
+    const voices = v.map((x, i) => ({ n: x[0], q: x[1], sub: x[2], src: x[3], on: i === 0, bg: i === 0 ? 'rgba(58,168,255,.12)' : 'transparent', c: i === 0 ? '#F2F5F8' : '#C5CDD7' }));
+    const q = [['4K', 'нет для озвучки', false, true], ['1080p', '', true, false], ['720p', '', false, false], ['480p', '', false, false], ['Авто', 'по сети', false, false]];
+    const qs = q.map((x) => ({ n: x[0], s: x[1], bg: x[2] ? '#3AA8FF' : '#1A222D', c: x[2] ? '#04121F' : (x[3] ? '#5E6B7B' : '#F2F5F8'), sc: x[3] ? '#5E6B7B' : '#8693A3', line: x[2] ? '#3AA8FF' : '#232D3A' }));
+    return { voices, qs };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Главная — оригинал</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.p{border-radius:8px;display:flex;align-items:flex-end;padding:6px;box-sizing:border-box;font-size:10px;color:rgba(255,255,255,.75)}
+.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:#909DAB}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <div style="height:56px;display:flex;align-items:center;padding:0 16px;gap:10px;margin-top:24px">
+    <svg width="24" height="25" viewBox="0 0 248 256" aria-hidden="true"><path d="M0,25.61C0,48.29 74.4,76.64 74.4,89.62C74.4,105.8 0,210.32 0,229.76C0,246.15 9.54,256 38.14,256H219.37C238.44,256 248,239.6 248,229.76C248,203.51 185.99,165.28 185.99,149.09C185.99,132.88 248,45.53 248,26.11C248,9.91 235.27,0.15 213.01,0.15C203.46,0.15 62.32,0 49.59,0C49.3,0 48.99,0 48.68,0C35.2,0 0,0.29 0,25.61Z" fill="#0094F6"></path></svg>
+    <div style="font-weight:900;font-size:20px">Главная</div>
+  </div>
+  <div style="display:flex;gap:12px;padding:8px 16px 0;overflow:hidden">
+    <div style="flex:0 0 300px;height:168px;border-radius:12px;background:#2C353E;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;box-sizing:border-box">
+      <div style="font-weight:900;font-size:18px">Новинки недели</div>
+      <div style="font-size:13px;color:#909DAB">Подборка</div>
+    </div>
+    <div style="flex:0 0 300px;height:168px;border-radius:12px;background:#262F36"></div>
+  </div>
+  <div style="display:flex;justify-content:center;gap:6px;padding:10px 0">
+    <span style="width:6px;height:6px;border-radius:3px;background:#FFFFFF"></span><span style="width:6px;height:6px;border-radius:3px;background:#546778"></span><span style="width:6px;height:6px;border-radius:3px;background:#546778"></span>
+  </div>
+  <sc-for list="{{rows}}" as="row" hint-placeholder-count="3">
+    <div style="padding:6px 16px 0">
+      <div style="font-weight:900;font-size:18px;line-height:24px;margin-bottom:8px">{{row.title}}</div>
+      <div style="display:flex;gap:8px">
+        <sc-for list="{{row.items}}" as="it" hint-placeholder-count="4">
+          <div style="flex:0 0 104px;display:flex;flex-direction:column;gap:4px">
+            <div class="p" style="height:150px;background:{{it.c}}">{{it.t}}</div>
+            <div style="font-size:12px;color:#BBC2C7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{it.t}}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-for>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:64px;background:#3A4652;display:flex;align-items:center">
+    <div class="nav" style="color:#0094F6"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg>Главная</div>
+    <div class="nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M4 9h16M9 4v16"></path></svg>Каталог</div>
+    <div class="nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Моё</div>
+    <div class="nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>Поиск</div>
+    <div class="nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Профиль</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const c = ['#3A4652', '#2C353E', '#546778', '#262F36'];
+    const mk = (ts) => ts.map((t, i) => ({ t, c: c[i % 4] }));
+    return {
+      rows: [
+        { title: 'Популярные фильмы', items: mk(['Постер 1', 'Постер 2', 'Постер 3', 'Постер 4']) },
+        { title: 'Популярные сериалы', items: mk(['Постер 5', 'Постер 6', 'Постер 7', 'Постер 8']) },
+        { title: 'Недавно открывали', items: mk(['Постер 9', 'Постер 10', 'Постер 11', 'Постер 12']) }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
