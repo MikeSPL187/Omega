@@ -25,21 +25,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.drawOutline
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -94,28 +83,11 @@ fun ZIcon(icon: ImageVector, modifier: Modifier = Modifier, size: Dp = 22.dp, ti
 }
 
 /** Primary action: white pill, 19.9:1 against the label. */
-/**
- * Ring drawn [gap] outside the control while it has focus (D-pad on Android TV, keyboard on
- * desktop). Put it before `clip` and `clickable` in the chain.
- */
-fun Modifier.focusRing(shape: Shape, color: Color = Color.White, gap: Dp = 2.dp, width: Dp = 3.dp): Modifier = composed {
-    var focused by remember { mutableStateOf(false) }
-    onFocusChanged { focused = it.isFocused }.drawWithContent {
-        drawContent()
-        if (focused) {
-            val inset = (gap + width / 2).toPx()
-            val outline = shape.createOutline(Size(size.width + inset * 2, size.height + inset * 2), layoutDirection, this)
-            translate(-inset, -inset) { drawOutline(outline, color, style = Stroke(width.toPx())) }
-        }
-    }
-}
-
 @Composable
 fun PrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, icon: ImageVector? = ZIcons.Play, height: Dp = 50.dp, trailing: String? = null) {
     Row(
         modifier
             .height(height)
-            .focusRing(ZonaShapes.Pill)
             .clip(ZonaShapes.Pill)
             .background(Color.White)
             .clickable(role = Role.Button, onClick = onClick)
@@ -137,7 +109,7 @@ fun PrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifi
 @Composable
 fun GlassButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, icon: ImageVector? = null, height: Dp = 50.dp) {
     Row(
-        modifier.height(height).focusRing(ZonaShapes.Pill).glass().clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp),
+        modifier.height(height).glass().clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -164,7 +136,6 @@ fun RoundIconButton(
     Box(
         modifier
             .size(size)
-            .focusRing(CircleShape)
             .then(if (glass) Modifier.glass(CircleShape) else Modifier.clip(CircleShape))
             .clickable(role = Role.Button, onClick = onClick)
             .semantics { contentDescription = label },
@@ -184,7 +155,6 @@ fun ZChip(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, sele
     Row(
         modifier
             .height(36.dp)
-            .focusRing(shape)
             .then(base)
             .clickable(role = Role.Tab, onClick = onClick)
             .semantics { this.selected = selected }

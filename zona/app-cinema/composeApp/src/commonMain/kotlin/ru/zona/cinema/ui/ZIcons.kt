@@ -66,10 +66,6 @@ object ZIcons {
     val Telegram = fill("telegram", "M21.5 3.5 2.8 10.7c-1 .4-1 1.6 0 1.9l4.7 1.5 1.8 5.6c.3.8 1.3 1 1.9.4l2.6-2.5 4.8 3.6c.7.5 1.7.1 1.9-.8L23 4.9c.2-1-.6-1.8-1.5-1.4zM9.6 14.3l8.6-7.6-6.8 9.1-.3 2.6z")
     val Volume = stroke("volume", "M4 9h4l5-4v14l-5-4H4z", "M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12")
     val Episodes = stroke("episodes", "M4 6h16M4 12h16M4 18h10")
-    val Film = stroke("film", "M5 4h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z", "M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4")
-    val Series = stroke("series", "M5 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z", "M8 3l4 4 4-4")
-    val Channels = stroke("channels", "M5 6h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zM8 21h8")
-    val Sport = stroke("sport", "M21 12a9 9 0 1 1-18 0a9 9 0 1 1 18 0z", "M12 7l4 3-1.5 5h-5L8 10z")
 
     val Home = fill("home", "M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z")
     val HomeOutline = stroke("homeOutline", "M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z")
