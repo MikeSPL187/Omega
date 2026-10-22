@@ -22,6 +22,7 @@ import ru.zona.cinema.screens.PlayerScreen
 import ru.zona.cinema.screens.ProfileScreen
 import ru.zona.cinema.screens.SearchScreen
 import ru.zona.cinema.screens.TrailerFeedScreen
+import ru.zona.cinema.screens.TvHomeScreen
 import ru.zona.cinema.theme.ZonaColors
 import ru.zona.cinema.theme.ZonaTheme
 import ru.zona.cinema.ui.FloatingNavBar
@@ -36,6 +37,8 @@ sealed interface Screen {
     data object Downloads : Screen
     data object Login : Screen
     data object Offline : Screen
+    /** Android TV home (rail + rows); root of the stack on TV. */
+    data object TvHome : Screen
 
     companion object {
         val Home = Main(Tab.Home)
@@ -63,7 +66,9 @@ fun ZonaApp(
     requestLandscape: (Boolean) -> Unit = {},
     backHandler: @Composable (enabled: Boolean, onBack: () -> Unit) -> Unit = { _, _ -> },
 ) {
-    var stack by remember { mutableStateOf(if (initial is Screen.Main) listOf(initial) else listOf(Screen.Home, initial)) }
+    var stack by remember {
+        mutableStateOf(if (initial is Screen.Main || initial == Screen.TvHome) listOf(initial) else listOf(Screen.Home, initial))
+    }
     val nav = remember { Navigator({ stack }, { stack = it }) }
     ZonaTheme {
         backHandler(stack.size > 1) { nav.back() }
@@ -85,6 +90,7 @@ fun ZonaApp(
                 Screen.Downloads -> DownloadsScreen(nav)
                 Screen.Login -> LoginScreen(nav)
                 Screen.Offline -> OfflineScreen(nav)
+                Screen.TvHome -> TvHomeScreen(nav)
             }
         }
     }

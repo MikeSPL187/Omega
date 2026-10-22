@@ -23,6 +23,7 @@ Compose Multiplatform-модуль с новым UI Zona по макетам `zo
 | `screens/LoginScreen.kt` | Вход: Яндекс ID, Telegram, почта, «Не сейчас» |
 | `screens/OfflineScreen.kt` | «Нет соединения» с переходом к загруженному |
 | `screens/TrailerFeedScreen.kt` | Вертикальная лента трейлеров (свайп вверх) |
+| `screens/TvHomeScreen.kt` | Android TV (макет `tv-ref`): стеклянный рейл разделов, герой по фокусу (фон, название шрифтом постера, КП, описание), ряды постеров с фокусом 1.1× и белым кольцом; D-pad, фокусный ряд встаёт под героя |
 | `App.kt` | Навигация: вкладки нижнего меню + стек экранов, хуки поворота и «Назад» |
 | `data/Demo.kt`, `data/Library.kt` | Демо-данные (выдуманные названия и цифры) |
 
@@ -32,7 +33,13 @@ HLS Apple (`Demo.TEST_STREAM`: 1080p…270p, субтитры WebVTT). Пози�
 переключается только в UI — у тестового потока нет дорожек-«озвучек», их даст API Zona. При уходе
 приложения в фон плеер ставится на паузу; экран не гаснет, пока идёт видео.
 
-Не сделано: Android TV, реальные данные (API Zona). Экран «Нет сети» в превью
+Android TV: приложение ставится и на ТВ (`LEANBACK_LAUNCHER`, баннер `res/drawable/tv_banner.xml`,
+сенсорный экран не обязателен); на ТВ стартует `TvHomeScreen`. Работают Главная, Фильмы, Сериалы и Моё,
+остальные разделы рейла — заглушка до API. Плеер управляется пультом: первая клавиша показывает
+панель и ставит фокус на «Пауза», медиа-клавиши (play/pause, перемотка) работают всегда, «Назад»
+закрывает панель «Озвучка и качество». У кнопок плеера и общих кнопок — кольцо фокуса (`focusRing`).
+
+Не сделано: реальные данные (API Zona). Экран «Нет сети» в превью
 открывается из профиля.
 
 ## Сборка
@@ -43,7 +50,8 @@ HLS Apple (`Demo.TEST_STREAM`: 1080p…270p, субтитры WebVTT). Пози�
 ```bash
 cd zona/app-cinema
 ./gradlew :composeApp:run                 # окно 390×844, плеер поворачивает его в 844×390
-./gradlew :composeApp:renderScreens       # PNG ключевых экранов в composeApp/build/screens
+./gradlew :composeApp:run --args=tv       # Android TV-раскладка 960×540: стрелки = D-pad, Enter = OK
+./gradlew :composeApp:renderScreens       # PNG ключевых экранов в composeApp/build/screens (ТВ — и после нажатий D-pad)
 ./gradlew -Pzona.android=true :composeApp:assembleDebug   # APK (нужен Android SDK)
 ```
 

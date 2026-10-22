@@ -7,6 +7,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -40,6 +41,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -67,6 +75,7 @@ import ru.zona.cinema.ui.PrimaryButton
 import ru.zona.cinema.ui.RoundIconButton
 import ru.zona.cinema.ui.ZIcon
 import ru.zona.cinema.ui.ZIcons
+import ru.zona.cinema.ui.focusRing
 import ru.zona.cinema.ui.glass
 
 private const val INTRO_END = 100
@@ -92,6 +101,12 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
     var quality by remember { mutableStateOf("1080p") }
     var subtitles by remember { mutableStateOf(false) }
     var speed by remember { mutableStateOf(1f) }
+    // Remote / keyboard: the first key reveals the controls and focuses play; `poke` restarts auto-hide.
+    val rootFocus = remember { FocusRequester() }
+    val playFocus = remember { FocusRequester() }
+    val panelFocus = remember { FocusRequester() }
+    var keyMode by remember { mutableStateOf(false) }
+    var poke by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(episode) {
         val resume = episode == args.episode
@@ -109,14 +124,45 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
     val duration = (player.durationMs / 1000).toInt()
     val seek = { seconds: Int -> player.seekTo(seconds * 1000L); chrome = true }
 
-    LaunchedEffect(chrome, player.playing, streamsOpen) {
+    LaunchedEffect(chrome, streamsOpen, keyMode) {
+        runCatching {
+            when {
+                streamsOpen -> if (keyMode) panelFocus.requestFocus()
+                chrome && keyMode -> playFocus.requestFocus()
+                else -> rootFocus.requestFocus()
+            }
+        }
+    }
+    LaunchedEffect(chrome, player.playing, streamsOpen, poke) {
         if (chrome && player.playing && !streamsOpen) {
             delay(4000)
             chrome = false
         }
     }
 
-    Box(Modifier.fillMaxSize().background(Color.Black)) {
+    Box(
+        Modifier.fillMaxSize().background(Color.Black)
+            .focusRequester(rootFocus)
+            .onPreviewKeyEvent { e ->
+                if (e.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
+                poke++
+                when (e.key) {
+                    Key.MediaPlayPause -> { player.setPlayWhenReady(!player.playing); chrome = true; true }
+                    Key.MediaPlay -> { player.setPlayWhenReady(true); true }
+                    Key.MediaPause -> { player.setPlayWhenReady(false); chrome = true; true }
+                    Key.MediaFastForward -> { seek((position + 10).coerceAtMost(duration)); true }
+                    Key.MediaRewind -> { seek((position - 10).coerceAtLeast(0)); true }
+                    Key.Back, Key.Escape -> if (streamsOpen) { streamsOpen = false; true } else false
+                    else -> {
+                        val wake = (!chrome && !streamsOpen) || !keyMode
+                        keyMode = true
+                        chrome = true
+                        wake
+                    }
+                }
+            }
+            .focusable(),
+    ) {
         VideoSurface(player, liftSubtitles = chrome && !streamsOpen, modifier = Modifier.fillMaxSize())
         if (!player.hasFrame) Artwork(title.art.wide, Modifier.fillMaxSize(), alignX = -.3f)
         // Taps on the picture toggle the controls; buttons drawn above take their own taps.
@@ -139,13 +185,14 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
                     TopBar(title.name, if (title.isSeries) "${args.season} сезон · $episode серия" else title.kind, onBack = { nav.back() })
                     CenterControls(
                         playing = player.playing,
+                        playFocus = playFocus,
                         onToggle = { player.setPlayWhenReady(!player.playing); chrome = true },
                         onSeek = { delta -> seek((position + delta).coerceIn(0, duration)) },
                         modifier = Modifier.align(Alignment.Center),
                     )
                     if (position in 5 until INTRO_END && duration > INTRO_END) {
                         Row(
-                            Modifier.align(Alignment.BottomEnd).padding(bottom = 92.dp).height(44.dp).clip(ZonaShapes.Pill)
+                            Modifier.align(Alignment.BottomEnd).padding(bottom = 92.dp).height(44.dp).focusRing(ZonaShapes.Pill).clip(ZonaShapes.Pill)
                                 .background(Color.White).clickable(role = Role.Button) { seek(INTRO_END) }.padding(horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
@@ -188,6 +235,7 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
                     onVoice = { v -> voice = v; if (quality !in v.qualities && quality != "Авто") quality = v.qualities.first() },
                     onQuality = { quality = it },
                     onClose = { streamsOpen = false },
+                    firstFocus = panelFocus,
                     modifier = Modifier.align(Alignment.CenterEnd).safeDrawingPadding().padding(12.dp),
                 )
                 Text(
@@ -229,11 +277,11 @@ private fun TopBar(name: String, subtitle: String, onBack: () -> Unit) {
 }
 
 @Composable
-private fun CenterControls(playing: Boolean, onToggle: () -> Unit, onSeek: (Int) -> Unit, modifier: Modifier) {
+private fun CenterControls(playing: Boolean, playFocus: FocusRequester, onToggle: () -> Unit, onSeek: (Int) -> Unit, modifier: Modifier) {
     Row(modifier, horizontalArrangement = Arrangement.spacedBy(44.dp), verticalAlignment = Alignment.CenterVertically) {
         SeekButton(ZIcons.Rewind, "Назад на 10 секунд") { onSeek(-10) }
         Box(
-            Modifier.size(80.dp).glass(CircleShape).clickable(role = Role.Button, onClick = onToggle)
+            Modifier.size(80.dp).focusRequester(playFocus).focusRing(CircleShape).glass(CircleShape).clickable(role = Role.Button, onClick = onToggle)
                 .semantics { contentDescription = if (playing) "Пауза" else "Воспроизвести" },
             contentAlignment = Alignment.Center,
         ) { ZIcon(if (playing) ZIcons.Pause else ZIcons.Play, size = 30.dp) }
@@ -244,7 +292,7 @@ private fun CenterControls(playing: Boolean, onToggle: () -> Unit, onSeek: (Int)
 @Composable
 private fun SeekButton(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, onClick: () -> Unit) {
     Box(
-        Modifier.size(58.dp).glass(CircleShape).clickable(role = Role.Button, onClick = onClick).semantics { contentDescription = label },
+        Modifier.size(58.dp).focusRing(CircleShape).glass(CircleShape).clickable(role = Role.Button, onClick = onClick).semantics { contentDescription = label },
         contentAlignment = Alignment.Center,
     ) {
         ZIcon(icon, size = 32.dp)
@@ -302,7 +350,7 @@ private fun PlayerChip(
     onClick: () -> Unit,
 ) {
     Row(
-        Modifier.height(36.dp).then(if (active) Modifier.clip(ZonaShapes.Pill).background(Color.White) else Modifier.glass())
+        Modifier.height(36.dp).focusRing(ZonaShapes.Pill).then(if (active) Modifier.clip(ZonaShapes.Pill).background(Color.White) else Modifier.glass())
             .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -322,6 +370,7 @@ fun StreamsPanel(
     onQuality: (String) -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
+    firstFocus: FocusRequester? = null,
 ) {
     Column(
         modifier
@@ -341,7 +390,9 @@ fun StreamsPanel(
             Demo.voices.forEach { v ->
                 val on = v == voice
                 Row(
-                    Modifier.fillMaxWidth().height(44.dp).clip(RoundedCornerShape(12.dp))
+                    Modifier.fillMaxWidth().height(44.dp)
+                        .then(if (on && firstFocus != null) Modifier.focusRequester(firstFocus) else Modifier)
+                        .focusRing(RoundedCornerShape(12.dp)).clip(RoundedCornerShape(12.dp))
                         .background(if (on) ZonaColors.BlueTint else Color.Transparent)
                         .clickable(role = Role.RadioButton) { onVoice(v) }
                         .semantics { selected = on }
@@ -368,7 +419,7 @@ fun StreamsPanel(
             (voice.qualities + "Авто").forEach { q ->
                 val on = q == quality
                 Column(
-                    Modifier.weight(1f).height(52.dp).clip(RoundedCornerShape(14.dp))
+                    Modifier.weight(1f).height(52.dp).focusRing(RoundedCornerShape(14.dp), color = ZonaColors.Blue).clip(RoundedCornerShape(14.dp))
                         .background(if (on) Color.White else ZonaColors.Surface2)
                         .clickable(role = Role.RadioButton) { onQuality(q) }
                         .semantics { selected = on },
