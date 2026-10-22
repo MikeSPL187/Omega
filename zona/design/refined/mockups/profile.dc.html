@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Профиль</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0094F6}
+.grp{margin:0 16px;border-radius:12px;background:#262F36;overflow:hidden}
+.m{min-height:52px;display:flex;align-items:center;gap:14px;padding:0 12px 0 14px;font-size:16px;border-top:1px solid #2C353E;color:#FFFFFF;text-decoration:none}
+.m:first-child{border-top:0}
+.m i{width:32px;height:32px;border-radius:8px;background:#2C353E;display:flex;align-items:center;justify-content:center;color:#0094F6;flex:0 0 auto}
+.m em{font-style:normal;font-size:14px;color:#909DAB}
+.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#909DAB;text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <div style="height:56px;display:flex;align-items:center;padding:0 16px;margin-top:24px;font-weight:900;font-size:20px">Профиль</div>
+  <div style="display:flex;align-items:center;gap:12px;padding:4px 16px 16px">
+    <span style="width:56px;height:56px;border-radius:28px;background:#0094F6;font-weight:900;font-size:22px;display:flex;align-items:center;justify-content:center">А</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:16px">user@mail.ru</div><div style="font-size:13px;color:#909DAB;margin-top:2px">Профиль Zona · синхронизировано</div></div>
+  </div>
+
+  <div class="grp">
+    <a href="#" class="m"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></i><span style="flex:1">Управление профилем</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+    <a href="#" class="m"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></i><span style="flex:1">Загрузки</span><em>3 · 5,1 ГБ</em><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+  </div>
+  <div style="font-size:13px;font-weight:500;color:#909DAB;padding:18px 30px 8px">Настройки</div>
+  <div class="grp">
+    <a href="#" class="m"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M10 9v6l5-3z" fill="currentColor"></path></svg></i><span style="flex:1">Настройки плеера</span><em>1080p</em><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+    <a href="#" class="m"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6M9 16h3"></path></svg></i><span style="flex:1">Возрастной рейтинг</span><em>Все</em><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+    <a href="#" class="m"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="6" width="20" height="13" rx="2"></rect><path d="M7 15h10"></path></svg></i><span style="flex:1">Клавиатура</span><em>Системная</em><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+    <div class="m"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 5v14l9-7zM15 5h3v14h-3z"></path></svg></i><span style="flex:1">Автопереход на следующую серию</span><span style="flex:0 0 auto;width:40px;height:22px;border-radius:11px;background:#0094F6;position:relative"><i style="position:absolute;right:2px;top:2px;width:18px;height:18px;border-radius:9px;background:#FFFFFF"></i></span></div>
+  </div>
+  <div style="font-size:13px;font-weight:500;color:#909DAB;padding:18px 30px 8px">Поддержка</div>
+  <div class="grp">
+    <a href="#" class="m"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg></i><span style="flex:1">Сообщить о проблеме</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+    <a href="#" class="m"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4M5 13v7h14v-7"></path></svg></i><span style="flex:1">Рекомендовать Zona</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+  </div>
+  <div style="text-align:center;font-size:12px;color:#909DAB;padding-top:14px">Версия приложения: 3.0.75</div>
+
+  <nav style="position:absolute;left:0;right:0;bottom:0;height:68px;background:#171E23;border-top:1px solid #2C353E;display:flex;align-items:center;padding-bottom:4px">
+    <a class="nav" href="Main.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Главная</a>
+    <a class="nav" href="catalog.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>Каталог</a>
+    <a class="nav" href="my.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Моё</a>
+    <a class="nav" href="search.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>Поиск</a>
+    <a class="nav" href="profile.dc.html" style="color:#0094F6"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6z"></path></svg>Профиль</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

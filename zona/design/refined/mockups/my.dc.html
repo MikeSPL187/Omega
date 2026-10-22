@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Моё</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0094F6}
+.sec{display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin:16px 0 10px}
+.sec h2{margin:0;font-weight:900;font-size:18px;line-height:24px;display:flex;align-items:center;gap:8px}
+.sec h2 span{font-weight:400;font-size:14px;color:#909DAB}
+.sec a{display:flex;align-items:center;gap:2px;font-size:14px;font-weight:500;text-decoration:none;height:32px}
+.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#909DAB;text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <div style="height:56px;display:flex;align-items:center;padding:0 4px 0 16px;margin-top:24px">
+    <div style="flex:1;font-weight:900;font-size:20px">Моё</div>
+    <button type="button" aria-label="Редактировать" style="width:48px;height:48px;border:0;background:none;color:#FFFFFF;display:flex;align-items:center;justify-content:center;padding:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg></button>
+  </div>
+
+  <a href="card.dc.html" style="margin:0 16px;height:88px;border-radius:12px;background:#2C353E;display:flex;align-items:center;gap:12px;padding:8px;box-sizing:border-box;color:#FFFFFF;text-decoration:none">
+    <span style="flex:0 0 128px;height:72px;border-radius:8px;overflow:hidden"><img src="/_blob/0357633397ba4cabd5190a574baf6a5f" alt="" style="width:100%;height:100%;object-fit:cover"></span>
+    <span style="flex:1;min-width:0"><span style="display:inline-flex;height:18px;padding:0 6px;border-radius:4px;background:#26C442;color:#0E1A12;font-size:11px;font-weight:700;align-items:center">НОВАЯ СЕРИЯ</span><span style="display:block;font-size:15px;font-weight:500;margin-top:4px">Тихая гавань</span><span style="display:block;font-size:12px;color:#BBC2C7;margin-top:2px">2 сезон 6 серия вышла сегодня</span></span>
+  </a>
+
+  <div class="sec"><h2>Избранные фильмы <span>12</span></h2><a href="#">Все<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a></div>
+  <div style="display:flex;gap:8px;padding:0 16px">
+    <sc-for list="{{films}}" as="f" hint-placeholder-count="3">
+      <span style="flex:0 0 112px;height:168px;border-radius:8px;overflow:hidden"><img src="{{f}}" alt="" style="width:100%;height:100%;object-fit:cover"></span>
+    </sc-for>
+  </div>
+
+  <div class="sec"><h2>Избранные сериалы <span>7</span></h2><a href="#">Все<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a></div>
+  <div style="display:flex;gap:8px;padding:0 16px">
+    <sc-for list="{{series}}" as="s" hint-placeholder-count="3">
+      <span style="flex:0 0 112px;height:168px;border-radius:8px;overflow:hidden;position:relative">
+        <img src="{{s.img}}" alt="" style="width:100%;height:100%;object-fit:cover">
+        <span style="position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.25)"><span style="display:block;height:100%;width:{{s.p}};background:#0094F6"></span></span>
+      </span>
+    </sc-for>
+  </div>
+
+  <nav style="position:absolute;left:0;right:0;bottom:0;height:68px;background:#171E23;border-top:1px solid #2C353E;display:flex;align-items:center;padding-bottom:4px">
+    <a class="nav" href="Main.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Главная</a>
+    <a class="nav" href="catalog.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>Каталог</a>
+    <a class="nav" href="my.dc.html" style="color:#0094F6"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Моё</a>
+    <a class="nav" href="search.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>Поиск</a>
+    <a class="nav" href="profile.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Профиль</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      films: ['/_blob/76437db1d6b34cf9e5df0a7c3207e986', '/_blob/a778bb30e1fdd23d3c13d4abf803d155', '/_blob/c56dde522e2b3587a6a2a108c4e9f98d'],
+      series: [
+        { img: '/_blob/c84a4dd8aadfc8e938a0ff1c959b63f7', p: '56%' },
+        { img: '/_blob/b760c71aa44e8869b2b351048bc49065', p: '80%' },
+        { img: '/_blob/6893b58493b39edbf4564b65f1f30399', p: '20%' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

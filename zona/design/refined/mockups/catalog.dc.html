@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Каталог</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.t{height:48px;display:flex;align-items:center;font-size:14px;font-weight:500;color:#909DAB;border-bottom:2px solid transparent;white-space:nowrap}
+.chip{height:36px;padding:0 12px;border-radius:8px;background:#2C353E;display:flex;align-items:center;gap:6px;font-size:14px;white-space:nowrap;flex:0 0 auto;color:#FFFFFF;border:0;font-family:Roboto,sans-serif}
+.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#909DAB;text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#1E252B;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <div style="height:56px;display:flex;align-items:center;padding:0 16px;margin-top:24px;font-weight:900;font-size:20px">Каталог</div>
+  <div style="display:flex;gap:24px;padding:0 16px;border-bottom:1px solid #3A4652">
+    <span class="t" style="color:#FFFFFF;border-bottom-color:#0094F6">Фильмы</span>
+    <span class="t">Сериалы</span>
+    <span class="t">ТВ-каналы</span>
+    <span class="t">Спорт</span>
+  </div>
+  <div style="display:flex;gap:8px;padding:12px 16px 0;overflow:hidden">
+    <button type="button" class="chip" style="background:#0094F6;font-weight:700"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 8v6l-4-2v-4z"></path></svg>Фильтры · 2</button>
+    <button type="button" class="chip">Драма<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+    <button type="button" class="chip">2020-е<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#909DAB" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;font-size:13px;color:#909DAB">
+    <span>Найдено 1 248</span>
+    <button type="button" style="height:32px;border:0;background:none;color:#FFFFFF;font:500 14px Roboto,sans-serif;display:flex;align-items:center;gap:6px;padding:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"></path></svg>По популярности</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 8px;padding:0 16px">
+    <sc-for list="{{items}}" as="it" hint-placeholder-count="9">
+      <a href="card.dc.html" style="display:flex;flex-direction:column;gap:6px;color:#FFFFFF;text-decoration:none">
+        <span style="height:166px;border-radius:8px;overflow:hidden;position:relative;display:block">
+          <img src="{{it.img}}" alt="" style="width:100%;height:100%;object-fit:cover">
+          <span style="position:absolute;left:6px;top:6px;height:20px;padding:0 6px;border-radius:4px;background:rgba(23,30,35,.85);color:#FFB400;font-weight:700;font-size:12px;display:flex;align-items:center">{{it.r}}</span>
+        </span>
+        <span style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{it.t}}</span>
+        <span style="font-size:12px;color:#909DAB;margin-top:-4px">{{it.m}}</span>
+      </a>
+    </sc-for>
+  </div>
+  <nav style="position:absolute;left:0;right:0;bottom:0;height:68px;background:#171E23;border-top:1px solid #2C353E;display:flex;align-items:center;padding-bottom:4px">
+    <a class="nav" href="Main.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Главная</a>
+    <a class="nav" href="catalog.dc.html" style="color:#0094F6"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>Каталог</a>
+    <a class="nav" href="my.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Моё</a>
+    <a class="nav" href="search.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>Поиск</a>
+    <a class="nav" href="profile.dc.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Профиль</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const d = [
+      ['Северный ветер', '8.4', '/_blob/c84a4dd8aadfc8e938a0ff1c959b63f7'], ['Неон', '7.9', '/_blob/76437db1d6b34cf9e5df0a7c3207e986'], ['Пески', '8.1', '/_blob/f28c0c8b2d603c94250187d5603a1698'],
+      ['Тихая гавань', '8.1', '/_blob/b760c71aa44e8869b2b351048bc49065'], ['Вершина', '7.6', '/_blob/a778bb30e1fdd23d3c13d4abf803d155'], ['Последний рейс', '7.4', '/_blob/6566895cb81c633ab487865c1fefb684'],
+      ['Тайга', '7.2', '/_blob/6893b58493b39edbf4564b65f1f30399'], ['Орбита', '6.9', '/_blob/c56dde522e2b3587a6a2a108c4e9f98d'], ['Маяк', '7.0', '/_blob/c84a4dd8aadfc8e938a0ff1c959b63f7']
+    ];
+    return { items: d.map((x, i) => ({ t: x[0], r: x[1], img: x[2], m: (2025 - (i % 5)) + ' · драма' })) };
+  }
+}
+</script>
+</body>
+</html>

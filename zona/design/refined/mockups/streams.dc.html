@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Качество и озвучка</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.h{font-size:13px;font-weight:500;color:#909DAB;padding:0 8px 6px}
+.r{min-height:48px;display:flex;align-items:center;gap:12px;padding:0 8px;border-radius:8px}
+</style>
+</helmet>
+<div style="width:844px;height:390px;position:relative;overflow:hidden;background:#000000;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <img src="/_blob/48adb861b9d2eb2ba1603f9c8462c123" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5">
+  <div style="position:absolute;top:0;right:0;bottom:0;width:560px;background:#1E252B;display:flex;flex-direction:column">
+    <div style="height:56px;display:flex;align-items:center;gap:8px;padding:0 8px 0 16px">
+      <div style="flex:1"><div style="font-weight:900;font-size:20px;line-height:24px">Качество и озвучка</div><div style="font-size:12px;color:#909DAB">Найдено потоков: 14</div></div>
+      <a href="player.dc.html" aria-label="Закрыть" style="width:48px;height:48px;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+    </div>
+    <div style="flex:1;display:grid;grid-template-columns:1.4fr 1fr;gap:16px;padding:6px 8px 12px;min-height:0">
+      <div style="border-right:1px solid #2C353E;padding-right:8px">
+        <div class="h">Озвучка · 6</div>
+        <sc-for list="{{voices}}" as="v" hint-placeholder-count="5">
+          <div class="r" style="background:{{v.bg}}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{v.rc}}" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="{{v.dot}}" fill="{{v.rc}}"></circle></svg>
+            <span style="flex:1;font-size:15px">{{v.n}}</span>
+            <span style="font-size:12px;color:#909DAB">{{v.q}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div>
+        <div class="h">Качество</div>
+        <sc-for list="{{qs}}" as="q" hint-placeholder-count="5">
+          <div class="r" style="background:{{q.bg}}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{q.rc}}" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="{{q.dot}}" fill="{{q.rc}}"></circle></svg>
+            <span style="flex:1;font-size:15px;color:{{q.c}}">{{q.n}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const v = [['LostFilm', '1080'], ['HDrezka Studio (+суб.)', '1080'], ['Кубик в Кубе', '1080'], ['Дубляж', '720'], ['Оригинал (+суб.)', '2160']];
+    const q = [['4K 2160', false], ['FullHD 1080', true], ['HD 720', false], ['SD 480', false], ['Авто', false]];
+    return {
+      voices: v.map((x, i) => ({ n: x[0], q: x[1], rc: i === 0 ? '#0094F6' : '#909DAB', dot: i === 0 ? 4 : 0, bg: i === 0 ? '#262F36' : 'transparent' })),
+      qs: q.map((x, i) => ({ n: x[0], rc: x[1] ? '#0094F6' : '#909DAB', dot: x[1] ? 4 : 0, bg: x[1] ? '#262F36' : 'transparent', c: i === 0 ? '#6E7C8A' : '#FFFFFF' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

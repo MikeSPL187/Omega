@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Плеер</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.ib{width:44px;height:44px;border:0;background:none;color:#FFFFFF;display:flex;align-items:center;justify-content:center;padding:0}
+.q{height:36px;padding:0 12px;border-radius:8px;border:0;background:rgba(44,53,62,.85);color:#FFFFFF;font:500 13px Roboto,sans-serif;display:flex;align-items:center;gap:6px;text-decoration:none}
+.q b{font-weight:400;color:#BBC2C7}
+</style>
+</helmet>
+<div style="width:844px;height:390px;position:relative;overflow:hidden;background:#000000;color:#FFFFFF;font-family:Roboto,sans-serif">
+  <img src="/_blob/48adb861b9d2eb2ba1603f9c8462c123" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+  <div style="position:absolute;left:0;right:0;top:0;height:110px;background:linear-gradient(180deg,rgba(0,0,0,.75),rgba(0,0,0,0))"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:150px;background:linear-gradient(0deg,rgba(0,0,0,.85),rgba(0,0,0,0))"></div>
+
+  <div style="position:absolute;top:8px;left:8px;right:8px;display:flex;align-items:center;gap:8px">
+    <a href="card.dc.html" class="ib" aria-label="Назад"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div style="flex:1"><div style="font-size:16px;font-weight:500">Северный ветер</div><div style="font-size:12px;color:#BBC2C7">2 сезон 5 серия · Чужой берег</div></div>
+    <button type="button" class="ib" aria-label="Транслировать"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6M3 12a8 8 0 0 1 8 8M3 16a4 4 0 0 1 4 4"></path></svg></button>
+    <button type="button" class="ib" aria-label="Картинка в картинке"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><rect x="12" y="11" width="7" height="6" rx="1" fill="currentColor"></rect></svg></button>
+    <a href="streams.dc.html" class="ib" aria-label="Настройки плеера"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg></a>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;top:46%;transform:translateY(-50%);display:flex;justify-content:center;gap:44px;align-items:center">
+    <button type="button" class="ib" aria-label="Предыдущая серия" style="width:52px;height:52px"><svg width="26" height="26" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"></path></svg></button>
+    <button type="button" class="ib" aria-label="Назад на 10 секунд" style="width:56px;height:56px;position:relative"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"></path></svg><span style="position:absolute;font-size:10px;font-weight:700;top:22px">10</span></button>
+    <button type="button" aria-label="Пауза" style="width:68px;height:68px;border-radius:50%;border:0;background:rgba(0,148,246,.9);color:#FFFFFF;display:flex;align-items:center;justify-content:center;padding:0"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg></button>
+    <button type="button" class="ib" aria-label="Вперёд на 10 секунд" style="width:56px;height:56px;position:relative"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-3-6.2M20 4v4h-4"></path></svg><span style="position:absolute;font-size:10px;font-weight:700;top:22px">10</span></button>
+    <button type="button" class="ib" aria-label="Следующая серия" style="width:52px;height:52px"><svg width="26" height="26" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"></path></svg></button>
+  </div>
+
+  <button type="button" style="position:absolute;right:16px;bottom:104px;height:40px;padding:0 16px;border-radius:8px;border:0;background:#FFFFFF;color:#1E252B;font:700 14px Roboto,sans-serif">Пропустить заставку</button>
+
+  <div style="position:absolute;left:16px;right:16px;bottom:58px;display:flex;align-items:center;gap:12px;font-size:12px">
+    <span>31:12</span>
+    <div style="flex:1;height:4px;background:rgba(255,255,255,.3);border-radius:2px;position:relative">
+      <div style="position:absolute;left:0;width:74%;height:100%;background:rgba(255,255,255,.45);border-radius:2px"></div>
+      <div style="position:absolute;left:0;width:62%;height:100%;background:#0094F6;border-radius:2px"></div>
+      <span style="position:absolute;left:62%;top:-6px;width:16px;height:16px;border-radius:8px;background:#0094F6;margin-left:-8px;border:2px solid #FFFFFF;box-sizing:border-box"></span>
+    </div>
+    <span>50:04</span>
+  </div>
+  <div style="position:absolute;left:16px;right:16px;bottom:12px;display:flex;gap:8px">
+    <a href="streams.dc.html" class="q">Озвучка <b>LostFilm</b></a>
+    <a href="streams.dc.html" class="q">Качество <b>1080</b></a>
+    <button type="button" class="q">Субтитры <b>выкл</b></button>
+    <button type="button" class="q">Скорость <b>1x</b></button>
+    <span style="flex:1"></span>
+    <button type="button" class="q">Серии</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
