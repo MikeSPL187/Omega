@@ -9,15 +9,17 @@ import java.io.File
 /** Renders the key screens to PNG at 2x without a display: `./gradlew renderScreens`. */
 fun main(args: Array<String>) {
     val out = File(args.firstOrNull() ?: "build/screens").apply { mkdirs() }
+    // name, screen, width × height in dp (tall sizes show the whole scroll).
     val shots = listOf(
-        Triple("01-home", Screen.Home, false),
-        Triple("02-card", Screen.Card("north"), false),
-        Triple("03-player", Screen.Player("north"), true),
-        Triple("04-streams", Screen.Player("north", streamsOpen = true), true),
-        Triple("05-card-movie", Screen.Card("flight"), false),
+        Shot("01-home", Screen.Home, 390, 844),
+        Shot("01-home-full", Screen.Home, 390, 1640),
+        Shot("02-card", Screen.Card("north"), 390, 844),
+        Shot("02-card-full", Screen.Card("north"), 390, 1860),
+        Shot("03-player", Screen.Player("north"), 844, 390),
+        Shot("04-streams", Screen.Player("north", streamsOpen = true), 844, 390),
+        Shot("05-card-movie", Screen.Card("flight"), 390, 1400),
     )
-    for ((name, screen, landscape) in shots) {
-        val (w, h) = if (landscape) 844 to 390 else 390 to 844
+    for ((name, screen, w, h) in shots) {
         ImageComposeScene(w * 2, h * 2, Density(2f)) { ZonaApp(initial = screen) }.use { scene ->
             // A few frames so fonts, images and enter animations settle.
             var t = 0L
@@ -28,3 +30,5 @@ fun main(args: Array<String>) {
         }
     }
 }
+
+private data class Shot(val name: String, val screen: Screen, val w: Int, val h: Int)

@@ -32,25 +32,12 @@ cd zona/app-cinema
 ./gradlew -Pzona.android=true :composeApp:assembleDebug   # APK (нужен Android SDK)
 ```
 
-Для Android в `androidMain` нужна `MainActivity` (ещё не добавлена):
-
-```kotlin
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge(); super.onCreate(savedInstanceState)
-        setContent {
-            ZonaApp(
-                requestLandscape = { requestedOrientation = if (it) SCREEN_ORIENTATION_SENSOR_LANDSCAPE else SCREEN_ORIENTATION_UNSPECIFIED },
-                backHandler = { enabled, onBack -> BackHandler(enabled, onBack) },
-            )
-        }
-    }
-}
-```
+Android: `androidMain/MainActivity.kt` (edge-to-edge, поворот в горизонталь для плеера,
+системная «Назад»). Нужен Android SDK (`local.properties` → `sdk.dir`), minSdk 24.
 
 ## Статус
 
-Код не компилировался: в облачном окружении, где он написан, сетевая политика
-закрывает `dl.google.com`. Первая сборка с доступом к Google Maven может потребовать мелких правок.
+Проверено: desktop-сборка, `renderScreens` (экраны сверены с макетами), debug-APK
+(`./gradlew -Pzona.android=true :composeApp:assembleDebug`). На реальном устройстве не запускалось.
 
 Шрифты — Google Fonts (OFL / Apache 2.0). Обложки — процедурные (`zona/design/v3/scenes.py`).

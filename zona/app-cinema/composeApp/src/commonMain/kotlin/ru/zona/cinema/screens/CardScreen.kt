@@ -96,7 +96,7 @@ fun CardScreen(title: Title, nav: Navigator) {
                         Row(Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                             ProgressLine(progress.fraction, Modifier.weight(1f), track = ZonaColors.Surface2)
                             Spacer(Modifier.width(10.dp))
-                            Text("ещё 23 мин", style = Zona.meta.copy(fontSize = 12.sp))
+                            Text(progress.remaining, style = Zona.meta.copy(fontSize = 12.sp))
                         }
                     }
                     Row(Modifier.fillMaxWidth().padding(top = 18.dp)) {
@@ -268,8 +268,10 @@ private fun androidx.compose.foundation.layout.RowScope.Action(icon: ImageVector
             label,
             modifier = Modifier.padding(top = 6.dp),
             fontSize = 12.sp,
+            lineHeight = 14.sp,
+            textAlign = TextAlign.Center,
             color = if (active) ZonaColors.Text else ZonaColors.TextMuted,
-            maxLines = 1,
+            maxLines = 2,
         )
     }
 }

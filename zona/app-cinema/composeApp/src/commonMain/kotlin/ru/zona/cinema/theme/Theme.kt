@@ -1,6 +1,7 @@
 package ru.zona.cinema.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
@@ -144,6 +145,9 @@ fun ZonaTheme(content: @Composable () -> Unit) {
         error = ZonaColors.Error,
     )
     CompositionLocalProvider(LocalZonaFonts provides fonts) {
-        MaterialTheme(colorScheme = scheme, typography = typography, content = content)
+        MaterialTheme(colorScheme = scheme, typography = typography) {
+            // Material's default content color is black outside a Surface; text sits on dark art here.
+            CompositionLocalProvider(LocalContentColor provides ZonaColors.Text, content = content)
+        }
     }
 }

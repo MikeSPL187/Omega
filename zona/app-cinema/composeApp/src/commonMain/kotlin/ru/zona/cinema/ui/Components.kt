@@ -174,7 +174,7 @@ fun SectionHeader(title: String, modifier: Modifier = Modifier, action: String? 
         modifier.fillMaxWidth().height(44.dp).padding(start = 16.dp, end = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(title, style = Zona.heading, modifier = Modifier.weight(1f, fill = false))
+        Text(title, style = Zona.heading, maxLines = 1)
         if (count != null) {
             Spacer(Modifier.width(8.dp))
             Text(count, color = ZonaColors.TextMuted, fontSize = 14.sp, fontWeight = FontWeight.Medium)

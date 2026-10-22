@@ -56,7 +56,9 @@ data class Title(
     val meta get() = "$kind · $year · $genres"
 }
 
-data class Progress(val title: Title, val label: String, val fraction: Float, val season: Int = 0, val episode: Int = 0)
+data class Progress(val title: Title, val label: String, val fraction: Float, val season: Int = 0, val episode: Int = 0) {
+    val remaining get() = label.substringAfterLast(" · ")
+}
 
 data class Clip(val title: Title, val kind: String, val duration: String, val alignX: Float)
 
@@ -89,7 +91,7 @@ object Demo {
         false, 2024, "Россия", "драма", "18+", "7.9", "7.5", "8.0", placeholderPlot)
     val orbit = Title("orbit", "Орбита", "Orbit", Art.Orbit, Lettering(TitleFace.Russo, 19f, Color(0xFFFFE2C2), .18f),
         false, 2024, "Россия", "фантастика", "12+", "7.2", "6.9", "7.4", placeholderPlot)
-    val peaks = Title("peaks", "Вершина", "The Summit", Art.Peaks, Lettering(TitleFace.Playfair, 19f, Color.White, 0f),
+    val peaks = Title("peaks", "Вершина", "The Summit", Art.Peaks, Lettering(TitleFace.Playfair, 16f, Color.White, 0f),
         false, 2025, "Россия", "приключения", "12+", "7.6", "7.2", "7.8", placeholderPlot)
 
     val all = listOf(north, harbor, flight, dunes, forest, neon, orbit, peaks)
