@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -56,21 +57,24 @@ import ru.zona.cinema.Navigator
 import ru.zona.cinema.Screen
 import ru.zona.cinema.data.Demo
 import ru.zona.cinema.data.Voice
+import ru.zona.cinema.player.VideoSource
+import ru.zona.cinema.player.VideoSurface
+import ru.zona.cinema.player.rememberVideoPlayer
 import ru.zona.cinema.theme.ZonaColors
 import ru.zona.cinema.theme.ZonaShapes
 import ru.zona.cinema.ui.Artwork
+import ru.zona.cinema.ui.PrimaryButton
 import ru.zona.cinema.ui.RoundIconButton
 import ru.zona.cinema.ui.ZIcon
 import ru.zona.cinema.ui.ZIcons
 import ru.zona.cinema.ui.glass
 
-private const val EPISODE_SECONDS = 50 * 60 + 4
 private const val INTRO_END = 100
+private const val START_SECONDS = 65
 
 /**
- * Player chrome. There is no video pipeline here: a still stands in for the frame and the
- * clock advances while "playing", so the controls can be exercised. Hook up Media3/ExoPlayer
- * (as in the original app) to drive [position] and [playing] for real.
+ * Player screen. Playback runs through [VideoPlayer] (Media3 ExoPlayer on Android, a clock on
+ * desktop); position, pause, speed, subtitles and quality are read from and sent to it.
  */
 @Composable
 fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean) -> Unit) {
@@ -80,9 +84,8 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
         onDispose { requestLandscape(false) }
     }
 
+    val player = rememberVideoPlayer()
     var episode by remember { mutableIntStateOf(args.episode) }
-    var position by remember(episode) { mutableIntStateOf(if (episode == args.episode) 65 else 0) }
-    var playing by remember { mutableStateOf(!args.streamsOpen) }
     var chrome by remember { mutableStateOf(true) }
     var streamsOpen by remember { mutableStateOf(args.streamsOpen) }
     var voice by remember { mutableStateOf(Demo.voices.first()) }
@@ -90,25 +93,40 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
     var subtitles by remember { mutableStateOf(false) }
     var speed by remember { mutableStateOf(1f) }
 
-    LaunchedEffect(playing, episode) {
-        while (playing && position < EPISODE_SECONDS) {
-            delay(1000)
-            position += 1
-        }
+    LaunchedEffect(episode) {
+        val resume = episode == args.episode
+        player.load(
+            VideoSource(Demo.streamFor(title, args.season, episode), title.name),
+            startMs = if (resume) START_SECONDS * 1000L else 0L,
+            play = !(resume && args.streamsOpen),
+        )
     }
-    LaunchedEffect(chrome, playing, streamsOpen) {
-        if (chrome && playing && !streamsOpen) {
+    LaunchedEffect(speed) { player.setPlaybackSpeed(speed) }
+    LaunchedEffect(subtitles) { player.setSubtitles(subtitles) }
+    LaunchedEffect(quality) { player.setMaxHeight(quality.removeSuffix("p").toIntOrNull()) }
+
+    val position = (player.positionMs / 1000).toInt()
+    val duration = (player.durationMs / 1000).toInt()
+    val seek = { seconds: Int -> player.seekTo(seconds * 1000L); chrome = true }
+
+    LaunchedEffect(chrome, player.playing, streamsOpen) {
+        if (chrome && player.playing && !streamsOpen) {
             delay(4000)
             chrome = false
         }
     }
 
-    Box(
-        Modifier.fillMaxSize().background(Color.Black).pointerInput(Unit) {
-            detectTapGestures(onTap = { chrome = !chrome })
-        },
-    ) {
-        Artwork(title.art.wide, Modifier.fillMaxSize(), alignX = -.3f)
+    Box(Modifier.fillMaxSize().background(Color.Black)) {
+        VideoSurface(player, liftSubtitles = chrome && !streamsOpen, modifier = Modifier.fillMaxSize())
+        if (!player.hasFrame) Artwork(title.art.wide, Modifier.fillMaxSize(), alignX = -.3f)
+        // Taps on the picture toggle the controls; buttons drawn above take their own taps.
+        Box(Modifier.fillMaxSize().pointerInput(Unit) { detectTapGestures(onTap = { chrome = !chrome }) })
+        if (player.buffering && player.error == null) {
+            CircularProgressIndicator(
+                Modifier.align(Alignment.Center).size(92.dp).semantics { contentDescription = "Загрузка видео" },
+                color = ZonaColors.Blue, strokeWidth = 3.dp, trackColor = Color.Transparent,
+            )
+        }
 
         AnimatedVisibility(chrome && !streamsOpen, enter = fadeIn(), exit = fadeOut()) {
             Box(Modifier.fillMaxSize()) {
@@ -118,17 +136,17 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
                         .background(Brush.verticalGradient(listOf(Color.Transparent, Color(0xB307090B)))),
                 )
                 Box(Modifier.fillMaxSize().safeDrawingPadding().padding(horizontal = 24.dp, vertical = 12.dp)) {
-                    TopBar(title.name, if (title.isSeries) "2 сезон · $episode серия" else title.kind, onBack = { nav.back() })
+                    TopBar(title.name, if (title.isSeries) "${args.season} сезон · $episode серия" else title.kind, onBack = { nav.back() })
                     CenterControls(
-                        playing = playing,
-                        onToggle = { playing = !playing; chrome = true },
-                        onSeek = { delta -> position = (position + delta).coerceIn(0, EPISODE_SECONDS); chrome = true },
+                        playing = player.playing,
+                        onToggle = { player.setPlayWhenReady(!player.playing); chrome = true },
+                        onSeek = { delta -> seek((position + delta).coerceIn(0, duration)) },
                         modifier = Modifier.align(Alignment.Center),
                     )
-                    if (position in 5 until INTRO_END) {
+                    if (position in 5 until INTRO_END && duration > INTRO_END) {
                         Row(
-                            Modifier.align(Alignment.BottomEnd).padding(bottom = 92.dp).height(40.dp).clip(ZonaShapes.Pill)
-                                .background(Color.White).clickable(role = Role.Button) { position = INTRO_END }.padding(horizontal = 16.dp),
+                            Modifier.align(Alignment.BottomEnd).padding(bottom = 92.dp).height(44.dp).clip(ZonaShapes.Pill)
+                                .background(Color.White).clickable(role = Role.Button) { seek(INTRO_END) }.padding(horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text("Пропустить заставку", color = ZonaColors.Bg, fontSize = 14.sp, fontWeight = FontWeight.Bold)
@@ -137,7 +155,7 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
                         }
                     }
                     Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()) {
-                        Scrubber(position, buffered = (position + 600).coerceAtMost(EPISODE_SECONDS), onSeek = { position = it; chrome = true })
+                        Scrubber(position, duration, buffered = (player.bufferedMs / 1000).toInt(), onSeek = seek)
                         Row(Modifier.fillMaxWidth().padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                             PlayerChip("${voice.name} · $quality", ZIcons.Mic) { streamsOpen = true }
                             PlayerChip(if (subtitles) "Субтитры: вкл" else "Субтитры", ZIcons.Subtitles, active = subtitles) { subtitles = !subtitles }
@@ -145,12 +163,16 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
                             if (title.isSeries) PlayerChip("Серии", ZIcons.Episodes) { nav.back() }
                             Spacer(Modifier.weight(1f))
                             if (title.isSeries) {
-                                PlayerChip("Следующая серия", ZIcons.Next, trailingIcon = true, bold = true) { episode += 1; playing = true }
+                                PlayerChip("Следующая серия", ZIcons.Next, trailingIcon = true, bold = true) { episode += 1 }
                             }
                         }
                     }
                 }
             }
+        }
+
+        player.error?.let { message ->
+            ErrorOverlay(message, onRetry = { player.retry() }, onBack = { nav.back() })
         }
 
         AnimatedVisibility(
@@ -169,11 +191,23 @@ fun PlayerScreen(args: Screen.Player, nav: Navigator, requestLandscape: (Boolean
                     modifier = Modifier.align(Alignment.CenterEnd).safeDrawingPadding().padding(12.dp),
                 )
                 Text(
-                    "Видео продолжает идти · ${formatTime(position)}",
+                    (if (player.playing) "Видео продолжает идти · " else "На паузе · ") + formatTime(position),
                     modifier = Modifier.align(Alignment.BottomStart).padding(24.dp),
                     color = ZonaColors.TextSecondary, fontSize = 13.sp,
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun ErrorOverlay(message: String, onRetry: () -> Unit, onBack: () -> Unit) {
+    Box(Modifier.fillMaxSize().background(Color(0xCC07090B)).safeDrawingPadding().padding(24.dp)) {
+        RoundIconButton(ZIcons.Back, "Назад", onBack)
+        Column(Modifier.align(Alignment.Center).width(360.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("Видео не загрузилось", fontSize = 20.sp, fontWeight = FontWeight.Black)
+            Text(message, fontSize = 14.sp, color = ZonaColors.TextSecondary, modifier = Modifier.padding(top = 6.dp, bottom = 18.dp))
+            PrimaryButton("Повторить", onRetry, icon = null)
         }
     }
 }
@@ -219,33 +253,42 @@ private fun SeekButton(icon: androidx.compose.ui.graphics.vector.ImageVector, la
 }
 
 @Composable
-private fun Scrubber(position: Int, buffered: Int, onSeek: (Int) -> Unit) {
+private fun Scrubber(position: Int, duration: Int, buffered: Int, onSeek: (Int) -> Unit) {
+    // While dragging, the thumb follows the finger and the player seeks once on release.
+    var dragged by remember { mutableStateOf<Int?>(null) }
+    val shown = dragged ?: position
+    val span = duration.coerceAtLeast(1)
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(formatTime(position), fontSize = 13.sp, fontWeight = FontWeight.Medium)
+        Text(formatTime(shown), fontSize = 13.sp, fontWeight = FontWeight.Medium)
         BoxWithConstraints(
-            Modifier.weight(1f).height(32.dp).padding(horizontal = 14.dp)
+            Modifier.weight(1f).height(44.dp).padding(horizontal = 14.dp)
                 .semantics {
                     contentDescription = "Позиция просмотра"
-                    progressBarRangeInfo = ProgressBarRangeInfo(position.toFloat(), 0f..EPISODE_SECONDS.toFloat())
+                    progressBarRangeInfo = ProgressBarRangeInfo(shown.toFloat(), 0f..span.toFloat())
                 }
-                .pointerInput(Unit) {
-                    detectTapGestures { o -> onSeek((o.x / size.width * EPISODE_SECONDS).toInt()) }
+                .pointerInput(duration) {
+                    detectTapGestures { o -> if (duration > 0) onSeek((o.x / size.width * duration).toInt().coerceIn(0, duration)) }
                 }
-                .pointerInput(Unit) {
-                    detectHorizontalDragGestures { change, _ -> onSeek((change.position.x / size.width * EPISODE_SECONDS).toInt().coerceIn(0, EPISODE_SECONDS)) }
+                .pointerInput(duration) {
+                    fun at(x: Float) = (x / size.width * duration).toInt().coerceIn(0, duration)
+                    detectHorizontalDragGestures(
+                        onDragStart = { o -> if (duration > 0) dragged = at(o.x) },
+                        onDragEnd = { dragged?.let(onSeek); dragged = null },
+                        onDragCancel = { dragged = null },
+                    ) { change, _ -> if (duration > 0) dragged = at(change.position.x) }
                 },
             contentAlignment = Alignment.CenterStart,
         ) {
-            val played = position.toFloat() / EPISODE_SECONDS
+            val played = (shown.toFloat() / span).coerceIn(0f, 1f)
             Box(Modifier.fillMaxWidth().height(4.dp).clip(ZonaShapes.Pill).background(Color(0x47FFFFFF)))
-            Box(Modifier.fillMaxWidth(buffered.toFloat() / EPISODE_SECONDS).height(4.dp).clip(ZonaShapes.Pill).background(Color(0x80FFFFFF)))
+            Box(Modifier.fillMaxWidth((buffered.toFloat() / span).coerceIn(0f, 1f)).height(4.dp).clip(ZonaShapes.Pill).background(Color(0x80FFFFFF)))
             Box(Modifier.fillMaxWidth(played).height(4.dp).clip(ZonaShapes.Pill).background(ZonaColors.Blue))
             Box(
                 Modifier.offset(x = maxWidth * played - 8.dp).size(16.dp).clip(CircleShape).background(Color(0x800094F6)).padding(3.dp)
                     .clip(CircleShape).background(Color.White),
             )
         }
-        Text("−" + formatTime(EPISODE_SECONDS - position), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = ZonaColors.TextSecondary)
+        Text(if (duration > 0) "−" + formatTime(duration - shown) else "−:−−", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = ZonaColors.TextSecondary)
     }
 }
 

@@ -140,4 +140,12 @@ object Demo {
         Voice("Кубик в Кубе", listOf("1080p"), subtitles = false, source = "Источник 3"),
         Voice("Оригинал", listOf("480p"), subtitles = true, source = "Источник 3"),
     )
+
+    /**
+     * Every demo episode plays Apple's public HLS sample (1080p…270p ladder, WebVTT subtitles)
+     * until the Zona API supplies real stream links per voice and quality.
+     */
+    const val TEST_STREAM = "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8"
+
+    fun streamFor(title: Title, season: Int, episode: Int) = TEST_STREAM
 }
