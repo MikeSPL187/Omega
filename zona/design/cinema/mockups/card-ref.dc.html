@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Карточка фильма — новая</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;family=Roboto+Condensed:wght@700;800&amp;family=Oswald:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.glass{background:rgba(20,25,30,.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.tb{width:44px;height:44px;border:0;padding:0;border-radius:22px;color:#FFFFFF;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.rt{height:28px;padding:0 10px;border-radius:14px;background:#1A2026;display:flex;align-items:center;gap:5px;font-size:12px;color:#A7B1BC}
+.rt b{font-size:14px;font-weight:700;color:#FFFFFF}
+.act{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:#A7B1BC;border:0;background:none;padding:0;font-family:inherit}
+.act span{width:52px;height:52px;border-radius:26px;background:#1A2026;display:flex;align-items:center;justify-content:center;color:#FFFFFF}
+.tab{height:48px;display:flex;align-items:center;position:relative;font-size:15px;font-weight:500;color:#A7B1BC;text-decoration:none;white-space:nowrap}
+.h{margin:0;font-family:'Roboto Condensed',Roboto,sans-serif;font-weight:800;font-size:21px}
+.pill{height:36px;padding:0 12px 0 14px;border:0;border-radius:18px;background:#1A2026;color:#FFFFFF;font-family:inherit;font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px}
+.dl{width:44px;height:44px;border:0;padding:0;background:none;color:#A7B1BC;display:flex;align-items:center;justify-content:center;flex:0 0 44px}
+</style>
+</helmet>
+<div style="width:390px;height:1800px;position:relative;overflow:hidden;background:#07090B;color:#F5F7FA;font-family:Roboto,sans-serif">
+  <div style="position:relative;height:600px">
+    <img src="/_blob/6e2f60307f1eeedf9b9f16a3db98e077" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:26% 50%">
+    <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,11,.6) 0%,rgba(7,9,11,0) 20%,rgba(7,9,11,0) 40%,rgba(7,9,11,.9) 76%,#07090B 100%)"></span>
+    <div style="position:absolute;left:12px;right:12px;top:28px;display:flex;gap:8px">
+      <a href="home-ref.dc.html" class="tb glass" aria-label="Назад"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+      <span style="flex:1"></span>
+      <button type="button" class="tb glass" aria-label="Транслировать на ТВ"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6M3 12a8 8 0 0 1 8 8M3 16a4 4 0 0 1 4 4"></path></svg></button>
+      <button type="button" class="tb glass" aria-label="Поделиться"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg></button>
+    </div>
+    <div style="position:absolute;left:16px;top:300px;display:flex;align-items:center;gap:8px">
+      <span class="glass" style="height:28px;padding:0 10px;border-radius:14px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:3px;background:#0094F6"></span>Трейлер · 0:48</span>
+      <button type="button" class="glass" aria-label="Включить звук" style="width:28px;height:28px;border:0;border-radius:14px;color:#FFFFFF;display:flex;align-items:center;justify-content:center;padding:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"></path><path d="M17 9l4 6M21 9l-4 6"></path></svg></button>
+    </div>
+    <div style="position:absolute;left:16px;right:16px;bottom:8px;display:flex;flex-direction:column;align-items:center;text-align:center">
+      <h1 style="margin:0;font-family:'Oswald',sans-serif;font-weight:700;font-size:54px;line-height:.92;letter-spacing:.04em;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,.5)">Северный<br>ветер</h1>
+      <div style="font-size:13px;color:#C9D1DA;margin-top:12px">North Wind · Сериал · 2025 · Россия · драма, триллер</div>
+      <div style="display:flex;gap:6px;margin-top:12px">
+        <span class="rt">КП <b style="color:#FFB400">8.4</b></span><span class="rt">IMDb <b>8.1</b></span><span class="rt">Zona <b>8.6</b></span><span class="rt" style="color:#FFFFFF;font-weight:700">16+</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:16px 16px 0">
+    <a href="player-ref.dc.html" style="height:54px;border-radius:27px;background:#FFFFFF;color:#07090B;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="#07090B"></path></svg><span style="font-weight:700;font-size:16px">Смотреть</span><span style="font-size:14px;color:#3A4652">· 2 сезон, 5 серия</span></a>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:10px;font-size:12px;color:#A7B1BC">
+      <span style="flex:1;height:3px;border-radius:2px;background:#1A2026"><span style="display:block;width:62%;height:100%;border-radius:2px;background:#0094F6"></span></span>ещё 23 мин
+    </div>
+    <div style="display:flex;margin-top:18px">
+      <button type="button" class="act"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"></path></svg></span>Трейлер</button>
+      <button type="button" class="act" aria-pressed="true" style="color:#FFFFFF"><span style="background:rgba(0,148,246,.2);color:#0094F6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>В Моём</button>
+      <button type="button" class="act"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"></path></svg></span>Новые серии</button>
+      <button type="button" class="act"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></span>Скачать</button>
+      <button type="button" class="act"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg></span>Проблема</button>
+    </div>
+    <p style="margin:20px 0 0;font-size:15px;line-height:22px;color:#C9D1DA">Описание сюжета — три-четыре строки текста из каталога, обрезанные по высоте. Пользователь видит начало и кнопку, чтобы раскрыть остальное… <span style="color:#3DA9FF;font-weight:500">ещё</span></p>
+  </div>
+
+  <nav aria-label="Разделы карточки" style="display:flex;gap:22px;padding:0 16px;margin-top:14px;border-bottom:1px solid rgba(255,255,255,.08)">
+    <a class="tab" href="card-ref.dc.html" aria-current="page" style="color:#FFFFFF;font-weight:700">Серии<span style="position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:#0094F6"></span></a>
+    <a class="tab" href="card-ref.dc.html">Сцены</a>
+    <a class="tab" href="card-ref.dc.html">О сериале</a>
+    <a class="tab" href="card-ref.dc.html">Похожие</a>
+  </nav>
+
+  <div style="display:flex;gap:8px;padding:14px 16px 6px">
+    <button type="button" class="pill">2 сезон<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A7B1BC" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+    <a href="streams-ref.dc.html" class="pill" style="text-decoration:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A7B1BC" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>LostFilm<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A7B1BC" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></a>
+  </div>
+  <ul style="list-style:none;margin:0;padding:0 8px 0 16px">
+    <sc-for list="{{eps}}" as="e" hint-placeholder-count="3">
+      <li style="display:flex;align-items:center;gap:12px;padding:8px 0">
+        <span style="flex:0 0 144px;height:81px;border-radius:12px;overflow:hidden;position:relative">
+          <img src="{{e.img}}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{e.pos}};opacity:{{e.op}}">
+          <sc-if value="{{e.cur}}" hint-placeholder-val="{{false}}"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span class="glass" style="width:34px;height:34px;border-radius:17px;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="#FFFFFF"></path></svg></span></span><span style="position:absolute;left:8px;right:8px;bottom:6px;height:3px;border-radius:2px;background:rgba(255,255,255,.3)"><span style="display:block;width:62%;height:100%;border-radius:2px;background:#0094F6"></span></span></sc-if>
+          <sc-if value="{{e.seen}}" hint-placeholder-val="{{false}}"><span style="position:absolute;right:6px;top:6px;height:20px;padding:0 6px;border-radius:10px;background:rgba(7,9,11,.8);font-size:11px;font-weight:700;color:#C9D1DA;display:flex;align-items:center">Просмотрено</span></sc-if>
+        </span>
+        <span style="flex:1;min-width:0">
+          <span style="display:block;font-size:15px;font-weight:700;color:{{e.tc}}">{{e.t}}</span>
+          <span style="display:block;font-size:12px;color:{{e.mc}};margin-top:4px">{{e.m}}</span>
+        </span>
+        <button type="button" class="dl" aria-label="{{e.a}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></button>
+      </li>
+    </sc-for>
+  </ul>
+  <a href="episodes-ref.dc.html" style="margin:6px 16px 0;height:48px;border-radius:24px;background:#1A2026;color:#FFFFFF;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;font-size:15px;font-weight:500">Все 18 серий<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:26px 16px 10px"><h2 class="h">Сцены</h2><a href="trailer-ref.dc.html" style="font-size:14px;font-weight:500;color:#3DA9FF;text-decoration:none">Все 12</a></div>
+  <div style="display:flex;gap:10px;padding:0 16px">
+    <sc-for list="{{clips}}" as="v" hint-placeholder-count="3">
+      <a href="trailer-ref.dc.html" style="flex:0 0 112px;height:200px;border-radius:14px;overflow:hidden;position:relative;color:#FFFFFF;text-decoration:none;display:block">
+        <img src="{{v.img}}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{v.pos}}">
+        <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,11,0) 50%,rgba(7,9,11,.88) 100%)"></span>
+        <span class="glass" style="position:absolute;left:8px;top:8px;height:22px;padding:0 8px;border-radius:11px;font-size:11px;font-weight:700;display:flex;align-items:center">{{v.d}}</span>
+        <span style="position:absolute;left:10px;right:10px;bottom:10px;font-weight:700;font-size:13px;line-height:17px">{{v.t}}</span>
+      </a>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:26px 16px 12px"><h2 class="h">Актёры</h2><a href="card-ref.dc.html" style="font-size:14px;font-weight:500;color:#3DA9FF;text-decoration:none">Все</a></div>
+  <div style="display:flex;gap:14px;padding:0 16px">
+    <sc-for list="{{cast}}" as="a" hint-placeholder-count="4">
+      <div style="flex:0 0 74px;text-align:center">
+        <span style="width:70px;height:70px;border-radius:35px;margin:0 auto;display:flex;align-items:center;justify-content:center;background:{{a.bg}};font-family:'Roboto Condensed',sans-serif;font-weight:800;font-size:22px;color:#FFFFFF">{{a.i}}</span>
+        <span style="display:block;font-size:12px;font-weight:500;margin-top:8px;line-height:16px">{{a.n}}</span>
+        <span style="display:block;font-size:11px;color:#A7B1BC;margin-top:2px">{{a.r}}</span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const W = '/_blob/6e2f60307f1eeedf9b9f16a3db98e077';
+    const F = '/_blob/0911f44fc4ff6ea40705d103e07947d5';
+    const H = '/_blob/c3da227365eeebc764996bd94f662bc1';
+    return {
+      eps: [
+        { t: '4. Серия 4', m: '50 мин · 26 марта', img: F, pos: '70% 40%', op: 0.55, seen: true, cur: false, tc: '#A7B1BC', mc: '#A7B1BC', a: 'Скачать серию 4' },
+        { t: '5. Серия 5', m: 'Вы остановились · ещё 23 мин', img: W, pos: '25% 50%', op: 1, seen: false, cur: true, tc: '#FFFFFF', mc: '#3DA9FF', a: 'Скачать серию 5' },
+        { t: '6. Серия 6', m: '52 мин · 9 апреля', img: H, pos: '45% 60%', op: 1, seen: false, cur: false, tc: '#FFFFFF', mc: '#A7B1BC', a: 'Скачать серию 6' }
+      ],
+      clips: [
+        { t: 'Шторм у маяка', d: '0:38', pos: '30% 50%', img: '/_blob/ab0fa927f5153ca172c77ce3a8a4399b' },
+        { t: 'Тизер 2 сезона', d: '0:30', pos: '70% 50%', img: '/_blob/ab0fa927f5153ca172c77ce3a8a4399b' },
+        { t: 'За кадром', d: '1:05', pos: '50% 30%', img: '/_blob/08fbeb163ebd75a3d9075970c5aa6338' }
+      ],
+      cast: [
+        { i: 'АП', n: 'Актёр Первый', r: 'Капитан', bg: 'linear-gradient(135deg,#2C5E86,#0E1E2C)' },
+        { i: 'АВ', n: 'Актёр Второй', r: 'Смотритель', bg: 'linear-gradient(135deg,#6B4C9A,#1B1440)' },
+        { i: 'АТ', n: 'Актёр Третий', r: 'Врач', bg: 'linear-gradient(135deg,#B2456B,#2A1638)' },
+        { i: 'АЧ', n: 'Актёр Четвёртый', r: 'Радист', bg: 'linear-gradient(135deg,#3D5A4D,#0C1913)' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

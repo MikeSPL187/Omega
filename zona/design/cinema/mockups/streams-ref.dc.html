@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Качество и озвучка — новая панель</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.lb{margin:0;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#A7B1BC}
+.opt{display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:12px;border:0;color:#FFFFFF;font-family:inherit;text-align:left;width:100%;box-sizing:border-box}
+.q{flex:1;height:52px;border:0;border-radius:14px;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+</style>
+</helmet>
+<div style="width:844px;height:390px;position:relative;overflow:hidden;background:#07090B;color:#F5F7FA;font-family:Roboto,sans-serif">
+  <img src="/_blob/6e2f60307f1eeedf9b9f16a3db98e077" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+  <span style="position:absolute;inset:0;background:rgba(7,9,11,.5)"></span>
+  <div style="position:absolute;left:24px;bottom:20px;font-size:13px;color:#DCE2E8">Видео продолжает идти · 31:12</div>
+
+  <aside aria-label="Озвучка и качество" style="position:absolute;right:12px;top:12px;bottom:12px;width:404px;box-sizing:border-box;border-radius:24px;background:rgba(17,21,25,.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);padding:10px 16px 16px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:center">
+      <h1 style="flex:1;margin:0;font-weight:900;font-size:18px">Озвучка и качество</h1>
+      <a href="player-ref.dc.html" aria-label="Закрыть" style="width:44px;height:44px;margin-right:-10px;border-radius:22px;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+    </div>
+    <h2 class="lb">Озвучка</h2>
+    <div role="radiogroup" aria-label="Озвучка" style="display:flex;flex-direction:column;gap:2px">
+      <sc-for list="{{voices}}" as="v" hint-placeholder-count="4">
+        <button type="button" class="opt" role="radio" aria-checked="{{v.sel}}" style="background:{{v.bg}}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{v.rc}}" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="{{v.dot}}" fill="{{v.rc}}" stroke="none"></circle></svg>
+          <span style="flex:1;font-size:15px;font-weight:500">{{v.n}}</span>
+          <sc-if value="{{v.sub}}" hint-placeholder-val="{{false}}"><span style="height:20px;padding:0 6px;border-radius:6px;background:#252C34;color:#C9D1DA;font-size:11px;font-weight:700;display:flex;align-items:center">СУБ</span></sc-if>
+          <span style="font-size:12px;color:#A7B1BC">{{v.m}}</span>
+        </button>
+      </sc-for>
+    </div>
+    <h2 class="lb" style="margin-top:4px">Качество · LostFilm</h2>
+    <div role="radiogroup" aria-label="Качество" style="display:flex;gap:8px">
+      <button type="button" class="q" role="radio" aria-checked="true" style="background:#FFFFFF;color:#07090B"><span style="font-weight:900;font-size:17px">1080p</span><span style="font-size:11px;font-weight:500">FullHD</span></button>
+      <button type="button" class="q" role="radio" aria-checked="false" style="background:#1A2026;color:#FFFFFF"><span style="font-weight:900;font-size:17px">720p</span><span style="font-size:11px;color:#A7B1BC">HD</span></button>
+      <button type="button" class="q" role="radio" aria-checked="false" style="background:#1A2026;color:#FFFFFF"><span style="font-weight:900;font-size:17px">Авто</span><span style="font-size:11px;color:#A7B1BC">по сети</span></button>
+    </div>
+  </aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const d = [['LostFilm', '1080p · 720p', false], ['HDrezka Studio', '1080p · 720p', true], ['Кубик в Кубе', '1080p', false], ['Оригинал', '480p', true]];
+    return {
+      voices: d.map((x, i) => ({
+        n: x[0], m: x[1], sub: x[2], sel: i === 0 ? 'true' : 'false',
+        bg: i === 0 ? 'rgba(0,148,246,.16)' : 'transparent',
+        rc: i === 0 ? '#0094F6' : '#A7B1BC', dot: i === 0 ? 5 : 0
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

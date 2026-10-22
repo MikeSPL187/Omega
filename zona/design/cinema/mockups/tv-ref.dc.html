@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Android TV — новый</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;family=Roboto+Condensed:wght@800&amp;family=Oswald:wght@700&amp;family=Unbounded:wght@800&amp;family=Playfair+Display:wght@800&amp;family=Russo+One&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.ri{width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;color:#A7B1BC;text-decoration:none}
+.pt{position:absolute;left:5px;right:5px;bottom:9px;text-align:center;line-height:.95;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+</style>
+</helmet>
+<div style="width:960px;height:540px;position:relative;overflow:hidden;background:#07090B;color:#F5F7FA;font-family:Roboto,sans-serif">
+  <img src="/_blob/6e2f60307f1eeedf9b9f16a3db98e077" alt="" style="position:absolute;right:0;top:0;width:760px;height:430px;object-fit:cover;object-position:20% 50%">
+  <span style="position:absolute;right:0;top:0;width:760px;height:430px;background:linear-gradient(90deg,#07090B 0%,rgba(7,9,11,.55) 35%,rgba(7,9,11,0) 65%)"></span>
+  <span style="position:absolute;left:0;right:0;top:200px;height:340px;background:linear-gradient(180deg,rgba(7,9,11,0) 0%,#07090B 70%)"></span>
+
+  <nav aria-label="Разделы" style="position:absolute;left:16px;top:16px;bottom:16px;width:60px;border-radius:30px;background:rgba(20,25,30,.6);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:18px;box-sizing:border-box;z-index:2">
+    <svg width="26" height="27" viewBox="0 0 248 256" aria-hidden="true" style="margin-bottom:14px"><path d="M0,25.61C0,48.29 74.4,76.64 74.4,89.62C74.4,105.8 0,210.32 0,229.76C0,246.15 9.54,256 38.14,256H219.37C238.44,256 248,239.6 248,229.76C248,203.51 185.99,165.28 185.99,149.09C185.99,132.88 248,45.53 248,26.11C248,9.91 235.27,0.15 213.01,0.15C203.46,0.15 62.32,0 49.59,0C49.3,0 48.99,0 48.68,0C35.2,0 0,0.29 0,25.61Z" fill="#0094F6"></path></svg>
+    <a class="ri" href="tv-ref.dc.html" aria-label="Поиск"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></a>
+    <a class="ri" href="tv-ref.dc.html" aria-label="Главная" aria-current="page" style="background:rgba(0,148,246,.2);color:#0094F6"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg></a>
+    <a class="ri" href="tv-ref.dc.html" aria-label="Фильмы"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"></path></svg></a>
+    <a class="ri" href="tv-ref.dc.html" aria-label="Сериалы"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 3l4 4 4-4"></path></svg></a>
+    <a class="ri" href="tv-ref.dc.html" aria-label="ТВ-каналы"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M8 21h8"></path></svg></a>
+    <a class="ri" href="tv-ref.dc.html" aria-label="Спорт"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7l4 3-1.5 5h-5L8 10z"></path></svg></a>
+    <a class="ri" href="tv-ref.dc.html" aria-label="Моё"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></a>
+    <a class="ri" href="tv-ref.dc.html" aria-label="Профиль"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></a>
+  </nav>
+
+  <div style="position:absolute;left:112px;top:44px;width:420px">
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase"><span style="width:6px;height:6px;border-radius:3px;background:#0094F6"></span>Новый сезон</div>
+    <h1 style="margin:10px 0 0;font-family:'Oswald',sans-serif;font-weight:700;font-size:62px;line-height:.92;letter-spacing:.04em;text-transform:uppercase">Северный<br>ветер</h1>
+    <div style="font-size:15px;color:#C9D1DA;margin-top:14px"><span style="color:#FFB400;font-weight:700">КП 8.4</span> · Сериал · 2025 · драма, триллер · 16+</div>
+    <p style="margin:10px 0 0;font-size:16px;line-height:23px;color:#C9D1DA">Описание сюжета — две строки текста из каталога, обрезанные по высоте.</p>
+  </div>
+
+  <section style="position:absolute;left:112px;right:0;top:318px">
+    <h2 style="margin:0 0 12px;font-family:'Roboto Condensed',sans-serif;font-weight:800;font-size:20px">Популярные сериалы</h2>
+    <div style="display:flex;gap:16px;align-items:flex-start;padding-top:4px">
+      <sc-for list="{{items}}" as="p" hint-placeholder-count="7">
+        <div style="flex:0 0 112px;height:168px;border-radius:12px;overflow:hidden;position:relative;transform:{{p.tf}};transform-origin:left top;box-shadow:{{p.sh}}">
+          <img src="{{p.img}}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;opacity:{{p.op}}">
+          <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,11,0) 50%,rgba(7,9,11,.85) 100%)"></span>
+          <span class="pt" style="font-family:{{p.ff}};font-size:{{p.fs}};color:{{p.c}};letter-spacing:{{p.ls}}">{{p.t}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":960,"height":540}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const B = (id) => '/_blob/' + id;
+    const L = [
+      ['Северный ветер', 'ab0fa927f5153ca172c77ce3a8a4399b', "'Oswald',sans-serif", '16px', '#FFFFFF', '.05em'],
+      ['Тихая гавань', '4d9f7f68fd44a5a2a237537ffb969278', "'Playfair Display',serif", '15px', '#FFE7C2', '0'],
+      ['Тайга', '08fbeb163ebd75a3d9075970c5aa6338', "'Oswald',sans-serif", '20px', '#EEF4EC', '.3em'],
+      ['Ночной рейс', '67f52c9eaeae8a887ef936cc3ccf83d3', "'Russo One',sans-serif", '13px', '#D6E4FF', '.03em'],
+      ['Неон', '7130276d427e5ea7bb6c6528b53b526c', "'Unbounded',sans-serif", '18px', '#FF8CCB', '.04em'],
+      ['Пески', '20f54f4893adfdd6dfa4f30f38516d08', "'Unbounded',sans-serif", '17px', '#FFE0B0', '.02em'],
+      ['Вершина', '4dc64980c6071d6588799dc3581c517e', "'Playfair Display',serif", '17px', '#FFFFFF', '0']
+    ];
+    return {
+      items: L.map((x, i) => ({
+        t: x[0], img: B(x[1]), ff: x[2], fs: x[3], c: x[4], ls: x[5],
+        tf: i === 0 ? 'scale(1.1)' : 'none',
+        sh: i === 0 ? '0 0 0 3px #FFFFFF, 0 14px 30px rgba(0,0,0,.6)' : 'none',
+        op: i === 0 ? 1 : 0.75
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Вертикальный трейлер</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;family=Playfair+Display:wght@800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.glass{background:rgba(20,25,30,.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.rail{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:500;color:#FFFFFF;border:0;background:none;padding:0;font-family:inherit}
+.rail span{width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center}
+</style>
+</helmet>
+<div style="width:390px;height:844px;position:relative;overflow:hidden;background:#07090B;color:#F5F7FA;font-family:Roboto,sans-serif">
+  <img src="/_blob/4d9f7f68fd44a5a2a237537ffb969278" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+  <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,11,.65) 0%,rgba(7,9,11,0) 18%,rgba(7,9,11,0) 50%,rgba(7,9,11,.92) 88%)"></span>
+
+  <div style="position:absolute;left:12px;right:12px;top:28px;display:flex;align-items:center;gap:8px">
+    <a href="home-ref.dc.html" class="glass" aria-label="Назад" style="width:44px;height:44px;border-radius:22px;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <span style="flex:1;font-weight:700;font-size:16px">Трейлеры и сцены</span>
+    <button type="button" class="glass" aria-label="Выключить звук" style="width:44px;height:44px;border:0;border-radius:22px;color:#FFFFFF;display:flex;align-items:center;justify-content:center;padding:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"></path><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"></path></svg></button>
+  </div>
+
+  <div style="position:absolute;right:12px;bottom:250px;display:flex;flex-direction:column;gap:18px">
+    <button type="button" class="rail"><span class="glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></span>В Моё</button>
+    <button type="button" class="rail"><span class="glass"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"></path></svg></span>Напомнить</button>
+    <button type="button" class="rail"><span class="glass"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg></span>Поделиться</button>
+  </div>
+
+  <div style="position:absolute;left:16px;right:16px;bottom:40px">
+    <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase"><span class="glass" style="height:24px;padding:0 10px;border-radius:12px;display:flex;align-items:center">Трейлер · 1:12</span></div>
+    <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:46px;line-height:1;color:#FFE7C2;margin-top:12px;text-shadow:0 4px 24px rgba(0,0,0,.5)">Тихая гавань</div>
+    <div style="font-size:13px;color:#C9D1DA;margin-top:10px"><span style="color:#FFB400;font-weight:700">КП 8.0</span> · Сериал · 2025 · драма</div>
+    <p style="margin:8px 0 0;font-size:14px;line-height:20px;color:#DCE2E8;max-width:300px">Короткое описание сериала в одну-две строки, чтобы понять, о чём он.</p>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <a href="player-ref.dc.html" style="flex:1;height:50px;border-radius:25px;background:#FFFFFF;color:#07090B;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="#07090B"></path></svg>Смотреть сериал</a>
+      <a href="card-ref.dc.html" class="glass" style="height:50px;padding:0 20px;border-radius:25px;color:#FFFFFF;text-decoration:none;display:flex;align-items:center;font-weight:700;font-size:16px">Подробнее</a>
+    </div>
+    <div style="height:3px;border-radius:2px;background:rgba(255,255,255,.25);margin-top:18px"><div style="width:44%;height:100%;border-radius:2px;background:#FFFFFF"></div></div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:11px;color:#A7B1BC">Листайте вверх — следующий ролик</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

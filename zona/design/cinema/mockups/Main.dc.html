@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Система Zona Cinema</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&amp;family=Roboto+Condensed:wght@800&amp;family=Oswald:wght@700&amp;family=Unbounded:wght@800&amp;family=Playfair+Display:wght@800&amp;family=Russo+One&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.ch{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#A7B1BC}
+.sw{display:flex;align-items:center;gap:12px;min-height:44px}
+.c{width:44px;height:44px;border-radius:12px;flex:0 0 44px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.sw b{display:block;font-weight:500;font-size:14px}
+.sw small{display:block;font-size:12px;color:#A7B1BC;margin-top:2px}
+.glass{background:rgba(20,25,30,.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.pt{position:absolute;left:5px;right:5px;bottom:9px;text-align:center;line-height:.95;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+</style>
+</helmet>
+<div style="width:1300px;height:900px;box-sizing:border-box;padding:48px;background:#07090B;color:#F5F7FA;font-family:Roboto,sans-serif;display:flex;flex-direction:column;gap:32px">
+  <div style="display:flex;align-items:center;gap:18px">
+    <svg width="44" height="45" viewBox="0 0 248 256" aria-hidden="true"><path d="M0,25.61C0,48.29 74.4,76.64 74.4,89.62C74.4,105.8 0,210.32 0,229.76C0,246.15 9.54,256 38.14,256H219.37C238.44,256 248,239.6 248,229.76C248,203.51 185.99,165.28 185.99,149.09C185.99,132.88 248,45.53 248,26.11C248,9.91 235.27,0.15 213.01,0.15C203.46,0.15 62.32,0 49.59,0C49.3,0 48.99,0 48.68,0C35.2,0 0,0.29 0,25.61Z" fill="#0094F6"></path></svg>
+    <div>
+      <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:30px;letter-spacing:.01em">zona cinema</div>
+      <div style="font-size:15px;color:#A7B1BC;margin-top:6px">Кино-чёрный фон, обложки во весь экран, стекло поверх видео. Логотип, синий Zona и Roboto — из оригинала.</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;flex:1">
+    <div class="col">
+      <h2 class="ch">Цвет · было → стало</h2>
+      <div class="sw"><span class="c" style="background:#07090B"></span><span><b>Фон</b><small>#1E252B → #07090B, обложки ярче</small></span></div>
+      <div class="sw"><span class="c" style="background:#111519"></span><span><b>Поверхности</b><small>#2C353E / #3A4652 → #111519 / #1A2026 / #252C34</small></span></div>
+      <div class="sw"><span class="c glass" style="background:rgba(120,140,160,.25)"></span><span><b>Стекло</b><small>поверх видео и обложек, размытие 18</small></span></div>
+      <div class="sw"><span class="c" style="background:#FFFFFF"></span><span><b>Главное действие</b><small>синяя кнопка 3,2:1 → белая пилюля 19:1</small></span></div>
+      <div class="sw"><span class="c" style="background:#0094F6"></span><span><b>Синий Zona</b><small>лого, прогресс, активная вкладка, фокус</small></span></div>
+      <div class="sw"><span class="c" style="background:#3DA9FF"></span><span><b>Ссылки</b><small>#3DA9FF — 7,9:1 на фоне</small></span></div>
+      <div class="sw"><span class="c" style="background:#FFB400"></span><span><b>Рейтинг и премиум</b><small>#FFB400 — как было</small></span></div>
+    </div>
+
+    <div class="col">
+      <h2 class="ch">Шрифт</h2>
+      <div style="font-family:'Oswald',sans-serif;font-weight:700;font-size:44px;line-height:.95;letter-spacing:.04em;text-transform:uppercase">Северный ветер</div>
+      <div style="font-size:12px;color:#A7B1BC">Название фильма — у каждого свой шрифт, как на настоящих постерах</div>
+      <div style="font-family:'Roboto Condensed',sans-serif;font-weight:800;font-size:24px;margin-top:10px">Продолжить просмотр</div>
+      <div style="font-size:12px;color:#A7B1BC">Заголовки — Roboto Condensed 800 (было Roboto 900)</div>
+      <div style="font-size:15px;line-height:22px;margin-top:10px">Основной текст — Roboto 15/22</div>
+      <div style="font-size:13px;color:#A7B1BC">Мета — 13 · КП 8.4 · 2025 · драма</div>
+
+      <h2 class="ch" style="margin-top:22px">Форма</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+        <div style="background:#111519;border-radius:16px;padding:12px"><div style="width:28px;height:40px;border-radius:8px;background:#252C34"></div><div style="font-size:12px;color:#A7B1BC;margin-top:8px">12 · постеры</div></div>
+        <div style="background:#111519;border-radius:16px;padding:12px"><div style="width:44px;height:28px;border-radius:10px;background:#252C34;margin-top:12px"></div><div style="font-size:12px;color:#A7B1BC;margin-top:8px">16 · карточки</div></div>
+        <div style="background:#111519;border-radius:16px;padding:12px"><div style="width:52px;height:24px;border-radius:12px;background:#252C34;margin-top:16px"></div><div style="font-size:12px;color:#A7B1BC;margin-top:8px">пилюля · кнопки</div></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <h2 class="ch">Компоненты</h2>
+      <div style="display:flex;gap:10px">
+        <span style="flex:1;height:50px;border-radius:25px;background:#FFFFFF;color:#07090B;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="#07090B"></path></svg>Смотреть</span>
+        <span class="glass" style="flex:1;height:50px;border-radius:25px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px;background:rgba(80,95,110,.45)">+ В Моё</span>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <span style="height:36px;padding:0 14px;border-radius:18px;background:#FFFFFF;color:#07090B;font-size:14px;font-weight:700;display:flex;align-items:center">Фильмы</span>
+        <span style="height:36px;padding:0 14px;border-radius:18px;background:#1A2026;font-size:14px;font-weight:500;display:flex;align-items:center">Сериалы</span>
+        <span style="height:36px;padding:0 12px;border-radius:18px;background:rgba(0,148,246,.18);box-shadow:inset 0 0 0 1px #0094F6;font-size:14px;font-weight:500;display:flex;align-items:center">Драма ×</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:10px;align-items:flex-end">
+        <span style="flex:0 0 100px;height:150px;border-radius:12px;overflow:hidden;position:relative;display:block"><img src="/_blob/4d9f7f68fd44a5a2a237537ffb969278" alt="" style="width:100%;height:100%;object-fit:cover"><span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,11,0) 50%,rgba(7,9,11,.85))"></span><span class="pt" style="font-family:'Playfair Display',serif;font-size:14px;color:#FFE7C2">Тихая гавань</span></span>
+        <span style="flex:0 0 100px;height:150px;border-radius:12px;overflow:hidden;position:relative;display:block"><img src="/_blob/7130276d427e5ea7bb6c6528b53b526c" alt="" style="width:100%;height:100%;object-fit:cover"><span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,11,0) 50%,rgba(7,9,11,.85))"></span><span class="pt" style="font-family:'Unbounded',sans-serif;font-size:17px;color:#FF8CCB">Неон</span></span>
+        <span style="display:flex;align-items:flex-end"><span aria-hidden="true" style="font-family:'Oswald',sans-serif;font-weight:700;font-size:110px;line-height:.78;color:#07090B;-webkit-text-stroke:2px #3A4652">1</span></span>
+      </div>
+      <div style="position:relative;height:64px;border-radius:32px;margin-top:12px;overflow:hidden">
+        <img src="/_blob/6e2f60307f1eeedf9b9f16a3db98e077" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;border-radius:32px;background:rgba(20,25,30,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);display:flex;align-items:center;justify-content:space-around;font-size:11px;color:#A7B1BC">
+          <span style="display:flex;flex-direction:column;align-items:center;gap:3px;color:#FFFFFF;font-weight:700"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0094F6" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Главная</span>
+          <span style="display:flex;flex-direction:column;align-items:center;gap:3px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"></rect><rect x="13" y="4" width="7" height="7" rx="2"></rect><rect x="4" y="13" width="7" height="7" rx="2"></rect><rect x="13" y="13" width="7" height="7" rx="2"></rect></svg>Каталог</span>
+          <span style="display:flex;flex-direction:column;align-items:center;gap:3px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Моё</span>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#A7B1BC">Плавающее меню: контент виден под стеклом</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1300,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
