@@ -170,10 +170,13 @@ private fun Double?.format(): String {
 
 private val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
 
-/** "12 марта 2025" from epoch milliseconds (UTC). */
+/** Moscow time, UTC+3 all year: the API stores dates as Moscow midnight (21:00 UTC the day before). */
+private const val MSK_OFFSET_MS = 3 * 3_600_000L
+
+/** "12 марта 2025" from epoch milliseconds, as a Moscow calendar date. */
 internal fun formatDate(epochMillis: Long): String {
     // Days to civil date (Howard Hinnant's algorithm), to avoid a date-time dependency.
-    val z = epochMillis.floorDiv(86_400_000L) + 719_468
+    val z = (epochMillis + MSK_OFFSET_MS).floorDiv(86_400_000L) + 719_468
     val era = z.floorDiv(146_097L)
     val doe = z - era * 146_097
     val yoe = (doe - doe / 1460 + doe / 36_524 - doe / 146_096) / 365
